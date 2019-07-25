@@ -99,6 +99,17 @@ img {
 .rentals {
     grid-column:  5 / 7;
 }
+
+.hint-response {
+    position: absolute;
+    margin-top: -20px;
+    margin-left: 10px;
+    text-transform: capitalize;
+}
+.colored {
+    background-color: blue;
+    color: white;
+}
 footer {
     margin: 1vh auto;
     position: relative;

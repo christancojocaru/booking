@@ -7,7 +7,7 @@ namespace AppBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 
-class Actions extends Controller
+class DefaultController extends Controller
 {
     /**
      * @Route("/home", name="home_action")

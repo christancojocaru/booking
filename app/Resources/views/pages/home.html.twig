@@ -11,7 +11,11 @@
             <h2>Găsiți oferte pentru cazare</h2>
             <p>De la case la țară la apartamente moderne</p>
         </div>
-        <input class="location search" type="text" placeholder="Unde mergeti?">
+        <div class="hint location">
+            <div class="hint-response"></div>
+            <input class="search" id="cities" type="text" placeholder="Unde mergeti?">
+        </div>
+
         <input class="date search" type="date">
         <input class="number search" type="text" placeholder="Cate persoane? " onkeydown="down(event, this)">
         <input class="send search button"  type="button" value="Cauta">

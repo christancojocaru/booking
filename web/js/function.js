@@ -24,3 +24,40 @@ function down(event, parent) {
         parent.data = false;
     }
 }
+
+$("#cities").keyup(() => {
+    const cities = $("#cities");
+    let value = cities.val().toLowerCase();
+    console.log(value);
+    let data = {"data" : value};
+    $.ajax({
+        type: 'POST',
+        url: '/ajax/cities',
+        data: data,
+        success: (success) => {
+            let data = JSON.parse(success);
+            addElem(data["result"], data["position"]);
+        },
+        error: (error) => {
+            console.log(error);
+            $(".hint-response").empty();
+        }
+    });
+});
+
+function addElem(result, pos) {
+    const array = [...result];
+    const elem = $(".hint-response");
+    elem.empty();
+    array.forEach((value, index) => {
+        console.log(index + "//" + value);
+        let span = document.createElement("span");
+        span.append(value);
+        span.classList.add("id" + index);
+        elem.append(span);
+        if (index > pos) {
+            span.classList.add("colored");
+        }
+    });
+
+}
