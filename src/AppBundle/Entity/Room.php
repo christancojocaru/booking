@@ -39,7 +39,7 @@ class Room
      *     targetEntity="Building",
      *     inversedBy="room")
      * @ORM\JoinColumn(
-     *     name="room_id",
+     *     name="building_id",
      *     referencedColumnName="id")
      */
     private $building;

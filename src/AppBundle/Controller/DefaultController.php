@@ -4,7 +4,12 @@
 namespace AppBundle\Controller;
 
 
+use AppBundle\Entity\Building;
+use AppBundle\Entity\City;
+use AppBundle\Form\Accommodation;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class DefaultController extends Controller
@@ -31,12 +36,33 @@ class DefaultController extends Controller
 
     /**
      * @Route("/cazare", name="accommodation_action")
+     * @param Request $request
+     * @return Response
      */
-    public function accommodation()
+    public function accommodation(Request $request)
     {
-        return $this->render(
-            "pages/accommodation.html.twig"
-        );
+        $form = $this->createForm(Accommodation::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()) {
+            $data = $form->getData();
+
+            $city = $data["location"];
+            $date = $data["date"];
+            $number = $data["number"];
+
+            $em = $this->getDoctrine()->getManager();
+
+            $results = $em->getRepository(City::class)->getAccommodationResult($city, $number);
+
+            return $this->render("result/accommodation.html.twig", [
+                "results" => $results
+            ]);
+        }
+
+        return $this->render("pages/accommodation.html.twig", [
+            "form" => $form->createView()
+        ]);
     }
 
     /**

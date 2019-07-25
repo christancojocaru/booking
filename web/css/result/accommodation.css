@@ -1,0 +1,31 @@
+section {
+    display: flex;
+    flex-direction: column;
+    width: 60vw;
+    margin: auto;
+    justify-items: center;
+    align-items: center;
+    text-align: center;
+    top: 30vh;
+    position: relative;
+}
+
+img {
+    width: 150px;
+    height: 150px;
+}
+.name img {
+    flex: 1;
+}
+.name .details {
+    flex: 2;
+}
+.name .actions {
+    flex: 1;
+}
+.hotel {
+    display: flex;
+    flex-direction: row;
+    width: inherit;
+    margin: 30px 0;
+}

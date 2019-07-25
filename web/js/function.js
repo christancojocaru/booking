@@ -25,10 +25,9 @@ function down(event, parent) {
     }
 }
 
-$("#cities").keyup(() => {
-    const cities = $("#cities");
+$("#accommodation_location").keyup(() => {
+    const cities = $("#accommodation_location");
     let value = cities.val().toLowerCase();
-    console.log(value);
     let data = {"data" : value};
     $.ajax({
         type: 'POST',
@@ -50,7 +49,6 @@ function addElem(result, pos) {
     const elem = $(".hint-response");
     elem.empty();
     array.forEach((value, index) => {
-        console.log(index + "//" + value);
         let span = document.createElement("span");
         span.append(value);
         span.classList.add("id" + index);
@@ -59,5 +57,30 @@ function addElem(result, pos) {
             span.classList.add("colored");
         }
     });
-
 }
+
+//
+// $("#sendData").click(() => {
+//     const CITY = $("#cities");
+//     const DATE = $(".date");
+//     const NUMBER = $(".number");
+//
+//     let city = CITY.val();
+//     let date = new Date(DATE.val());
+//     let number = NUMBER.val().split(" ")[0];
+//
+//     let data = {"city" : city, "date" : date, "number" : number};
+//     $.ajax({
+//         type: 'POST',
+//         url: '/ajax/accommodation',
+//         data: data,
+//         success: (success) => {
+//             let data = JSON.parse(success);
+//
+//             console.log()
+//         },
+//         error: (error) => {
+//             console.log(error);
+//         }
+//     });
+// });

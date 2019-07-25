@@ -31,7 +31,7 @@ img {
 }
 .search {
     justify-self: center;
-    height: 2.5em;
+    height: 30pt;
     width: 90%;
 }
 .button:hover{
@@ -99,11 +99,12 @@ img {
 .rentals {
     grid-column:  5 / 7;
 }
-
 .hint-response {
     position: absolute;
     margin-top: -20px;
     margin-left: 10px;
+}
+.hint-response span:first-of-type {
     text-transform: capitalize;
 }
 .colored {

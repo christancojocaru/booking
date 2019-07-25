@@ -11,11 +11,15 @@
             <h2>Găsiți oferte pentru cazare</h2>
             <p>De la case la țară la apartamente moderne</p>
         </div>
-        <input class="location search" id="cities" type="text" placeholder="Unde mergeti?">
-        <input class="date search" type="date">
-        <input id="ss" class="number search" type="text" placeholder="Cate persoane?" onkeydown="down(event, this)">
-        <input class="send search button"  type="button" value="Cauta">
-
+        {{ form_start(form) }}
+        <div class="hint location">
+            <div class="hint-response"></div>
+            {{ form_widget(form.location, {"attr" : {"placeholder" : "Unde mergeti?", "class" : "search"}}) }}
+        </div>
+        {{ form_widget(form.date, {"attr" : {"class" : "date search"}}) }}
+        {{ form_widget(form.number, {"attr" : {"class" : "number search", "placeholder" : "Cate persoane?", "onkeydown" : "down(event, this)"}}) }}
+        {{ form_widget(form.submit, {"attr" : {"class" : "send search search", "value" : "Cauta"}}) }}
+        {{ form_end(form) }}
         <div class="sinaia hotel">
             <img src="{{ asset("img/sinaia.jpg") }}" alt="Sinaia">
         </div>

@@ -50,13 +50,16 @@ class AjaxController extends Controller
     }
 
     /**
-     * @Route("/cities", methods={"GET","POST"})
+     * @Route("/accommodation", methods={"GET","POST"})
      * @param Request $request
      * @return Response|null
      */
     public function searchAccommodation(Request $request)
     {
         $data = $request->request;
+
+
+
     }
 
     /**

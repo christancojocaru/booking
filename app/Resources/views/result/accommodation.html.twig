@@ -1,0 +1,41 @@
+{%  extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{#    <link href="{{ asset('css/accommodation.css') }}" rel="stylesheet" type="text/css" >#}
+    <link href="{{ asset('css/result/accommodation.css') }}" rel="stylesheet" type="text/css" >
+{% endblock %}
+
+{% block body %}
+    <section>
+{#        {% for result in results %}#}
+{#            <h1>{{ result.building_name }}</h1>#}
+{#        {% endfor %}#}
+
+
+        <div class="hotel name ardeal">
+            <div class="image">
+                <img src="{{ asset("img/sinaia.jpg") }}" alt="Sinaia">
+            </div>
+            <div class="details">
+                <h2>Hotel name</h2>
+                <span>Room name</span>
+            </div>
+            <div class="actions">
+                <span>Price</span>
+                <input type="button" value="Alegeti-va camera" />
+            </div>
+        </div>
+        <div class="hotel name banat">
+            <img src="{{ asset("img/sinaia.jpg") }}" alt="Sinaia">
+            <div class="details">
+                <h2>Hotel name</h2>
+                <span>Room name</span>
+            </div>
+            <div class="actions">
+                <span>Price</span>
+                <input type="button" value="Alegeti-va camera" />
+            </div>
+        </div>
+    </section>
+{% endblock %}
