@@ -1,0 +1,38 @@
+{%  extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('css/response.css') }}" rel="stylesheet" type="text/css" >
+{% endblock %}
+
+{% block body %}
+    <section>
+        <div class="text search">
+            <h2>Găsiți oferte pentru cazare</h2>
+            <p>De la case la țară la apartamente moderne</p>
+        </div>
+        <input class="location search" type="text" placeholder="Unde mergeti?">
+        <input class="date search" type="date">
+        <input class="number search" type="text" placeholder="Cate persoane?" onkeydown="down(e, this)">
+        <input class="send search button"  type="button" value="Cauta">
+
+        <div class="sinaia hotel">
+            <img src="{{ asset("img/sinaia.jpg") }}" alt="Sinaia">
+        </div>
+        <div class="sibiu hotel">
+            <img src="{{ asset("img/sibiu.jpg") }}" alt="Sibiu">
+        </div>
+        <div class="predeal hotel">
+            <img src="{{ asset("img/predeal.jpg") }}" alt="Sinaia">
+        </div>
+        <div class="rasnov hotel">
+            <img src="{{ asset("img/rasnov.jpg") }}" alt="Sibiu">
+        </div>
+        <div class="mamaia hotel">
+            <img src="{{ asset("img/mamaia.jpg") }}" alt="Sinaia">
+        </div>
+        <div class="vama hotel">
+            <img src="{{ asset("img/vama.jpg") }}" alt="Sibiu">
+        </div>
+    </section>
+{% endblock %}

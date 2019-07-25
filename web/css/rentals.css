@@ -1,0 +1,61 @@
+section img {
+    object-fit: cover;
+    object-position: bottom;
+    border-radius: 5px;
+}
+section {
+    width: 60vw;
+    height: 25vh;
+    position: fixed;
+    margin: 20vh 20vw;
+}
+.rent {
+    width: inherit;
+    height: inherit;
+    object-fit: cover;
+}
+.actions {
+     position: absolute;
+     top: 50%;
+     display: flex;
+     transform: translate(0, -50%);
+     width: inherit;
+     height: 5vh;
+     background-color: rgba(255, 255, 255, 0.5);
+     border-radius: 25px;
+    align-items: center;
+    text-align: center;
+ }
+.search {
+    border: none;
+}
+.location {
+    flex: 1;
+}
+.location .search {
+    width: 65%;
+}
+.date {
+    flex: 2;
+}
+.date .search {
+    width: 35%;
+    margin-left: -50%;
+    text-align: center;
+}
+.send {
+    flex: 1;
+}
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 20vw;
+    grid-template-columns: 60vw;
+}
+
+@media screen and (max-width: 1280px) {
+    section {
+        width: 80vw;
+        margin: 20vh 10vw;
+    }
+}

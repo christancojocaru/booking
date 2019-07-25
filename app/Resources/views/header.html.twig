@@ -1,0 +1,31 @@
+{% block header %}
+    <header>
+        <div class="logo">Rezervari Online</div>
+        <input type="button" class="registration button" value="Inregistrativa">
+        <input type="button" class="login button" value="Autentificare">
+        <div class="home menu">
+            <a href="{{ path("home_action") }}" >
+                <img src="{{ asset("img/home.svg") }}" alt="">
+                <span>Home</span>
+            </a>
+        </div>
+        <div class="flights menu">
+            <a href="{{ path("flights_action") }}" >
+                <img src="{{ asset("img/avion.svg") }}" alt="">
+                <span>Zboruri</span>
+            </a>
+            </div>
+        <div class="accommodation menu">
+            <a href="{{ path("accommodation_action") }}" >
+                <img src="{{ asset("img/hotel.svg") }}" alt="">
+                <span>Cazare</span>
+            </a>
+        </div>
+        <div class="rentals menu">
+            <a href="{{ path("rentals_action") }}" >
+                <img src="{{ asset("img/masina.svg") }}" alt="">
+                <span>Inchirieri Masini</span>
+            </a>
+        </div>
+    </header>
+{% endblock %}

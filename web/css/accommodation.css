@@ -1,0 +1,132 @@
+section {
+    display: grid;
+    width: 60vw;
+    margin: auto;
+    grid-row-gap: 2vh;
+    grid-template-rows: 8vh 20vh 25vh repeat(3, 40vh);
+    grid-template-columns: repeat(4, 15vw);
+    justify-items: center;
+    align-items: center;
+    text-align: center;
+}
+.text.search {
+    grid-column: 1 / 3;
+    grid-row: 2 / 3;
+    text-align: justify;
+    align-self: end;
+    line-height: 1.7em;
+}
+.location {
+    grid-column: 1 / 2;
+    grid-row: 3 / 4;
+}
+.date {
+    grid-column: 2 / 3;
+    grid-row: 3 / 4;
+}
+.number {
+    grid-column: 3 / 4;
+    grid-row: 3 / 4;
+}
+.send {
+    grid-column: 4 / 5;
+    grid-row: 3 / 4;
+}
+.hotel {
+    width: 25vw;
+    height: 35vh;
+}
+.sinaia {
+    grid-column: 1 / 3;
+    grid-row: 4 / 5;
+
+}
+.sibiu {
+    grid-column: 3 / 5;
+    grid-row: 4 / 5;
+}
+.predeal {
+    grid-column: 1 / 3;
+    grid-row: 5 / 6;
+}
+.rasnov {
+    grid-column: 3 / 5;
+    grid-row: 5 / 6;
+}
+.mamaia {
+    grid-column: 1 / 3;
+    grid-row: 6 / 7;
+}
+.vama {
+    grid-column: 3 / 5;
+    grid-row: 6 / 7;
+}
+.sinaia::before {
+    content: "Sinaia";
+}
+.sinaia::after {
+    content: "Pret mediu 150 lei";
+}
+.sibiu::before {
+    content: "Sibiu";
+}
+.sibiu::after {
+    content: "Pret mediu 120 lei";
+}
+.predeal::before {
+    content: "Predeal";
+}
+.predeal::after {
+    content: "Pret mediu 150 lei";
+}
+.rasnov::before {
+    content: "Rasnov";
+}
+.rasnov::after {
+    content: "Pret mediu 120 lei";
+}
+.mamaia::before {
+    content: "Mamaia";
+}
+.mamaia::after {
+    content: "Pret mediu 150 lei";
+}
+.vama::before {
+    content: "Vama Veche";
+}
+.vama::after {
+    content: "Pret mediu 120 lei";
+}
+.hotel::before {
+    position: absolute;
+    z-index: 10;
+    font-size: 2em;
+    margin: 5px 10px;
+    background-color: rgba(0, 0, 0, 0.09);
+    color: white;
+    width: 6em;
+    border-radius: 40%;
+}
+.hotel::after {
+    color: #ff0000;
+}
+section img {
+    object-fit: cover;
+    object-position: center;
+}
+@media screen and (max-width: 1279px) {
+    section {
+        width: 80vw;
+        grid-template-columns: repeat(4, 20vw);
+    }
+}
+
+@media screen and (min-width: 1700px) {
+    .hotel {
+        width: 400px;
+        height: 350px;
+    }
+    section {
+        grid-template-rows: 8vh 20vh 20vh repeat(3, 43vh);
+    }
+}

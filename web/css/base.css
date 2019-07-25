@@ -1,0 +1,134 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+header {
+    position: fixed;
+    width: 100vw;
+    display: grid;
+    grid-template-rows: repeat(2, 5vh);
+    grid-template-columns: 20vw repeat(7, 1fr) 20vw;
+    background-color: #221f73;
+    color: white;
+    align-items: center;
+    justify-items: left;
+    z-index: 1000;
+}
+header::after {
+    content: "";
+    width: 60vw;
+    height: 1px;
+    background-color: gray;
+    display: block;
+    position: fixed;
+    top: 5vh;
+    left: 20vw;
+}
+img {
+    width: inherit;
+    height: inherit;
+}
+.search {
+    justify-self: center;
+    height: 2.5em;
+    width: 90%;
+}
+.button:hover{
+    letter-spacing: 0.04em;
+    background-color:  #E2E2E2;
+}
+.button {
+    width: 8em;
+    height: 2.5em;
+    border: none;
+    border-radius: 5px;
+    background-color:  #FCFCFC;
+    outline: none;
+}
+.first {
+    grid-column: 2 / 9;
+    grid-row: 1 / 2;
+}
+.menu {
+    grid-column: 2 / 6;
+    grid-row: 2 / 3;
+}
+.logo {
+    grid-column: 2 / 7;
+    font-size: 2em;
+    letter-spacing: 0.1em;
+}
+.registration {
+    grid-column: 7 / 8;
+    justify-self: right;
+}
+.login {
+    grid-column: 8 / 9;
+    justify-self: right;
+}
+.menu {
+    display: inline-flex;
+    align-items: center;
+}
+.menu img {
+    margin-right: 10px;
+    width: 24px;
+    height: 24px;
+}
+.menu a {
+    font-size: 1.1em;
+    letter-spacing: 0.1em;
+    text-decoration: none;
+    color: inherit;
+    display: inherit;
+    align-items: inherit;
+}
+.menu a:hover {
+    letter-spacing: 0.15em;
+}
+.home {
+    grid-column: 2 / 3;
+}
+.flights {
+    grid-column: 3 / 4;
+}
+.accommodation {
+    grid-column: 4 / 5;
+}
+.rentals {
+    grid-column:  5 / 7;
+}
+footer {
+    margin: 1vh auto;
+    position: relative;
+    justify-items: center;
+    align-items: end;
+    text-align: center;
+    display: grid;
+    grid-template-rows: 8vh;
+}
+@media screen and (max-width: 1280px) {
+    header {
+        grid-template-columns: 10vw repeat(7, 1fr) 10vw;
+    }
+
+    header::after {
+        width: 80vw;
+        left: 10vw;
+    }
+
+    footer {
+        width: 80vw;
+        grid-template-columns: 80vw;
+    }
+}
+
+@media screen and (max-height: 1080px) {
+    header {
+        grid-template-rows: repeat(2, 6vh);
+    }
+    header::after {
+        top: 6vh;
+    }
+}
