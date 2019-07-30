@@ -48,15 +48,18 @@ class DefaultController extends Controller
             $data = $form->getData();
 
             $city = $data["location"];
+            /** @var \DateTime $date */
             $date = $data["date"];
             $number = $data["number"];
 
             $em = $this->getDoctrine()->getManager();
-
             $results = $em->getRepository(City::class)->getAccommodationResult($city, $number);
 
             return $this->render("result/accommodation.html.twig", [
-                "results" => $results
+                "results" => $results,
+                "city" => $city,
+                "date" => $date,
+                "count" => count($results)
             ]);
         }
 

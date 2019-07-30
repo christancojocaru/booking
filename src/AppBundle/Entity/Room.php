@@ -25,6 +25,11 @@ class Room
     private $number;
 
     /**
+     * @ORM\Column(type="decimal", precision=6, scale=2)
+     */
+    private $price;
+
+    /**
      * @ORM\Column(type="integer")
      */
     private $beds;
@@ -58,6 +63,22 @@ class Room
     public function getNumber()
     {
         return $this->number;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPrice()
+    {
+        return $this->price;
+    }
+
+    /**
+     * @param mixed $price
+     */
+    public function setPrice($price)
+    {
+        $this->price = $price;
     }
 
     /**

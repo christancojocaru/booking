@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+{% if (lastUsername and error is not null and error.messageKey == "Invalid credentials.") %}
+    {% set autofocus = true %}
+{% else %}
+    {% set autofocus = false %}
+{% endif %}
+
+{% block stylesheets %}
+    <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+    <link href="{{ asset('css/login.css') }}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block container %}
+    <body>
+        <div class="login">
+            <div class="logo">
+                <a href="#">
+                    <img class="logo-image" src="{{ asset('img/logo-big.png') }}" alt="Logo">
+                </a>
+            </div>
+            <div class="content">
+                <form method="post">
+                    <h3 class="form-title">Sign In</h3>
+                    {% if error %}
+                        <div class="alert">
+                            {{ error.messageKey|trans(error.messageData, 'security') }}
+                        </div>
+                    {% endif %}
+                    <div class="form-group">
+                        <input class="form-input" {{ autofocus ? '' : 'autofocus'}} type="text" autocomplete="off" placeholder="Username" value="{{ lastUsername ? lastUsername : '' }}" name="login_form[_username]" /> </div>
+                    <div class="form-group">
+                        <input class="form-input" {{ autofocus ? 'autofocus' : '' }} type="password" autocomplete="off" placeholder="Password" name="login_form[_password]" /> </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn green uppercase">Login</button>
+                    </div>
+                    {{ form_row(form._token) }}
+                </form>
+            </div>
+            <div class="create-account">
+                <p>
+                    <a href="{{ path('user_register') }}" id="register-btn" class="uppercase">Create an account</a>
+                </p>
+            </div>
+            <div class="copyright"> 2019 © Store. Cristian Cojocaru </div>
+        </div>
+    </body>
+{% endblock %}

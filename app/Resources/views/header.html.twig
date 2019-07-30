@@ -1,8 +1,12 @@
 {% block header %}
     <header>
         <div class="logo">Rezervari Online</div>
-        <input type="button" class="registration button" value="Inregistrativa">
-        <input type="button" class="login button" value="Autentificare">
+        <a href="{{ path("user_register") }}" class="registration">
+            <button class="button">Inregistrativa</button>
+        </a>
+        <a href="{{ path("security_login") }}" class="login">
+            <button class="button">Autentificare</button>
+        </a>
         <div class="home menu">
             <a href="{{ path("home_action") }}" >
                 <img src="{{ asset("img/home.svg") }}" alt="">

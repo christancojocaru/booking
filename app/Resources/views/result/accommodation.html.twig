@@ -1,41 +1,33 @@
 {%  extends 'base.html.twig' %}
 
+{% set date = date|date("l d-m-Y", "Europe/Kiev")|replace({'Monday' : 'Luni', 'Tuesday' : 'Marți', 'Wednesday' : 'Miercuri', 'Thursday' : 'Joi', 'Friday' : 'Vineri', 'Saturday' : 'Sâmbătă', 'Sunday' : 'Duminică'}) %}
+
 {% block stylesheets %}
     {{ parent() }}
-{#    <link href="{{ asset('css/accommodation.css') }}" rel="stylesheet" type="text/css" >#}
+    <link href="{{ asset('css/accommodation.css') }}" rel="stylesheet" type="text/css" >
     <link href="{{ asset('css/result/accommodation.css') }}" rel="stylesheet" type="text/css" >
 {% endblock %}
 
 {% block body %}
     <section>
-{#        {% for result in results %}#}
-{#            <h1>{{ result.building_name }}</h1>#}
-{#        {% endfor %}#}
-
-
-        <div class="hotel name ardeal">
-            <div class="image">
-                <img src="{{ asset("img/sinaia.jpg") }}" alt="Sinaia">
-            </div>
-            <div class="details">
-                <h2>Hotel name</h2>
-                <span>Room name</span>
-            </div>
-            <div class="actions">
-                <span>Price</span>
-                <input type="button" value="Alegeti-va camera" />
-            </div>
+        <div class="header">
+            <h2>In {{ city|capitalize }}, in data de {{ date }} au fost gasite {{ count }} camere. </h2>
         </div>
-        <div class="hotel name banat">
-            <img src="{{ asset("img/sinaia.jpg") }}" alt="Sinaia">
-            <div class="details">
-                <h2>Hotel name</h2>
-                <span>Room name</span>
+        {% for result in results %}
+            <div class="hotel {{ result.building_id }}_{{ result.room_id }}">
+                <div class="image">
+                    <img src="{{ asset("img/sinaia.jpg") }}" alt="Sinaia">
+                </div>
+                <div class="details">
+                    <h2>Hotel {{ result.building_name }}</h2>
+                    <span>Camera numarul {{ result.room_name }}</span>
+                    <span>Camera cu {{ result.beds }} paturi in camera</span>
+                </div>
+                <div class="actions">
+                    <span>{{ result.price }} lei</span>
+                    <input class="button" type="button" value="Alegeti-va camera" />
+                </div>
             </div>
-            <div class="actions">
-                <span>Price</span>
-                <input type="button" value="Alegeti-va camera" />
-            </div>
-        </div>
+        {% endfor %}
     </section>
 {% endblock %}

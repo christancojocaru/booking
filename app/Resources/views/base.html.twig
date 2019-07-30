@@ -20,8 +20,8 @@
         {% endblock %}
         {% block body %}{% endblock %}
         {% block footer %}
-            <footer>
-                <p class="copyright"> 2019 &copy; Rezervari Online | Eduard Postelnicu</p>
+            <footer class="footer {% if results is defined and count < 3 %}fixed{% endif %}">
+                <p class="copyright"> 2019 &copy; Rezervări Online | Eduard Postelnicu</p>
             </footer>
         {% endblock %}
         {% block javascripts %}
