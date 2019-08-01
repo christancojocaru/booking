@@ -1,0 +1,48 @@
+section {
+    display: flex;
+    width: 30vw;
+    text-align: center;
+    position: fixed;
+    transform: translate(-50%, -50%);
+    top: 40%;
+    left: 50%;
+    background-color: #221f73;
+    height: 50vh;
+    color: white;
+    flex-direction: column;
+    border-radius: 15px;
+}
+.header {
+    padding: 1em;
+    flex: 1;
+}
+.body {
+    padding: 0 1em;
+    flex: 3;
+    line-height: 4vh;
+    text-align: initial;
+    width: 80%;
+    align-self: center;
+}
+h3 {
+    text-align: center;
+    padding-bottom: 2em;
+}
+h4 {
+    line-height: 3vh;
+}
+.total {
+    color: red;
+}
+.footer {
+    padding: 1em;
+    flex: 1;
+}
+.body span {
+    text-transform: capitalize;
+}
+@media screen and (max-width: 1280px) {
+    .body {
+        font-size: 12px;
+    }
+}

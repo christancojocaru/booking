@@ -23,6 +23,7 @@ security:
 
             logout:
                 path: /logout
+                target: /home
             # activate different ways to authenticate
 
             # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate

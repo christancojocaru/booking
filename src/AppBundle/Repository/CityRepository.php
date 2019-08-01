@@ -24,10 +24,10 @@ class CityRepository extends EntityRepository
 
     /**
      * @param $city string
-     * @param $number integer
+     * @param $beds integer
      * @return array
      */
-    public function getAccommodationResult($city, $number)
+    public function getAccommodationResult($city, $beds)
     {
         return $this->createQueryBuilder('c')
             ->select(
@@ -35,9 +35,35 @@ class CityRepository extends EntityRepository
             ->leftJoin('c.building', "b")
             ->leftJoin("b.room", "r")
             ->where("c.name = :city")
-//            ->andWhere("r.available = 1")
+            ->andWhere("r.available = true")
             ->andWhere("r.beds >= :number")
-            ->setParameters(["city" => $city, "number" => $number])
+            ->setParameters(["city" => $city, "number" => $beds])
+            ->groupBy("b")
+            ->orderBy("r.price", "ASC")
+            ->getQuery()
+            ->execute();
+    }
+
+    public function getAveragePriceForCity($city)
+    {
+        return $this->createQueryBuilder("c")
+            ->select("avg(r.price) as average")
+            ->leftJoin('c.building', "b")
+            ->leftJoin("b.room", "r")
+            ->where("c.name = :city")
+            ->setParameters(["city" => $city])
+            ->getQuery()
+            ->execute();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRandom()
+    {
+        return $this->createQueryBuilder("c")
+            ->setFirstResult(rand(0, 40))
+            ->setMaxResults(6)
             ->getQuery()
             ->execute();
     }

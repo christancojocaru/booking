@@ -25,11 +25,21 @@ class City
     private $name;
 
     /**
+     * @ORM\Column(type="string", length=1024)
+     */
+    private $image;
+
+    /**
      * @ORM\OneToMany(
      *     targetEntity="Building",
      *     mappedBy="city")
      */
     private $building;
+
+    /**
+     * @var int $averagePrice
+     */
+    private $averagePrice;
 
     /**
      * @return mixed
@@ -69,5 +79,37 @@ class City
     public function setBuilding($building)
     {
         $this->building = $building;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * @param mixed $image
+     */
+    public function setImage($image)
+    {
+        $this->image = $image;
+    }
+
+    /**
+     * @return int
+     */
+    public function getAveragePrice()
+    {
+        return $this->averagePrice;
+    }
+
+    /**
+     * @param int $averagePrice
+     */
+    public function setAveragePrice($averagePrice)
+    {
+        $this->averagePrice = $averagePrice;
     }
 }

@@ -1,12 +1,20 @@
+{% set user = app.user %}
 {% block header %}
     <header>
         <div class="logo">Rezervari Online</div>
-        <a href="{{ path("user_register") }}" class="registration">
-            <button class="button">Inregistrativa</button>
-        </a>
-        <a href="{{ path("security_login") }}" class="login">
-            <button class="button">Autentificare</button>
-        </a>
+        {% if user %}
+            <div class="user j-s-r">{{ user.username }}</div>
+            <a href="{{ path("security_logout") }}" class="log j-s-r">
+                <button class="button">Logout</button>
+            </a>
+        {% else %}
+            <a href="{{ path("user_register") }}" class="registration j-s-r">
+                <button class="button">Inregistrativa</button>
+            </a>
+            <a href="{{ path("security_login") }}" class="log j-s-r">
+                <button class="button">Autentificare</button>
+            </a>
+        {% endif %}
         <div class="home menu">
             <a href="{{ path("home_action") }}" >
                 <img src="{{ asset("img/home.svg") }}" alt="">
@@ -20,7 +28,7 @@
             </a>
             </div>
         <div class="accommodation menu">
-            <a href="{{ path("accommodation_action") }}" >
+            <a href="{{ path("accommodation_get") }}" >
                 <img src="{{ asset("img/hotel.svg") }}" alt="">
                 <span>Cazare</span>
             </a>

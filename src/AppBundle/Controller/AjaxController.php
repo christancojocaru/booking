@@ -31,6 +31,7 @@ class AjaxController extends Controller
     {
         $data = $request->request->get('data');
 
+        //one for GET other for POST
         if (is_null($this->em)) {
             $cities = $this->getDoctrine()->getRepository(City::class)->getAllNames();
         } else {
@@ -47,19 +48,6 @@ class AjaxController extends Controller
             }
         }
         return null;
-    }
-
-    /**
-     * @Route("/accommodation", methods={"GET","POST"})
-     * @param Request $request
-     * @return Response|null
-     */
-    public function searchAccommodation(Request $request)
-    {
-        $data = $request->request;
-
-
-
     }
 
     /**

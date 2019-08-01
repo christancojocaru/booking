@@ -54,6 +54,13 @@ class User implements UserInterface
     private $roles = [];
 
     /**
+     * @ORM\OneToMany(
+     *     targetEntity="AppBundle\Entity\Bookings\RoomBooked",
+     *     mappedBy="user")
+     */
+    private $roomBooked;
+
+    /**
      * @param mixed $username
      */
     public function setUsername($username)
@@ -136,5 +143,21 @@ class User implements UserInterface
     public function eraseCredentials()
     {
         $this->plainPassword = null;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRoomBooked()
+    {
+        return $this->roomBooked;
+    }
+
+    /**
+     * @param mixed $roomBooked
+     */
+    public function setRoomBooked($roomBooked)
+    {
+        $this->roomBooked = $roomBooked;
     }
 }

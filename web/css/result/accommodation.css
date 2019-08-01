@@ -39,25 +39,21 @@ section {
     flex: 1;
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
     justify-content: flex-end;
 }
-.actions span {
-    align-self: center;
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+}
+.number {
+    width: 100px;
+}
+.price {
     margin: 1vh 0;
-    color: ;
+    color: #ff4c51;
     font-size: 1.3em;
-}
-.actions input {
-    width: available;
-    width: -moz-available;
-    width: -webkit-fill-available;
-}
-.footer.fixed {
-    bottom: 0;
-    position: fixed;
-    margin: 1vh 20vw;
-    width: 60vw;
 }
 @media screen and (max-width: 1279px){
     section {

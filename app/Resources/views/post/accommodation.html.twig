@@ -1,0 +1,40 @@
+{%  extends 'base.html.twig' %}
+
+{% set dateModified = date|date("l d-m-Y", "Europe/Kiev")|replace({'Monday' : 'Luni', 'Tuesday' : 'Marți', 'Wednesday' : 'Miercuri', 'Thursday' : 'Joi', 'Friday' : 'Vineri', 'Saturday' : 'Sâmbătă', 'Sunday' : 'Duminică'}) %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('css/result/accommodation.css') }}" rel="stylesheet" type="text/css" >
+{% endblock %}
+
+{% block body %}
+    <section>
+        <div class="header">
+            <h2>In {{ city|capitalize }}, in data de {{ dateModified }} au fost gasite {{ count }} hoteluri. </h2>
+        </div>
+        {% for result in results %}
+            <div class="hotel {{ result.building_id }}_{{ result.room_id }}">
+                <div class="image">
+                    <img src="{{ asset("img/sinaia.jpg") }}" alt="Sinaia">
+                </div>
+                <div class="details">
+                    <h2>{{ result.building_name }}</h2>
+                    <span>Camera numarul {{ result.room_name }}</span>
+                    <span>Camera cu {{ result.beds }} paturi in camera</span>
+                </div>
+                <div class="actions">
+                    <form name="accommodation_booking" method="post" action="{{ path('booking_accommodation_action') }}">
+                        <input type="hidden" name="accommodation_booking[start_date]" value="{{ date|date("d-m-Y", "Europe/Kiev") }}">
+                        <input type="hidden" name="accommodation_booking[room_id]" value="{{ result.room_id }}">
+                        <input type="number" name="accommodation_booking[days]" required="required" class="number search" placeholder="Cate zile?">
+                        <div class="price">
+                            <span>{{ result.price }} lei</span>
+                        </div>
+                        <button type="submit" name="accommodation_booking[submit]" class="button submit" value="Alegeti-va camera">Submit</button>
+                        <input type="hidden" name="accommodation_booking[_token]" value="hWLiQD8RBbzUJn9yUU_odjmQkvW7Dly3clh3XkaGwzA">
+                    </form>
+                </div>
+            </div>
+        {% endfor %}
+    </section>
+{% endblock %}

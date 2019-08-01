@@ -18,6 +18,8 @@ class Room
      * @ORM\Column(type="integer")
      */
     private $id;
+    private $id1;//only for fixtures
+
 
     /**
      * @ORM\Column(type="integer")
@@ -48,6 +50,13 @@ class Room
      *     referencedColumnName="id")
      */
     private $building;
+
+    /**
+     * @ORM\OneToMany(
+     *     targetEntity="AppBundle\Entity\Bookings\RoomBooked",
+     *     mappedBy="room")
+     */
+    private $roomBooked;
 
     /**
      * @return mixed
@@ -135,5 +144,21 @@ class Room
     public function setBuilding($building)
     {
         $this->building = $building;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRoomBooked()
+    {
+        return $this->roomBooked;
+    }
+
+    /**
+     * @param mixed $roomBooked
+     */
+    public function setRoomBooked($roomBooked)
+    {
+        $this->roomBooked = $roomBooked;
     }
 }

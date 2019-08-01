@@ -20,23 +20,14 @@
         {{ form_widget(form.number, {"attr" : {"class" : "number search", "placeholder" : "Cate persoane?", "onkeydown" : "down(event, this)"}}) }}
         {{ form_widget(form.submit, {"attr" : {"class" : "send search search", "value" : "Cauta"}}) }}
         {{ form_end(form) }}
-        <div class="sinaia hotel">
-            <img src="{{ asset("img/sinaia.jpg") }}" alt="Sinaia">
-        </div>
-        <div class="sibiu hotel">
-            <img src="{{ asset("img/sibiu.jpg") }}" alt="Sibiu">
-        </div>
-        <div class="predeal hotel">
-            <img src="{{ asset("img/predeal.jpg") }}" alt="Sinaia">
-        </div>
-        <div class="rasnov hotel">
-            <img src="{{ asset("img/rasnov.jpg") }}" alt="Sibiu">
-        </div>
-        <div class="mamaia hotel">
-            <img src="{{ asset("img/mamaia.jpg") }}" alt="Sinaia">
-        </div>
-        <div class="vama hotel">
-            <img src="{{ asset("img/vama.jpg") }}" alt="Sibiu">
-        </div>
+
+        {% for number, city in cities %}
+            <div class="hotel hotel-{{ number }}">
+                <div class="name">{{ city.name }}</div>
+
+                <img src="{{ city.image }}" alt="Sinaia" data-content="">
+                <div class="average">Pret mediu {{ city.averagePrice }} lei.</div>
+            </div>
+        {% endfor %}
     </section>
 {% endblock %}

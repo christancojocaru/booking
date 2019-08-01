@@ -18,6 +18,7 @@ class Building
      * @ORM\Column(type="integer")
      */
     private $id;
+    private $id1;//only for fixtures
 
     /**
      * @ORM\Column(type="string")
