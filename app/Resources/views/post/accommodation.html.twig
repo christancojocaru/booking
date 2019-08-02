@@ -13,13 +13,13 @@
             <h2>In {{ city|capitalize }}, in data de {{ dateModified }} au fost gasite {{ count }} hoteluri. </h2>
         </div>
         {% for result in results %}
-            <div class="hotel {{ result.building_id }}_{{ result.room_id }}">
+            <div class="hotel">
                 <div class="image">
                     <img src="{{ asset("img/sinaia.jpg") }}" alt="Sinaia">
                 </div>
                 <div class="details">
                     <h2>{{ result.building_name }}</h2>
-                    <span>Camera numarul {{ result.room_name }}</span>
+                    <span>                              </span>
                     <span>Camera cu {{ result.beds }} paturi in camera</span>
                 </div>
                 <div class="actions">

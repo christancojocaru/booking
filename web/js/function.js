@@ -34,6 +34,7 @@ $("#accommodation_search_location").keyup(() => {
         url: '/ajax/cities',
         data: data,
         success: (success) => {
+            console.log(success);
             let data = JSON.parse(success);
             addElem(data["result"], data["position"]);
         },

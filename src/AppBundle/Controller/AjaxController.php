@@ -30,7 +30,6 @@ class AjaxController extends Controller
     public function searchCities(Request $request)
     {
         $data = $request->request->get('data');
-
         //one for GET other for POST
         if (is_null($this->em)) {
             $cities = $this->getDoctrine()->getRepository(City::class)->getAllNames();

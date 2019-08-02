@@ -7,6 +7,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\City;
 use AppBundle\Form\AccommodationSearch;
 use DateTime;
+use Doctrine\DBAL\DBALException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -31,9 +32,17 @@ class PostController extends Controller
         $city = $data["location"];
         /** @var DateTime $date */
         $date = $data["date"];
-        $number = $data["number"];
+        $beds = explode(" ", $data["number"])[0];
 
-        $results = $em->getRepository(City::class)->getAccommodationResult($city, $number);
+//        if ($beds > 4) {
+//            return $this->redirectToRoute("accommodation_get", ["beds" => $beds]);
+//        }
+
+        try{
+            $results = $em->getRepository(City::class)->getAccommodationResult($city, $beds);
+        }catch (DBALException $exception) {
+            $results = 0;
+        }
 
         return $this->render("post/accommodation.html.twig", [
             "results" => $results,

@@ -5,7 +5,9 @@ namespace AppBundle\Repository;
 
 
 use AppBundle\Entity\City;
+use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query\ResultSetMapping;
 
 class CityRepository extends EntityRepository
 {
@@ -26,22 +28,39 @@ class CityRepository extends EntityRepository
      * @param $city string
      * @param $beds integer
      * @return array
+     * @throws DBALException
      */
     public function getAccommodationResult($city, $beds)
     {
-        return $this->createQueryBuilder('c')
-            ->select(
-                "b.name as building_name, r.number as room_name, r.beds, r.price, r.id as room_id, b.id as building_id")
-            ->leftJoin('c.building', "b")
-            ->leftJoin("b.room", "r")
-            ->where("c.name = :city")
-            ->andWhere("r.available = true")
-            ->andWhere("r.beds >= :number")
-            ->setParameters(["city" => $city, "number" => $beds])
-            ->groupBy("b")
-            ->orderBy("r.price", "ASC")
-            ->getQuery()
-            ->execute();
+        $conn = $this->getEntityManager()
+            ->getConnection();
+        $sql = '
+                SELECT result.*,
+                       Min(price) AS minPrice,
+                       SUM(result.beds) AS bedsum
+                FROM   (SELECT b.name AS building_name,
+                               r.beds,
+                               r.price,
+                               r.id   AS room_id,
+                               b.id   AS building_id
+                        FROM   city AS c
+                               left join building AS b
+                                      ON b.city_id = c.id
+                               left join room AS r
+                                      ON r.building_id = b.id
+                        WHERE  c.name = :city
+                               AND r.beds >= IF(:beds > 4, "1", :beds)
+                               AND r.available = 1) AS result
+                WHERE  result.price < 99
+                GROUP  BY result.building_name
+                HAVING bedsum >= :beds
+                ORDER  BY result.beds ASC,
+                          result.price ASC 
+        ';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(['city' => $city, "beds" => $beds]);
+
+        return $stmt->fetchAll();
     }
 
     public function getAveragePriceForCity($city)
@@ -68,3 +87,18 @@ class CityRepository extends EntityRepository
             ->execute();
     }
 }
+//
+//SELECT b.name   AS building_name,
+//               r.beds,
+//               r.price,
+//               r.id     AS room_id,
+//               b.id     AS building_id,
+//        	   IF(beds > 3, "MORE", "LESS") as 'M//L'
+//        FROM   room AS r
+//               LEFT JOIN building AS b
+//                      ON r.building_id = b.id AND r.price < 99
+//               LEFT JOIN city AS c
+//                      ON b.city_id = c.id
+//        WHERE  c.name = "Ploiesti"
+//AND r.beds >= 4
+//AND r.available = 1
