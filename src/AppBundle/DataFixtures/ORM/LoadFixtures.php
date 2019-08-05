@@ -22,6 +22,8 @@ class LoadFixtures implements ORMFixtureInterface
     private $crawler;
     /** @var array */
     private $datas;
+    /** @var array */
+    private $prices;
 
     public function __construct(EntityManagerInterface $entityManager)
     {
@@ -31,6 +33,12 @@ class LoadFixtures implements ORMFixtureInterface
         $this->crawler = $client->request('GET', self::URL);
 
         $this->extractData();
+
+        for ($i=1; $i<=500; $i++) {
+            for ($j=1; $j <=4; $j++) {
+                $this->prices[$i][$j] = floatval(rand(3000,50000)/100);
+            }
+        }
     }
 
     public function load(ObjectManager $manager)
@@ -82,12 +90,17 @@ class LoadFixtures implements ORMFixtureInterface
 
     public function buildingForRoom($array, $current)
     {
-        return $array[$current % 500];
+        return $array[($current - 1) % 500];
     }
 
-    public function number($current)
+    public function numberForRoom($current)
     {
         return $current / 500 + 100;
+    }
+
+    public function priceForRoom($roomIndex, $bedsIndex)
+    {
+        return $this->prices[$roomIndex % 500 + 1][$bedsIndex];
     }
 
     private function extractData()
