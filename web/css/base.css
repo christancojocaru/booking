@@ -15,7 +15,7 @@ header {
     display: grid;
     grid-template-rows: repeat(2, 5vh);
     grid-template-columns: 20vw repeat(7, 1fr) 20vw;
-    background-color: #221f73;
+    background-color: #003580;
     color: white;
     align-items: center;
     justify-items: left;
@@ -30,6 +30,22 @@ header::after {
     position: fixed;
     top: 5vh;
     left: 20vw;
+}
+section {
+    display: grid;
+    width: 60vw;
+    margin: auto;
+    grid-row-gap: 2vh;
+    justify-items: center;
+    align-items: center;
+    text-align: center;
+}
+form {
+    display: inherit;
+    grid-template-rows: 21vh;
+    grid-template-columns: inherit;
+    margin: inherit;
+    align-items: inherit;
 }
 img {
     width: inherit;
@@ -116,6 +132,29 @@ img {
 .rentals {
     grid-column:  5 / 7;
 }
+
+
+/*for rest of pages*/
+.hotel {
+    width: 25vw;
+    height: 35vh;
+}
+.hotel .name {
+    position: absolute;
+    z-index: 10;
+    font-size: 2em;
+    margin: 0.5vh 1vw;
+    background-color: rgba(0, 0, 0, 0.09);
+    color: white;
+    width: 15vw;
+    border-radius: 40%;
+}
+.hotel .average {
+    color: #ff0000;
+}
+.date select {
+    height: inherit;
+}
 .hint-response {
     position: absolute;
     margin-top: -20px;
@@ -128,6 +167,8 @@ img {
     background-color: blue;
     color: white;
 }
+
+/*footer*/
 .footer {
     margin: 1vh auto;
     position: relative;
@@ -143,6 +184,8 @@ img {
     margin: 1vh 20vw;
     width: 60vw;
 }
+/*end footer*/
+
 @media screen and (max-width: 1279px) {
     header {
         grid-template-columns: 10vw repeat(7, 1fr) 10vw;

@@ -34,10 +34,6 @@ class PostController extends Controller
         $date = $data["date"];
         $beds = explode(" ", $data["number"])[0];
 
-//        if ($beds > 4) {
-//            return $this->redirectToRoute("accommodation_get", ["beds" => $beds]);
-//        }
-
         try{
             $results = $em->getRepository(City::class)->getAccommodationResult($city, $beds);
         }catch (DBALException $exception) {
@@ -46,6 +42,7 @@ class PostController extends Controller
 
         return $this->render("post/accommodation.html.twig", [
             "results" => $results,
+            "beds" => $beds,
             "city" => $city,
             "date" => $date,
             "count" => count($results),

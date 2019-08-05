@@ -18,15 +18,27 @@ class UserRegistrationForm extends AbstractType
     {
         $builder
             ->add('username', TextType::class, [
+                'label' => "Username",
                 'attr' => [
                     'placeholder' => 'Username',
-                    'class' => "form-control placeholder-no-fix",
                     'autocomplete' => "off",
-                    'autofocus' => ""
+                    'autofocus' => "true"
                 ]
             ])
             ->add('plainPassword', RepeatedType::class, [
-                'type' => PasswordType::class
+                'type' => PasswordType::class,
+                'first_options'  => [
+                    'label' => 'Parola',
+                    'attr' => [
+                        'placeholder' => 'Parola'
+                    ]
+                ],
+                'second_options' => [
+                    'label' => 'Repetați Parola',
+                    'attr' => [
+                        'placeholder' => 'Parola'
+                    ]
+                ],
             ]);
     }
 

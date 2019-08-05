@@ -15,9 +15,11 @@
         <div class="body">
             <h3>Rezervarea pentru <span>{{ building }}</span> a fost finalizată</h3>
             <h4>Orașul <span>{{ city }}</span></h4>
-            <h4>Camera {{ room }} cu {{ beds }} paturi</h4>
+
+            <h4>{{ rooms }} camere cu {{ beds }} paturi</h4>
+
             <h4>Perioada {{ dateStartModified }} -- {{ dateEndModified }}</h4>
-            <h4>Prețul de {{ price }} lei/noapte</h4>
+            <h4>Prețul de {{ price }} lei/noapte/cameră</h4>
             <h4>Preț total de <span class="total">{{ totalPrice }}</span> lei</h4>
         </div>
         <div class="footer"><h3>Vă mulțumim</h3></div>

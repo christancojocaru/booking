@@ -8,7 +8,7 @@
 {% block container %}
     <body>
         <section>
-            <div class="logo">Rezervari Online</div>
+            <div class="logo" onclick="window.location.replace('{{ path('home_action') }}')">Rezervări Online</div>
             <h3 >Autentificare</h3>
             {% if error %}
                 <div class="alert">
@@ -16,14 +16,14 @@
                 </div>
             {% endif %}
             {{ form_start(form) }}
-            {{ form_widget(form._username, {"attr" : {"placeholder" : "Username", "value" : lastUsername ? lastUsername : ''}}) }}
-            {{ form_widget(form._password, {"attr" : {"placeholder" : "Password"}}) }}
+            {{ form_widget(form._username, {"attr" : {"value" : lastUsername ? lastUsername : ''}}) }}
+            {{ form_widget(form._password) }}
             <div class="actions">
                 <div class="registration">
-                    <button class="button" onclick="location.href = '{{ path("user_register") }}'">Inregistrativa</button>
+                    <button class="button" onclick="location.href = '{{ path("user_register") }}'">Înregistrați-vă</button>
                 </div>
                 <div class="submit">
-                    {{ form_widget(form.submit, {"attr" : {"class" : "button"}}) }}
+                    {{ form_widget(form.submit) }}
                 </div>
             </div>
             {{ form_end(form) }}

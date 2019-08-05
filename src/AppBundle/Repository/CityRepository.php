@@ -7,21 +7,23 @@ namespace AppBundle\Repository;
 use AppBundle\Entity\City;
 use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\Query\ResultSetMapping;
 
 class CityRepository extends EntityRepository
 {
     /**
+     * @param $data
      * @return array
      */
-    public function getAllNames()
+    public function getNamesLike($data)
     {
-        $names = [];
+        $city = $this->createQueryBuilder('c')
+            ->where('c.name LIKE :data')
+            ->setParameters(["data" => $data."%"])
+            ->setMaxResults(1)
+            ->getQuery()
+            ->execute();
         /** @var City $city */
-        foreach ($this->findAll() as $city) {
-            $names[] = $city->getName();
-        }
-        return $names;
+        return $city->getName();
     }
 
     /**
@@ -36,26 +38,27 @@ class CityRepository extends EntityRepository
             ->getConnection();
         $sql = '
                 SELECT result.*,
-                       Min(price) AS minPrice,
                        SUM(result.beds) AS bedsum
                 FROM   (SELECT b.name AS building_name,
                                r.beds,
                                r.price,
                                r.id   AS room_id,
-                               b.id   AS building_id
+                               b.id   AS building_id,
+                               c.image AS image
                         FROM   city AS c
                                left join building AS b
                                       ON b.city_id = c.id
                                left join room AS r
                                       ON r.building_id = b.id
                         WHERE  c.name = :city
-                               AND r.beds >= IF(:beds > 4, "1", :beds)
+                               AND r.beds >= IF(:beds > 4, 1, :beds)
                                AND r.available = 1) AS result
-                WHERE  result.price < 99
-                GROUP  BY result.building_name
+               
+                GROUP  BY result.building_name, result.beds
                 HAVING bedsum >= :beds
-                ORDER  BY result.beds ASC,
-                          result.price ASC 
+                ORDER  BY result.price ASC,
+                          result.building_name ASC,
+                          result.beds ASC
         ';
         $stmt = $conn->prepare($sql);
         $stmt->execute(['city' => $city, "beds" => $beds]);
@@ -76,13 +79,14 @@ class CityRepository extends EntityRepository
     }
 
     /**
+     * @param $results
      * @return mixed
      */
-    public function getRandom()
+    public function getRandom($results)
     {
         return $this->createQueryBuilder("c")
             ->setFirstResult(rand(0, 40))
-            ->setMaxResults(6)
+            ->setMaxResults($results)
             ->getQuery()
             ->execute();
     }

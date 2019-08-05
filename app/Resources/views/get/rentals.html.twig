@@ -10,15 +10,18 @@
         <div class="rent">
             <img src="{{ asset("img/rentacar.jpg") }}" alt="Rent a Car">
             <div class="actions">
+
+                {{ form_start(form) }}
                 <div class="location" >
-                    <input class="search" type="text" placeholder="Orașul..." autofocus>
+                    {{ form_widget(form.location, {"attr" : {"placeholder" : "Orașul...", "class" : "search", "autofocus" : "true"}}) }}
                 </div>
                 <div class="date">
-                    <input class="search" type="date" value="2019-07-24">
+                    {{ form_widget(form.date, {"attr" : {"class" : "search"}}) }}
                 </div>
                 <div class="send">
-                    <input class="search button" type="button" value="Caută">
+                    {{ form_widget(form.submit, {"attr" : {"class" : "search button"}}) }}
                 </div>
+                {{ form_end(form) }}
             </div>
         </div>
     </section>

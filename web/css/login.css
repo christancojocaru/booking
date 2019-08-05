@@ -11,6 +11,8 @@ section {
     color: white;
     flex-direction: column;
     border-radius: 15px;
+    margin: initial;
+    align-items: initial;
 }
 .logo {
     padding: 1em;
@@ -47,6 +49,6 @@ button {
 }
 @media screen and (max-width: 1280px) {
     .actions {
-        width: 80%;
+        width: 90%;
     }
 }

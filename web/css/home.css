@@ -1,38 +1,48 @@
 section {
-    display: grid;
-    width: 60vw;
-    margin: auto;
-    grid-row-gap: 2vh;
     grid-template-rows: 8vh repeat(2, 15vh) repeat(2, 10vh) repeat(2, 30vh);
     grid-template-columns: repeat(4, 15vw);
-    justify-items: center;
-    align-items: center;
-    text-align: center;
+}
+
+/*search navbar*/
+form {
+    grid-row: 3 / 4;
+    grid-column: 1 / 5;
 }
 .text.search {
     grid-column: 1 / 3;
     grid-row: 2 / 3;
-    height: inherit;
     text-align: justify;
     align-self: end;
     line-height: 1.7em;
 }
 .location {
     grid-column: 1 / 2;
-    grid-row: 3 / 4;
 }
 .date {
     grid-column: 2 / 3;
-    grid-row: 3 / 4;
 }
 .number {
     grid-column: 3 / 4;
-    grid-row: 3 / 4;
 }
 .send {
     grid-column: 4 / 5;
-    grid-row: 3 / 4;
 }
+
+/*hotel*/
+.hotel-0 {
+    grid-column: 1 / 3;
+    grid-row: 6 / 7;
+}
+.hotel-1 {
+    grid-column: 3 / 5;
+    grid-row: 6 / 7;
+}
+section img {
+    object-fit: cover;
+    object-position: center;
+}
+
+/*flight*/
 .first-offer {
     grid-row: 4 / 5;
 }
@@ -53,44 +63,8 @@ section {
     height: 4vh;
     justify-self: stretch;
 }
-.sibiu {
-    grid-column: 1 / 3;
-    grid-row: 6 / 7;
-}
-.sinaia {
-    grid-column: 3 / 5;
-    grid-row: 6 / 7;
-}
-.hotel {
-    width: 16vw;
-    height: 26vh;
-    font-size: 1em;
-}
-.sibiu::before {
-    content: "Sibiu";
-}
-.sibiu::after {
-    content: "Pret mediu 150 lei";
-}
-.sinaia::before {
-    content: "Sinaia";
-}
-.sinaia::after {
-    content: "Pret mediu 120 lei";
-}
-.hotel::before {
-    position: absolute;
-    z-index: 10;
-    font-size: 2em;
-    margin: 0.5vh 1vw;
-    background-color: rgba(0, 0, 0, 0.09);
-    color: white;
-    width: 8vw;
-    border-radius: 40%;
-}
-.hotel::after {
-    color: #ff0000;
-}
+
+/*rent*/
 .rent {
     grid-column: 1 / 5;
     grid-row: 7 / 8;
@@ -104,9 +78,20 @@ section {
     width: 60vw;
     top: 15%;
 }
+
 @media screen and (max-width: 1279px) {
     section {
         width: 80vw;
         grid-template-columns: repeat(4, 20vw);
+    }
+}
+
+@media screen and (min-width: 1700px) {
+    .hotel {
+        width: 400px;
+        height: 350px;
+    }
+    section {
+        grid-template-rows: 8vh repeat(2, 20vh) repeat(2, 15vh) repeat(2, 35vh);
     }
 }

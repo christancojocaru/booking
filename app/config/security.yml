@@ -23,7 +23,6 @@ security:
 
             logout:
                 path: /logout
-                target: /home
             logout_on_user_change: true
             # activate different ways to authenticate
 
@@ -33,7 +32,9 @@ security:
             # https://symfony.com/doc/current/security/form_login_setup.html
             #form_login: ~
     access_control:
-        - { path: /login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: /register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: /home, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/home, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/ajax/cities, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+#        - { path: /, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/, roles: ROLE_USER }

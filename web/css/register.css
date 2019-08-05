@@ -33,7 +33,7 @@ form {
     display: contents;
 }
 .data {
-    width: 70%;
+    width: 20vw;
     margin: 1vh 0;
     flex: 1;
     display: flex;
@@ -42,6 +42,7 @@ form {
 }
 .data.actions {
     flex: 1;
+    flex-direction: row-reverse;
 }
 .label {
     flex: 1;

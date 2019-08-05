@@ -11,13 +11,16 @@
             <h2>Găsiți oferte pentru cazare</h2>
             <p>De la case la țară la apartamente moderne</p>
         </div>
+        {{ form_start(form, {"action" : path('accommodation_post')}) }}
         <div class="hint location">
             <div class="hint-response"></div>
-            <input class="search" id="cities" type="text" placeholder="Unde mergeti?">
+            {{ form_widget(form.location, {"attr" : {"placeholder" : "Unde mergeti?", "class" : "search"}}) }}
         </div>
-        <input class="date search" type="date">
-        <input class="number search" type="text" placeholder="Câte persoane? " onkeydown="down(event, this)">
-        <input class="send search button"  type="button" value="Cauta">
+        {{ form_widget(form.date, {"attr" : {"class" : "date search"}}) }}
+        {{ form_widget(form.number, {"attr" : {"class" : "number search", "placeholder" : "Cate persoane?", "onkeydown" : "down(event, this)"}}) }}
+        {{ form_widget(form.submit, {"attr" : {"class" : "send search search"}}) }}
+        {{ form_end(form) }}
+
         <h4 class="from first-offer">Zboara din timisoara</h4>
         <h4 class="to first-offer">Zboara catre bucuresti</h4>
         <span class="price first-offer">210 lei</span>
@@ -27,12 +30,14 @@
         <span class="price last-offer">210 lei</span>
         <input class="action last-offer button" type="button" value="Vezi oferta">
 
-        <div class="sinaia hotel">
-            <img src="{{ asset("img/sinaia.jpg") }}" alt="Sinaia">
-        </div>
-        <div class="sibiu hotel">
-            <img src="{{ asset("img/sibiu.jpg") }}" alt="Sibiu">
-        </div>
+        {% for number, city in cities %}
+            <div class="hotel hotel-{{ number }}">
+                <div class="name">{{ city.name }}</div>
+
+                <img src="{{ city.image }}" alt="Sinaia" data-content="">
+                <div class="average">Pret mediu {{ city.averagePrice }} lei.</div>
+            </div>
+        {% endfor %}
         <div class="rent">
             <img src="{{ asset("img/rent.jpg") }}" alt="Rent">
         </div>

@@ -16,7 +16,7 @@
         </div>
         <div class="data">
             <div class="label">
-                {{ form_label(form.username, 'Username', {'label_attr' : {'class' : 'control-label visible-ie8 visible-ie9'}}) }}
+                {{ form_label(form.username) }}
             </div>
             <div class="input">
                 {{ form_widget(form.username) }}
@@ -27,29 +27,26 @@
         </div>
         <div class="data">
             <div class="label">
-                {{ form_label(form.plainPassword.first, 'Password') }}
+                {{ form_label(form.plainPassword.first) }}
             </div>
             <div class="input">
-                {{ form_widget(form.plainPassword.first, {'attr' : {'placeholder' : 'Password'}}) }}
+                {{ form_widget(form.plainPassword.first) }}
             </div>
-        </div>
-        <div class="error">
-            {{ form_errors(form.plainPassword.second) }}
         </div>
         <div class="data">
             <div class="label">
-                {{ form_label(form.plainPassword.second, 'Repeat Password') }}
+                {{ form_label(form.plainPassword.second) }}
             </div>
             <div class="input">
-                {{ form_widget(form.plainPassword.second, {'attr' : {'placeholder' : 'Password'}}) }}
+                {{ form_widget(form.plainPassword.second) }}
             </div>
         </div>
         <div class="data actions">
-            <div class="registration">
-                <button class="button" onclick="location.href = '{{ path("security_login") }}'">Inapoi</button>
-            </div>
             <div class="submit">
                 {{ form_widget(form.submit, {"attr" : {"class" : "button"}}) }}
+            </div>
+            <div class="registration">
+                <button class="button" onclick="location.href = '{{ path("security_login") }}'">Înapoi</button>
             </div>
         </div>
         {{ form_end(form) }}

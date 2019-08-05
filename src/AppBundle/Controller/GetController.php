@@ -6,6 +6,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\City;
 use AppBundle\Form\AccommodationSearch;
+use AppBundle\Form\RentalSearch;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,20 +15,45 @@ use Symfony\Component\Routing\Annotation\Route;
 class GetController extends Controller
 {
     /**
-     * @Route("/cazare", name="accommodation_get", methods={"GET"})
-     * @param Request $request
-     * @return Response
+     * @Route("/home", name="home_action", methods={"GET"})
+     * @Route("/", methods={"GET"})
      */
-    public function accommodation(Request $request)
+    public function home()
     {
-//        $info = null;
-//        if ($request->query->has("beds")) {
-//            $info = $request->query->get("beds");
-//            $info = ceil($info / 4);
-//        }
         $em = $this->getDoctrine()->getManager();
         $form = $this->createForm(AccommodationSearch::class);
-        $cities = $em->getRepository(City::class)->getRandom();
+        $cities = $em->getRepository(City::class)->getRandom(2);
+        /** @var City $city */
+        foreach ($cities as $city) {
+            $average = $em->getRepository(City::class)->getAveragePriceForCity($city->getName())[0]["average"];
+            $city->setAveragePrice(floor($average));
+        }
+
+        return $this->render("get/home.html.twig", [
+            "form" => $form->createView(),
+            "cities" => $cities,
+        ]);
+    }
+
+    /**
+     * @Route("/zboruri", name="flights_action")
+     */
+    public function flights()
+    {
+        return $this->render(
+            "get/flights.html.twig"
+        );
+    }
+
+    /**
+     * @Route("/cazare", name="accommodation_get", methods={"GET"})
+     * @return Response
+     */
+    public function accommodation()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $form = $this->createForm(AccommodationSearch::class);
+        $cities = $em->getRepository(City::class)->getRandom(6);
         /** @var City $city */
         foreach ($cities as $city) {
             $average = $em->getRepository(City::class)->getAveragePriceForCity($city->getName())[0]["average"];
@@ -36,7 +62,18 @@ class GetController extends Controller
         return $this->render("get/accommodation.html.twig", [
             "form" => $form->createView(),
             "cities" => $cities,
-//            "info" => $info
+        ]);
+    }
+
+    /**
+     * @Route("/inchirieri", name="rentals_action")
+     */
+    public function rentals()
+    {
+        $form = $this->createForm(RentalSearch::class);
+
+        return $this->render("get/rentals.html.twig", [
+            "form" => $form->createView()
         ]);
     }
 }

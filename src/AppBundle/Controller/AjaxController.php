@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 
 
 use AppBundle\Entity\City;
+use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -29,24 +30,19 @@ class AjaxController extends Controller
      */
     public function searchCities(Request $request)
     {
-        $data = $request->request->get('data');
+        $data = $request->request->get("data");
         //one for GET other for POST
         if (is_null($this->em)) {
-            $cities = $this->getDoctrine()->getRepository(City::class)->getAllNames();
+            $city = $this->getDoctrine()->getRepository(City::class)->getNamesLike($data);
         } else {
-            $cities = $this->em->getRepository(City::class)->getAllNames();
+            $city = $this->em->getRepository(City::class)->getNamesLike($data);
         }
-
-        foreach ($cities as $city) {
-            $city = strtolower($city);
-            $pos = strpos($city, $data);
-            if ($pos !== false) {
-                $position = $pos + strlen($data) - 1;
-                $response = ["result" => $city, "position" => $position];
-                return new JsonResponse(json_encode($response));
-            }
+        if (empty($city)) {
+            return new JsonResponse(json_encode(null));
+        } else {
+            $response = ["result" => $city, "position" => strlen($data)];
+            return new JsonResponse(json_encode($response));
         }
-        return null;
     }
 
     /**
