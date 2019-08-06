@@ -8,9 +8,9 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="room_booked")
+ * @ORM\Table(name="car_booked")
  */
-class RoomBooked
+class CarBooked
 {
     /**
      * @ORM\Id
@@ -20,18 +20,18 @@ class RoomBooked
 
     /**
      * @ORM\ManyToOne(
-     *     targetEntity="AppBundle\Entity\Room",
-     *     inversedBy="roomBooked")
+     *     targetEntity="AppBundle\Entity\Car",
+     *     inversedBy="carBooked")
      * @ORM\JoinColumn(
-     *     name="room_id",
+     *     name="car_id",
      *     referencedColumnName="id")
      */
-    private $room;
+    private $car;
 
     /**
      * @ORM\ManyToOne(
      *     targetEntity="AppBundle\Entity\User",
-     *     inversedBy="roomBooked")
+     *     inversedBy="carBooked")
      * @ORM\JoinColumn(
      *     name="user_id",
      *     referencedColumnName="id")
@@ -51,17 +51,17 @@ class RoomBooked
     /**
      * @return mixed
      */
-    public function getRoom()
+    public function getCar()
     {
-        return $this->room;
+        return $this->car;
     }
 
     /**
-     * @param mixed $room
+     * @param mixed $car
      */
-    public function setRoom($room)
+    public function setCar($car)
     {
-        $this->room = $room;
+        $this->car = $car;
     }
 
     /**

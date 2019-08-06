@@ -25,8 +25,8 @@ function down(event, parent) {
     }
 }
 
-$("#accommodation_search_location").keyup(() => {
-    const cities = $("#accommodation_search_location");
+$(".location input").keyup(() => {
+    const cities = $(".location input");
     let value = cities.val().toLowerCase();
     let data = {"data" : value};
     $.ajax({

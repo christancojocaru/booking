@@ -14,11 +14,11 @@
         {{ form_start(form, {"action" : path('accommodation_post')}) }}
         <div class="hint location">
             <div class="hint-response"></div>
-            {{ form_widget(form.location, {"attr" : {"placeholder" : "Unde mergeti?", "class" : "search"}}) }}
+            {{ form_widget(form.location) }}
         </div>
-        {{ form_widget(form.date, {"attr" : {"class" : "date search"}}) }}
-        {{ form_widget(form.number, {"attr" : {"class" : "number search", "placeholder" : "Cate persoane?", "onkeydown" : "down(event, this)"}}) }}
-        {{ form_widget(form.submit, {"attr" : {"class" : "send search search"}}) }}
+        {{ form_widget(form.date) }}
+        {{ form_widget(form.number) }}
+        {{ form_widget(form.submit) }}
         {{ form_end(form) }}
 
         <h4 class="from first-offer">Zboara din timisoara</h4>
@@ -35,7 +35,7 @@
                 <div class="name">{{ city.name }}</div>
 
                 <img src="{{ city.image }}" alt="Sinaia" data-content="">
-                <div class="average">Pret mediu {{ city.averagePrice }} lei.</div>
+                <div class="average">Cazare la doar {{ city.averagePrice }} lei/noapte</div>
             </div>
         {% endfor %}
         <div class="rent">

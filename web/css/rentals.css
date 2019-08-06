@@ -20,7 +20,7 @@ section {
      display: flex;
      transform: translate(0, -50%);
      width: inherit;
-     height: 5vh;
+     height: 40pt;
      background-color: rgba(255, 255, 255, 0.5);
      border-radius: 25px;
     align-items: center;
@@ -29,22 +29,22 @@ section {
 .search {
     border: none;
 }
-.location {
+.location, .location .search  {
     flex: 1;
+    width: 80%;
+    margin: 0 1vw;
+    position: relative;
 }
-.location .search {
-    width: 65%;
-}
-.date {
+.date, .date .search {
     flex: 2;
+    width: 10vw;
+    margin: 0 1vw;
+    text-align: start;
 }
-.date .search {
-    width: 35%;
-    margin-left: -50%;
-    text-align: center;
-}
-.send {
+.send, .send .search {
     flex: 1;
+    width: 10vw;
+    margin: 0 1vw;
 }
 .footer {
     position: fixed;

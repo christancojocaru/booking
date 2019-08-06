@@ -12,16 +12,16 @@ class CityRepository extends EntityRepository
 {
     /**
      * @param $data
-     * @return array
+     * @return string
      */
     public function getNamesLike($data)
     {
         $city = $this->createQueryBuilder('c')
             ->where('c.name LIKE :data')
             ->setParameters(["data" => $data."%"])
-            ->setMaxResults(1)
             ->getQuery()
             ->execute();
+        $city = $city[0];
         /** @var City $city */
         return $city->getName();
     }
@@ -78,6 +78,18 @@ class CityRepository extends EntityRepository
             ->execute();
     }
 
+    public function getLowestPrice($city)
+    {
+        return $this->createQueryBuilder("c")
+            ->select("min(r.price) as lowest")
+            ->leftJoin('c.building', "b")
+            ->leftJoin("b.room", "r")
+            ->where("c.name = :city")
+            ->setParameters(["city" => $city])
+            ->getQuery()
+            ->execute();
+    }
+
     /**
      * @param $results
      * @return mixed
@@ -91,18 +103,3 @@ class CityRepository extends EntityRepository
             ->execute();
     }
 }
-//
-//SELECT b.name   AS building_name,
-//               r.beds,
-//               r.price,
-//               r.id     AS room_id,
-//               b.id     AS building_id,
-//        	   IF(beds > 3, "MORE", "LESS") as 'M//L'
-//        FROM   room AS r
-//               LEFT JOIN building AS b
-//                      ON r.building_id = b.id AND r.price < 99
-//               LEFT JOIN city AS c
-//                      ON b.city_id = c.id
-//        WHERE  c.name = "Ploiesti"
-//AND r.beds >= 4
-//AND r.available = 1

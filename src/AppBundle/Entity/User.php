@@ -61,6 +61,13 @@ class User implements UserInterface
     private $roomBooked;
 
     /**
+     * @ORM\OneToMany(
+     *     targetEntity="AppBundle\Entity\Bookings\CarBooked",
+     *     mappedBy="user")
+     */
+    private $carBooked;
+
+    /**
      * @param mixed $username
      */
     public function setUsername($username)
@@ -159,5 +166,21 @@ class User implements UserInterface
     public function setRoomBooked($roomBooked)
     {
         $this->roomBooked = $roomBooked;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCarBooked()
+    {
+        return $this->carBooked;
+    }
+
+    /**
+     * @param mixed $carBooked
+     */
+    public function setCarBooked($carBooked): void
+    {
+        $this->carBooked = $carBooked;
     }
 }

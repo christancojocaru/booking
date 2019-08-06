@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class GetController extends Controller
 {
     /**
-     * @Route("/home", name="home_action", methods={"GET"})
+     * @Route("/home", name="home_get", methods={"GET"})
      * @Route("/", methods={"GET"})
      */
     public function home()
@@ -25,7 +25,7 @@ class GetController extends Controller
         $cities = $em->getRepository(City::class)->getRandom(2);
         /** @var City $city */
         foreach ($cities as $city) {
-            $average = $em->getRepository(City::class)->getAveragePriceForCity($city->getName())[0]["average"];
+            $average = $em->getRepository(City::class)->getLowestPrice($city->getName())[0]["lowest"];
             $city->setAveragePrice(floor($average));
         }
 
@@ -36,7 +36,7 @@ class GetController extends Controller
     }
 
     /**
-     * @Route("/zboruri", name="flights_action")
+     * @Route("/zboruri", name="flights_get")
      */
     public function flights()
     {
@@ -66,7 +66,7 @@ class GetController extends Controller
     }
 
     /**
-     * @Route("/inchirieri", name="rentals_action")
+     * @Route("/inchirieri", name="rentals_get", methods={"GET"})
      */
     public function rentals()
     {

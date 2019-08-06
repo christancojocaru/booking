@@ -4,13 +4,13 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <link href="{{ asset('css/result/accommodation.css') }}" rel="stylesheet" type="text/css" >
+    <link href="{{ asset('css/result/result.css') }}" rel="stylesheet" type="text/css" >
 {% endblock %}
 
 {% block body %}
     <section>
         <div class="header">
-            <h2>In {{ city|capitalize }}, in data de {{ dateModified }} au fost gasite {{ count }} hoteluri. </h2>
+            <h2>În {{ city|capitalize }}, în data de {{ dateModified }} au fost găsite {{ count }} hoteluri. </h2>
         </div>
         {% for result in results %}
             {% set noOfRooms = (beds / result.beds)|round(0, 'ceil') %}
@@ -20,8 +20,8 @@
                 </div>
                 <div class="details">
                     <h2>{{ result.building_name }}</h2>
-                    <span>                              </span>
-                    <span>{{ noOfRooms }}{% if noOfRooms == 1 %} cameră{% else %} camere{% endif %} cu {{ result.beds }} paturi in camera</span>
+                    <span>Sejur de </span>
+                    <span>{{ noOfRooms }}{% if noOfRooms == 1 %} cameră{% else %} camere{% endif %} cu {{ result.beds }} paturi in cameră</span>
                 </div>
                 <div class="actions">
                     <form name="accommodation_booking" method="post" action="{{ path('booking_accommodation_action') }}">
@@ -29,11 +29,11 @@
                         <input type="hidden" name="accommodation_booking[no_of_rooms]" value="{{ noOfRooms }}">
                         <input type="hidden" name="accommodation_booking[no_of_beds]" value="{{ result.beds }}">
                         <input type="hidden" name="accommodation_booking[building_id]" value="{{ result.building_id }}">
-                        <input type="number" name="accommodation_booking[days]" required="required" class="number search" placeholder="Cate zile?">
+                        <input type="number" name="accommodation_booking[days]" required="required" class="number search" placeholder="Câte zile?">
                         <div class="price">
-                            <span>{{ result.price }} lei / cameră</span>
+                            <span>{{ result.price }} lei / cameră / zi</span>
                         </div>
-                        <button type="submit" name="accommodation_booking[submit]" class="button submit" value="Alegeți-vă camera">Submit</button>
+                        <button type="submit" name="accommodation_booking[submit]" class="button submit">Alegeți-vă camera</button>
                         <input type="hidden" name="accommodation_booking[_token]" value="{{ csrf_token("accommodation_booking") }}">
                     </form>
                 </div>

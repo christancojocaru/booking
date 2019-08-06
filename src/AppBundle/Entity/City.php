@@ -37,6 +37,14 @@ class City
     private $building;
 
     /**
+     * @ORM\OneToMany(
+     *     targetEntity="Car",
+     *     mappedBy="city"
+     * )
+     */
+    private $car;
+
+    /**
      * @var int $averagePrice
      */
     private $averagePrice;
@@ -111,5 +119,21 @@ class City
     public function setAveragePrice($averagePrice)
     {
         $this->averagePrice = $averagePrice;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCar()
+    {
+        return $this->car;
+    }
+
+    /**
+     * @param mixed $car
+     */
+    public function setCar($car)
+    {
+        $this->car = $car;
     }
 }

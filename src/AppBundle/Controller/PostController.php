@@ -4,8 +4,10 @@
 namespace AppBundle\Controller;
 
 
+use AppBundle\Entity\Car;
 use AppBundle\Entity\City;
 use AppBundle\Form\AccommodationSearch;
+use AppBundle\Form\RentalSearch;
 use DateTime;
 use Doctrine\DBAL\DBALException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -47,6 +49,37 @@ class PostController extends Controller
             "date" => $date,
             "count" => count($results),
         ]);
+    }
 
+    /**
+     * @Route("/inchirieri", name="rental_post", methods={"POST"})
+     * @param Request $request
+     * @return Response
+     */
+    public function rental(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $form = $this->createForm(RentalSearch::class);
+        $form->handleRequest($request);
+
+        $data = $form->getData();
+
+        $city = $data["location"];
+        /** @var DateTime $date */
+        $date = $data["date"];
+
+        try{
+            $results = $em->getRepository(Car::class)->getRentalResult($city);
+        }catch (DBALException $exception) {
+            $results = 0;
+        }
+
+        return $this->render("post/rental.html.twig", [
+            "results" => $results,
+            "city" => $city,
+            "date" => $date,
+            "count" => count($results),
+        ]);
     }
 }

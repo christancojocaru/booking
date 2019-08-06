@@ -20,3 +20,22 @@ AppBundle\Entity\Room:
     beds: '<numberBetween(1, 4)>'
     available: '<boolean(75)>'
     price: '<priceForRoom($id1, $beds)>'
+
+AppBundle\Entity\Car:
+  car{1..1000}:
+    id: '@city{1..50}'
+    id1: '<current()>'
+    city: '<cityForCar($id, $id1)>'
+    model: '<nameForCar($id1)>'
+    seats: '<numberBetween(4, 8)>'
+    fuel: '<randomElement(["benzină", "motorină"])>'
+    geartype: '<randomElement(["manuală", "automată"])>'
+    image: "<imageForCar($id1)>"
+    available: '<boolean(65)>'
+    price: '<randomFloat(2, 50,100)>'
+
+AppBundle\Entity\User:
+  user1:
+    username: 'Ionut'
+    plainPassword: 'ionut'
+    roles: ["ROLE_USER"]
