@@ -32,7 +32,19 @@ section {
 .location, .location .search  {
     flex: 1;
     width: 80%;
-    margin: 0 1vw;
+    margin: 0;
+    position: relative;
+}
+.seats, .seats .search {
+    flex: 1;
+    width: 80%;
+    margin: 0;
+    position: relative;
+}
+.fuel, .fuel .search {
+    flex: 1;
+    width: 80%;
+    margin: 0;
     position: relative;
 }
 .date, .date .search {

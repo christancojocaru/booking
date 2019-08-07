@@ -4,6 +4,9 @@
 namespace AppBundle\Entity;
 
 
+use AppBundle\Entity\Bookings\AccommodationBook;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -12,6 +15,11 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Room
 {
+    public function __construct()
+    {
+        $this->roomBooked = new ArrayCollection();
+    }
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -37,11 +45,6 @@ class Room
     private $beds;
 
     /**
-     * @ORM\Column(type="boolean")
-     */
-    private $available;
-
-    /**
      * @ORM\ManyToOne(
      *     targetEntity="Building",
      *     inversedBy="room")
@@ -52,11 +55,35 @@ class Room
     private $building;
 
     /**
-     * @ORM\OneToMany(
-     *     targetEntity="AppBundle\Entity\Bookings\RoomBooked",
-     *     mappedBy="room")
+     * @ORM\ManyToMany(
+     *     targetEntity="AppBundle\Entity\Bookings\AccommodationBook",
+     *     mappedBy="rooms")
      */
     private $roomBooked;
+
+    /**
+     * @return Collection|AccommodationBook[]
+     */
+    public function getRoomsBooked(): Collection
+    {
+        return $this->roomBooked;
+    }
+    public function addRoomBooked(AccommodationBook $roomBooked): self
+    {
+        if (!$this->roomBooked->contains($roomBooked)) {
+            $this->roomBooked[] = $roomBooked;
+            $roomBooked->addRoom($this);
+        }
+        return $this;
+    }
+    public function removeRoomBooked(AccommodationBook $article): self
+    {
+        if ($this->roomBooked->contains($article)) {
+            $this->roomBooked->removeElement($article);
+            $article->removeRoom($this);
+        }
+        return $this;
+    }
 
     /**
      * @return mixed
@@ -101,14 +128,6 @@ class Room
     /**
      * @return mixed
      */
-    public function getAvailable()
-    {
-        return $this->available;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getBuilding()
     {
         return $this->building;
@@ -128,14 +147,6 @@ class Room
     public function setBeds($beds)
     {
         $this->beds = $beds;
-    }
-
-    /**
-     * @param mixed $available
-     */
-    public function setAvailable($available)
-    {
-        $this->available = $available;
     }
 
     /**

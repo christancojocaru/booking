@@ -18,7 +18,6 @@ AppBundle\Entity\Room:
     building: '<buildingForRoom($id, $id1)>'
     number: '<numberForRoom($id1)>'
     beds: '<numberBetween(1, 4)>'
-    available: '<boolean(75)>'
     price: '<priceForRoom($id1, $beds)>'
 
 AppBundle\Entity\Car:
@@ -31,7 +30,6 @@ AppBundle\Entity\Car:
     fuel: '<randomElement(["benzină", "motorină"])>'
     geartype: '<randomElement(["manuală", "automată"])>'
     image: "<imageForCar($id1)>"
-    available: '<boolean(65)>'
     price: '<randomFloat(2, 50,100)>'
 
 AppBundle\Entity\User:

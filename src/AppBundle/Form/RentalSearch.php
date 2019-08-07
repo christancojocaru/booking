@@ -5,6 +5,7 @@ namespace AppBundle\Form;
 
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -22,6 +23,27 @@ class RentalSearch extends AbstractType
                     'autofocus' => 'true'
                 ]
             ])
+            ->add("seats", ChoiceType::class, [
+                'choices' => [
+                    "2" => "2",
+                    "5" => "5",
+                    "7" => "7",
+                    "8" => "8"
+                ],
+                'attr' => [
+                    'class' => 'search'
+                ]
+            ])
+            ->add("fuel", ChoiceType::class, [
+                'choices' => [
+                    "Benzină" => "benzina",
+                    "Ambele" => "false",
+                    "Motorină" => "motorina"
+                ],
+                'attr' => [
+                    'class' => 'search'
+                    ]
+                ])
             ->add("date", DateType::class, [
                 'data' => new \DateTime(),
                 'widget' => 'single_text',

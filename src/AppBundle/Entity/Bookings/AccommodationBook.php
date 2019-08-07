@@ -4,34 +4,40 @@
 namespace AppBundle\Entity\Bookings;
 
 
+use AppBundle\Entity\Room;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="car_booked")
+ * @ORM\Table(name="accommodation_book")
  */
-class CarBooked
+class AccommodationBook
 {
+    public function __construct()
+    {
+        $this->rooms = new ArrayCollection();
+    }
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
-     */private $id;
+     */
+    private $id;
 
     /**
-     * @ORM\ManyToOne(
-     *     targetEntity="AppBundle\Entity\Car",
-     *     inversedBy="carBooked")
-     * @ORM\JoinColumn(
-     *     name="car_id",
-     *     referencedColumnName="id")
+     * @ORM\ManyToMany(
+     *     targetEntity="AppBundle\Entity\Room",
+     *     inversedBy="roomBooked")
      */
-    private $car;
+    private $rooms;
 
     /**
      * @ORM\ManyToOne(
      *     targetEntity="AppBundle\Entity\User",
-     *     inversedBy="carBooked")
+     *     inversedBy="accommodationBook")
      * @ORM\JoinColumn(
      *     name="user_id",
      *     referencedColumnName="id")
@@ -48,20 +54,32 @@ class CarBooked
      */
     private $period_end;
 
-    /**
-     * @return mixed
-     */
-    public function getCar()
+    public function getDays()
     {
-        return $this->car;
+        $diff = $this->period_end->diff($this->period_start);
+        return $diff->d;
     }
 
     /**
-     * @param mixed $car
+     * @return Collection|Room[]
      */
-    public function setCar($car)
+    public function getRooms(): Collection
     {
-        $this->car = $car;
+        return $this->rooms;
+    }
+    public function addRoom(Room $room): self
+    {
+        if (!$this->rooms->contains($room)) {
+            $this->rooms[] = $room;
+        }
+        return $this;
+    }
+    public function removeRoom(Room $room): self
+    {
+        if ($this->rooms->contains($room)) {
+            $this->rooms->removeElement($room);
+        }
+        return $this;
     }
 
     /**

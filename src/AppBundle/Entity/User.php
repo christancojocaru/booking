@@ -4,6 +4,7 @@
 namespace AppBundle\Entity;
 
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -16,6 +17,12 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class User implements UserInterface
 {
+    public function __construct()
+    {
+        $this->accommodationBook = new ArrayCollection();
+        $this->rentalBook = new ArrayCollection();
+    }
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -55,17 +62,17 @@ class User implements UserInterface
 
     /**
      * @ORM\OneToMany(
-     *     targetEntity="AppBundle\Entity\Bookings\RoomBooked",
+     *     targetEntity="AppBundle\Entity\Bookings\AccommodationBook",
      *     mappedBy="user")
      */
-    private $roomBooked;
+    private $accommodationBook;
 
     /**
      * @ORM\OneToMany(
-     *     targetEntity="AppBundle\Entity\Bookings\CarBooked",
+     *     targetEntity="AppBundle\Entity\Bookings\RentalBook",
      *     mappedBy="user")
      */
-    private $carBooked;
+    private $rentalBook;
 
     /**
      * @param mixed $username
@@ -155,32 +162,32 @@ class User implements UserInterface
     /**
      * @return mixed
      */
-    public function getRoomBooked()
+    public function getAccommodationBook()
     {
-        return $this->roomBooked;
+        return $this->accommodationBook;
     }
 
     /**
-     * @param mixed $roomBooked
+     * @param mixed $accommodationBook
      */
-    public function setRoomBooked($roomBooked)
+    public function setAccommodationBook($accommodationBook)
     {
-        $this->roomBooked = $roomBooked;
+        $this->accommodationBook = $accommodationBook;
     }
 
     /**
      * @return mixed
      */
-    public function getCarBooked()
+    public function getRentalBook()
     {
-        return $this->carBooked;
+        return $this->rentalBook;
     }
 
     /**
-     * @param mixed $carBooked
+     * @param mixed $rentalBook
      */
-    public function setCarBooked($carBooked): void
+    public function setRentalBook($rentalBook): void
     {
-        $this->carBooked = $carBooked;
+        $this->rentalBook = $rentalBook;
     }
 }

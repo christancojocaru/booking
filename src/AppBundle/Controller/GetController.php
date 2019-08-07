@@ -4,7 +4,11 @@
 namespace AppBundle\Controller;
 
 
+use AppBundle\Entity\Bookings\AccommodationBook;
+use AppBundle\Entity\Bookings\RoomBooked;
 use AppBundle\Entity\City;
+use AppBundle\Entity\Room;
+use AppBundle\Entity\User;
 use AppBundle\Form\AccommodationSearch;
 use AppBundle\Form\RentalSearch;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -20,6 +24,16 @@ class GetController extends Controller
      */
     public function home()
     {
+//        /** @var User $user */
+//        $user = $this->getUser();
+//        $rooms = $user->getAccommodationBook();
+//        /** @var AccommodationBook $room */
+//        foreach ($rooms as $room) {
+//            var_dump($room-);
+//        }die;
+
+
+
         $em = $this->getDoctrine()->getManager();
         $form = $this->createForm(AccommodationSearch::class);
         $cities = $em->getRepository(City::class)->getRandom(2);

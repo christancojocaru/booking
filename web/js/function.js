@@ -60,6 +60,14 @@ function addElem(result, pos) {
     });
 }
 
+$("#username").click(() => {
+    document.getElementById("cart").classList.add("open");
+});
+
+document.body.addEventListener('click', () => {
+    document.getElementById("cart").classList.remove("open");
+}, true);
+
 //
 // $("#sendData").click(() => {
 //     const CITY = $("#cities");

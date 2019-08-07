@@ -4,8 +4,8 @@
 namespace AppBundle\Controller;
 
 
-use AppBundle\Entity\Bookings\CarBooked;
-use AppBundle\Entity\Bookings\RoomBooked;
+use AppBundle\Entity\Bookings\RentalBook;
+use AppBundle\Entity\Bookings\AccommodationBook;
 use AppBundle\Entity\Building;
 use AppBundle\Entity\Car;
 use AppBundle\Entity\Room;
@@ -40,44 +40,49 @@ class BookingController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
-            $noOfRooms = $form->getData()["no_of_rooms"];
-            $noOfBeds = $form->getData()["no_of_beds"];
-            $buildingId = $form->getData()["building_id"];
-            $period = $form->getData()["start_date"];
-            $days = $form->getData()["days"];
-            $rooms = $em->getRepository(Room::class)->getData($noOfRooms, $noOfBeds, $buildingId);
+            $data = $form->getData();
+            $noOfRooms = $data["no_of_rooms"];
+            $noOfBeds = $data["no_of_beds"];
+            $buildingId = $data["building_id"];
+            $period = $data["start_date"];
+            $days = $data["days"];
             /** @var User $user */
             $user = $this->getUser();
 
-            $dates = $this->getDates($period, $days);
+            $rooms = $em->getRepository(Room::class)->getData($noOfRooms, $noOfBeds, $buildingId);
+            $dates = $this->getDates($period, $days);//make start/end date
+
+            $roomBooked = new AccommodationBook();
+            $roomBooked->setUser($user);
+            $roomBooked->setPeriodStart($dates["start"]);
+            $roomBooked->setPeriodEnd($dates["end"]);
 
             foreach ($rooms as $room) {
+                /** @var Room $roomDB */
                 $roomDB = $em->getRepository(Room::class)->find($room["id"]);
-                $roomDB->setAvailable(false);
-                $roomBooked = new RoomBooked();
-                $roomBooked->setUser($user);
-                $roomBooked->setRoom($roomDB);
-                $roomBooked->setPeriodStart($dates["start"]);
-                $roomBooked->setPeriodEnd($dates["end"]);
-                $em->persist($roomBooked);
-                $em->flush();
+                $roomBooked->addRoom($roomDB);
             }
+            $em->persist($roomBooked);
+            $em->flush();
+
+            $buildingName = $rooms[0]["building_name"];
+            $cityName = $rooms[0]["city_name"];
+            $price = $rooms[0]["price"];
 
             return $this->render("booking/accommodation.html.twig", [
                 "user" => $user->getUsername(),
                 "dateStart" => $dates["start"],
                 "dateEnd" => $dates["end"],
-                "building" => $rooms[0]["building_name"],
-                "city" => $rooms[0]["city_name"],
-                "totalPrice" => $days * $rooms[0]["price"] * $noOfRooms,
-                "price" => $rooms[0]["price"],
+                "building" => $buildingName,
+                "city" => $cityName,
+                "totalPrice" => $days * $price * $noOfRooms,
+                "price" => $price,
                 "beds" => $noOfBeds,
                 "days" => $days,
                 "rooms" => $noOfRooms
             ]);
         }
-
-        return new Response("Internal Error");
+        return new Response("Please refresh page");
     }
 
     /**
@@ -92,26 +97,23 @@ class BookingController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
-            $carId = $form->getData()["car_id"];
-            $period = $form->getData()["start_date"];
-            $days = $form->getData()["days"];
-            $dates = $this->getDates($period, $days);
-
+            $data = $form->getData();
+            $carId = $data["car_id"];
+            $period = $data["start_date"];
+            $days = $data["days"];
             /** @var User $user */
             $user = $this->getUser();
+            $dates = $this->getDates($period, $days);//make start/end date
 
             /** @var Car $car */
             $car = $em->getRepository(Car::class)->find($carId);
-
-            $car->setAvailable(false);
-            $carBooked = new CarBooked();
+            $carBooked = new RentalBook();
             $carBooked->setUser($user);
             $carBooked->setCar($car);
             $carBooked->setPeriodStart($dates["start"]);
             $carBooked->setPeriodEnd($dates["end"]);
             $em->persist($carBooked);
             $em->flush();
-
 
             $price = $car->getPrice();
             return $this->render("booking/rental.html.twig", [
@@ -125,8 +127,7 @@ class BookingController extends Controller
                 "days" => $days
             ]);
         }
-
-        return new Response("Internal Error");
+        return new Response("Please refresh page");
     }
 
 

@@ -1,24 +1,49 @@
 {% set user = app.user %}
+
 {% block header %}
     <header>
         <div class="logo">Rezervari Online</div>
         {% if user %}
-            <div class="user j-s-r">{{ user.username }}</div>
+            <div id="cart">
+                {% for accommodationBook in app.user.accommodationBook %}
+                    {% set startDate = accommodationBook.periodStart|date("d-m-Y l", "Europe/Kiev")|replace({'Monday' : 'Luni', 'Tuesday' : 'Marți', 'Wednesday' : 'Miercuri', 'Thursday' : 'Joi', 'Friday' : 'Vineri', 'Saturday' : 'Sâmbătă', 'Sunday' : 'Duminică'}) %}
+                    {% set endDate = accommodationBook.periodEnd|date("d-m-Y l", "Europe/Kiev")|replace({'Monday' : 'Luni', 'Tuesday' : 'Marți', 'Wednesday' : 'Miercuri', 'Thursday' : 'Joi', 'Friday' : 'Vineri', 'Saturday' : 'Sâmbătă', 'Sunday' : 'Duminică'}) %}
+                    <h3>{{ accommodationBook.rooms|first.building.city.name }}</h3>
+                    <span>{{ accommodationBook.rooms|length }} camere cu {{ accommodationBook.rooms|first.beds }} paturi</span>
+                    <span>{{ startDate }}</span>
+                    <span>{{ endDate }}</span>
+                {% endfor %}
+                <div class="line"></div>
+                {% for rentalnBook in app.user.rentalBook %}
+                    {% set startDate = rentalnBook.periodStart|date("d-m-Y l", "Europe/Kiev")|replace({'Monday' : 'Luni', 'Tuesday' : 'Marți', 'Wednesday' : 'Miercuri', 'Thursday' : 'Joi', 'Friday' : 'Vineri', 'Saturday' : 'Sâmbătă', 'Sunday' : 'Duminică'}) %}
+                    {% set endDate = rentalnBook.periodEnd|date("d-m-Y l", "Europe/Kiev")|replace({'Monday' : 'Luni', 'Tuesday' : 'Marți', 'Wednesday' : 'Miercuri', 'Thursday' : 'Joi', 'Friday' : 'Vineri', 'Saturday' : 'Sâmbătă', 'Sunday' : 'Duminică'}) %}
+                    <h3>{{ rentalnBook.car.city.name }}</h3>
+                    <span>{{ rentalnBook.car.model }}</span>
+                    <span>{{ rentalnBook.car.seats }} locuri</span>
+                    <span>{{ startDate }}</span>
+                    <span>{{ endDate }}</span>
+                {% endfor %}
+                <div class="line"></div>
+                <div class="cart-button">
+                    <button class="button">Coșul meu</button>
+                </div>
+            </div>
+            <div id="username" class="user j-s-r">{{ user.username }}</div>
             <a href="{{ path("security_logout") }}" class="log j-s-r">
                 <button class="button">Logout</button>
             </a>
         {% else %}
             <a href="{{ path("user_register") }}" class="registration j-s-r">
-                <button class="button">Inregistrativa</button>
+                <button class="button">Înregistrațivă</button>
             </a>
             <a href="{{ path("security_login") }}" class="log j-s-r">
-                <button class="button">Autentificare</button>
+                <button class="button">Autentificațivă</button>
             </a>
         {% endif %}
         <div class="home menu">
             <a href="{{ path("home_get") }}" >
                 <img src="{{ asset("img/home.svg") }}" alt="">
-                <span>Home</span>
+                <span>Acasă</span>
             </a>
         </div>
         <div class="flights menu">
@@ -36,7 +61,7 @@
         <div class="rentals menu">
             <a href="{{ path("rentals_get") }}" >
                 <img src="{{ asset("img/masina.svg") }}" alt="">
-                <span>Inchirieri Masini</span>
+                <span>Închirieri mașini</span>
             </a>
         </div>
     </header>

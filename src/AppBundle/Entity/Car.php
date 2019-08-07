@@ -57,18 +57,13 @@ class Car
     private $image;
 
     /**
-     * @ORM\Column(type="boolean")
-     */
-    private $available;
-
-    /**
      * @ORM\Column(type="decimal", precision=6, scale=2)
      */
     private $price;
 
     /**
      * @ORM\OneToMany(
-     *     targetEntity="AppBundle\Entity\Bookings\CarBooked",
+     *     targetEntity="AppBundle\Entity\Bookings\RentalBook",
      *     mappedBy="car")
      */
     private $carBooked;
@@ -175,22 +170,6 @@ class Car
     public function setGearType($gearType): void
     {
         $this->gearType = $gearType;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getAvailable()
-    {
-        return $this->available;
-    }
-
-    /**
-     * @param mixed $available
-     */
-    public function setAvailable($available): void
-    {
-        $this->available = $available;
     }
 
     /**
