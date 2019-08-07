@@ -51,10 +51,10 @@ class CityRepository extends EntityRepository
                                left join room AS r
                                       ON r.building_id = b.id
                         WHERE  c.name = :city
-                               AND r.beds >= IF(:beds > 4, 1, :beds)
+                               AND IF(:beds >= 4, r.beds <= :beds, r.beds = :beds)
                                AND r.available = 1) AS result
                
-                GROUP  BY result.building_name, result.beds
+                GROUP  BY result.building_name, CASE WHEN :beds >= 4 THEN result.beds ELSE 0 END
                 HAVING bedsum >= :beds
                 ORDER  BY result.price ASC,
                           result.building_name ASC,
