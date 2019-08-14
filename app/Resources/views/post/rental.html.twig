@@ -1,6 +1,6 @@
 {%  extends 'base.html.twig' %}
 {% set startTextDay = startDate|date("l", "Europe/Kiev")|replace({'Monday' : 'Luni', 'Tuesday' : 'Marți', 'Wednesday' : 'Miercuri', 'Thursday' : 'Joi', 'Friday' : 'Vineri', 'Saturday' : 'Sâmbătă', 'Sunday' : 'Duminică'}) %}
-{% set endTextDay = endDate|date_modify("+1 day")|date("l", "Europe/Kiev")|replace({'Monday' : 'Luni', 'Tuesday' : 'Marți', 'Wednesday' : 'Miercuri', 'Thursday' : 'Joi', 'Friday' : 'Vineri', 'Saturday' : 'Sâmbătă', 'Sunday' : 'Duminică'}) %}
+{% set endTextDay = endDate|date("l", "Europe/Kiev")|replace({'Monday' : 'Luni', 'Tuesday' : 'Marți', 'Wednesday' : 'Miercuri', 'Thursday' : 'Joi', 'Friday' : 'Vineri', 'Saturday' : 'Sâmbătă', 'Sunday' : 'Duminică'}) %}
 
 {% set startDay = startDate|date("d") %}
 {% set endDay = endDate|date("d") %}
@@ -12,11 +12,12 @@
 
 {% block body %}
     <section>
+        <h2>În {{ city|capitalize }} au fost găsite {{ count }} mașini. </h2>
         <div class="header">
             <div class="pick-up">
                 <div class="text">
                     <span>Preluare</span>
-                    <h4>Bucuresti</h4>
+                    <h4>{{ city|capitalize }}</h4>
                 </div>
                 <div class="date">
                     <span>{{ startDay }}</span>
@@ -27,7 +28,7 @@
             <div class="drop-off">
                 <div class="text">
                     <span>Predare</span>
-                    <h4>Bucuresti</h4>
+                    <h4>{{ city|capitalize }}</h4>
                 </div>
                 <div class="date">
                     <span>{{ endDay }}</span>
@@ -35,7 +36,6 @@
                     <span>10:00</span>
                 </div>
             </div>
-{#            <h2>În {{ city|capitalize }}, în data de {{ dateModified }} au fost găsite {{ count }} mașini. </h2>#}
         </div>
         {% for result in results %}
             <div class="hotel">

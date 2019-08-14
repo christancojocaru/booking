@@ -51,10 +51,10 @@ class CarRepository extends EntityRepository
                                        ON car.city_id = city.id
                                 LEFT JOIN rental_book
                                        ON car.id = rental_book.car_id
-                         WHERE  city.name = :city
-                AND car.fuel = :fuel
-                AND car.seats >= :seats
-                AND rental_book.id IS NULL)
+                         WHERE  city.NAME = :city
+                                AND IF(:fuel = "both", car.fuel IN ("motorina", "benzina"), car.fuel = :fuel)
+                                AND car.seats BETWEEN :seats AND :seatsAdd
+                                AND rental_book.id IS NULL)
                         UNION
                         (SELECT car.model,
                                 car.seats,
@@ -68,22 +68,24 @@ class CarRepository extends EntityRepository
                                        ON car.city_id = city.id
                                 LEFT JOIN rental_book
                                        ON rental_book.car_id = car.id
-                         WHERE  city.name = :city
-                AND car.fuel = :fuel
-                AND car.seats >= :seats
-                AND :startDateString NOT BETWEEN rental_book.period_start AND
-                                                 rental_book.period_end
-                AND :endDateString NOT BETWEEN rental_book.period_start AND
-                                               rental_book.period_end )) AS result
-                ORDER  BY result.seats ASC, result.price ASC 
+                         WHERE  city.NAME = :city
+                                AND IF(:fuel = "both", car.fuel IN ("motorina", "benzina"), car.fuel = :fuel)
+                                AND car.seats BETWEEN :seats AND :seatsAdd
+                                AND :startDateString NOT BETWEEN rental_book.period_start AND
+                                                                 rental_book.period_end
+                                AND :endDateString NOT BETWEEN rental_book.period_start AND
+                                                               rental_book.period_end)) AS
+                       result
+                ORDER  BY result.seats ASC,
+                          result.price ASC  
         ';
         $stmt = $conn->prepare($sql);
-        $stmt->execute(["city" => $city, "seats" => $seats, "startDateString" => $startDate, "endDateString" => $endDate, "fuel" => $fuel]);
+        $stmt->execute(["city" => $city, "seats" => $seats, "seatsAdd" => $seats + 1, "startDateString" => $startDate, "endDateString" => $endDate, "fuel" => $fuel]);
 
         return $stmt->fetchAll();
     }
 }
-
+//
 //SELECT *
 //FROM   ((SELECT car.model,
 //                car.seats,
@@ -91,17 +93,15 @@ class CarRepository extends EntityRepository
 //                car.fuel,
 //                car.id,
 //                car.price,
-//                car.image,
-//                rental_book.period_start,
-//                rental_book.period_end
+//                car.image
 //         FROM   car
 //                LEFT JOIN city
 //                       ON car.city_id = city.id
 //                LEFT JOIN rental_book
 //                       ON car.id = rental_book.car_id
-//         WHERE  city.NAME = "bucuresti"
-//AND car.fuel = "benzina"
-//AND car.seats >= 5
+//         WHERE  city.NAME = "Bucuresti"
+//AND car.fuel IN ("motorina", "benzina")
+//AND car.seats BETWEEN 6 AND 7
 //AND rental_book.id IS NULL)
 //        UNION
 //        (SELECT car.model,
@@ -110,17 +110,19 @@ class CarRepository extends EntityRepository
 //                car.fuel,
 //                car.id,
 //                car.price,
-//                car.image,
-//                rental_book.period_start,
-//                rental_book.period_end
+//                car.image
 //         FROM   car
 //                LEFT JOIN city
 //                       ON car.city_id = city.id
 //                LEFT JOIN rental_book
 //                       ON rental_book.car_id = car.id
-//         WHERE  city.NAME = "bucuresti"
-//AND car.fuel = "benzina"
-//AND car.seats >= 5
-//AND "2019-08-10" NOT BETWEEN rental_book.period_start AND
-//rental_book.period_end)) AS result
-//ORDER  BY result.price
+//         WHERE  city.NAME = "Bucuresti"
+//AND car.fuel IN ("motorina")
+//AND car.seats BETWEEN 6 AND 7
+//AND "2019-08-14" NOT BETWEEN rental_book.period_start AND
+//rental_book.period_end
+//AND "2019-08-15" NOT BETWEEN rental_book.period_start AND
+//rental_book.period_end)) AS
+//       result
+//ORDER  BY result.seats ASC,
+//          result.price ASC

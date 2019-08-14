@@ -24,16 +24,6 @@ class GetController extends Controller
      */
     public function home()
     {
-//        /** @var User $user */
-//        $user = $this->getUser();
-//        $rooms = $user->getAccommodationBook();
-//        /** @var AccommodationBook $room */
-//        foreach ($rooms as $room) {
-//            var_dump($room-);
-//        }die;
-
-
-
         $em = $this->getDoctrine()->getManager();
         $form = $this->createForm(AccommodationSearch::class);
         $cities = $em->getRepository(City::class)->getRandom(2);

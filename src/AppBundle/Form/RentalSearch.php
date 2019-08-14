@@ -26,8 +26,9 @@ class RentalSearch extends AbstractType
             ])
             ->add("seats", ChoiceType::class, [
                 'choices' => [
-                    "2" => "2",
+                    "4" => "4",
                     "5" => "5",
+                    "6" => "6",
                     "7" => "7",
                     "8" => "8"
                 ],
@@ -38,7 +39,7 @@ class RentalSearch extends AbstractType
             ->add("fuel", ChoiceType::class, [
                 'choices' => [
                     "Benzină" => "benzina",
-                    "Ambele" => "false",
+                    "Ambele" => "both",
                     "Motorină" => "motorina"
                 ],
                 'attr' => [
@@ -53,7 +54,7 @@ class RentalSearch extends AbstractType
                 ]
             ])
             ->add("endDate", DateType::class, [
-                'data' => new DateTime(),
+                'data' => new DateTime("tomorrow"),
                 'widget' => 'single_text',
                 'attr' => [
                     'class' => 'search'

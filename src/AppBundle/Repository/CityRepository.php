@@ -58,6 +58,7 @@ class CityRepository extends EntityRepository
                 ORDER  BY result.price ASC,
                           result.building_name ASC,
                           result.beds ASC
+                LIMIT 10
         ';
         $stmt = $conn->prepare($sql);
         $stmt->execute(['city' => $city, "beds" => $beds]);
