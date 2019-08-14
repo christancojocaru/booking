@@ -64,12 +64,15 @@ class PostController extends Controller
         $city = $data["location"];
         $seats = $data["seats"];
         $fuel = $data["fuel"];
-        /** @var DateTime $date */
-        $date = $data["date"];
-        $dateAsString = $date->format("Y-m-d");
+        /** @var DateTime $startDate $endDate */
+        $startDate = $data["startDate"];
+        /** @var DateTime $endDate */
+        $endDate = $data["endDate"];
+        $startDateAsString = $startDate->format("Y-m-d");
+        $endDateAsString = $endDate->format("Y-m-d");
 
         try{
-            $results = $em->getRepository(Car::class)->getRentalRaw($city, $seats, $fuel, $date->format("Y-m-d"));
+            $results = $em->getRepository(Car::class)->getRentalRaw($city, $seats, $fuel, $startDateAsString, $endDateAsString);
         }catch (DBALException $exception) {
             $results = 0;
         }
@@ -77,7 +80,8 @@ class PostController extends Controller
         return $this->render("post/rental.html.twig", [
             "results" => $results,
             "city" => $city,
-            "date" => $date,
+            "startDate" => $startDate,
+            "endDate" => $endDate,
             "count" => count($results),
         ]);
     }

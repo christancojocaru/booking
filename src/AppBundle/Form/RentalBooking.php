@@ -17,8 +17,8 @@ class RentalBooking extends AbstractType
     {
         $builder
             ->add("start_date", TextType::class)
+            ->add("end_date", TextType::class)
             ->add("car_id", IntegerType::class)
-            ->add("days", IntegerType::class)
             ->add("submit", SubmitType::class);
     }
 

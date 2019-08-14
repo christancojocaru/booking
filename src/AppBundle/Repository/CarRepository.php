@@ -33,7 +33,7 @@ class CarRepository extends EntityRepository
         }
     }
 
-    public function getRentalRaw($city, $seats, $fuel, $date)
+    public function getRentalRaw($city, $seats, $fuel, $startDate, $endDate)
     {
         $conn = $this->getEntityManager()
             ->getConnection();
@@ -71,12 +71,14 @@ class CarRepository extends EntityRepository
                          WHERE  city.name = :city
                 AND car.fuel = :fuel
                 AND car.seats >= :seats
-                AND :dateString NOT BETWEEN rental_book.period_start AND
-                rental_book.period_end)) AS result
-                ORDER  BY result.price
+                AND :startDateString NOT BETWEEN rental_book.period_start AND
+                                                 rental_book.period_end
+                AND :endDateString NOT BETWEEN rental_book.period_start AND
+                                               rental_book.period_end )) AS result
+                ORDER  BY result.seats ASC, result.price ASC 
         ';
         $stmt = $conn->prepare($sql);
-        $stmt->execute(["city" => $city, "seats" => $seats, "dateString" => $date, "fuel" => $fuel]);
+        $stmt->execute(["city" => $city, "seats" => $seats, "startDateString" => $startDate, "endDateString" => $endDate, "fuel" => $fuel]);
 
         return $stmt->fetchAll();
     }

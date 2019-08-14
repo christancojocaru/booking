@@ -4,6 +4,7 @@
 namespace AppBundle\Form;
 
 
+use DateTime;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -44,8 +45,15 @@ class RentalSearch extends AbstractType
                     'class' => 'search'
                     ]
                 ])
-            ->add("date", DateType::class, [
-                'data' => new \DateTime(),
+            ->add("startDate", DateType::class, [
+                'data' => new DateTime(),
+                'widget' => 'single_text',
+                'attr' => [
+                    'class' => 'search'
+                ]
+            ])
+            ->add("endDate", DateType::class, [
+                'data' => new DateTime(),
                 'widget' => 'single_text',
                 'attr' => [
                     'class' => 'search'

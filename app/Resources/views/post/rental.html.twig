@@ -1,7 +1,9 @@
 {%  extends 'base.html.twig' %}
+{% set startTextDay = startDate|date("l", "Europe/Kiev")|replace({'Monday' : 'Luni', 'Tuesday' : 'Marți', 'Wednesday' : 'Miercuri', 'Thursday' : 'Joi', 'Friday' : 'Vineri', 'Saturday' : 'Sâmbătă', 'Sunday' : 'Duminică'}) %}
+{% set endTextDay = endDate|date_modify("+1 day")|date("l", "Europe/Kiev")|replace({'Monday' : 'Luni', 'Tuesday' : 'Marți', 'Wednesday' : 'Miercuri', 'Thursday' : 'Joi', 'Friday' : 'Vineri', 'Saturday' : 'Sâmbătă', 'Sunday' : 'Duminică'}) %}
 
-{% set dateModified = date|date("l d-m-Y", "Europe/Kiev")|replace({'Monday' : 'Luni', 'Tuesday' : 'Marți', 'Wednesday' : 'Miercuri', 'Thursday' : 'Joi', 'Friday' : 'Vineri', 'Saturday' : 'Sâmbătă', 'Sunday' : 'Duminică'}) %}
-
+{% set startDay = startDate|date("d") %}
+{% set endDay = endDate|date("d") %}
 {% block stylesheets %}
     {{ parent() }}
     <link href="{{ asset('css/result/result.css') }}" rel="stylesheet" type="text/css" >
@@ -11,7 +13,29 @@
 {% block body %}
     <section>
         <div class="header">
-            <h2>În {{ city|capitalize }}, în data de {{ dateModified }} au fost găsite {{ count }} mașini. </h2>
+            <div class="pick-up">
+                <div class="text">
+                    <span>Preluare</span>
+                    <h4>Bucuresti</h4>
+                </div>
+                <div class="date">
+                    <span>{{ startDay }}</span>
+                    <h5>{{ startTextDay }}</h5>
+                    <span>10:00</span>
+                </div>
+            </div>
+            <div class="drop-off">
+                <div class="text">
+                    <span>Predare</span>
+                    <h4>Bucuresti</h4>
+                </div>
+                <div class="date">
+                    <span>{{ endDay }}</span>
+                    <h5>{{ endTextDay }}</h5>
+                    <span>10:00</span>
+                </div>
+            </div>
+{#            <h2>În {{ city|capitalize }}, în data de {{ dateModified }} au fost găsite {{ count }} mașini. </h2>#}
         </div>
         {% for result in results %}
             <div class="hotel">
@@ -26,9 +50,9 @@
                 </div>
                 <div class="actions">
                     <form name="rental_booking" method="post" action="{{ path('booking_rental_action') }}">
-                        <input type="hidden" name="rental_booking[start_date]" value="{{ date|date("d-m-Y", "Europe/Kiev") }}">
+                        <input type="hidden" name="rental_booking[start_date]" value="{{ startDate|date("d-m-Y", "Europe/Kiev") }}">
+                        <input type="hidden" name="rental_booking[end_date]" value="{{ endDate|date("d-m-Y", "Europe/Kiev") }}">
                         <input type="hidden" name="rental_booking[car_id]" value="{{ result.id }}">
-                        <input type="number" name="rental_booking[days]" required="required" class="number search" placeholder="Cate zile?">
                         <div class="price">
                             <span>{{ result.price }} lei / zi</span>
                         </div>

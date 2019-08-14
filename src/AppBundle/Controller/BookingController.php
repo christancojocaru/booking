@@ -16,6 +16,7 @@ use DateInterval;
 use DateTime;
 use DateTimeImmutable;
 use DateTimeZone;
+use function GuzzleHttp\Psr7\str;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -99,27 +100,28 @@ class BookingController extends Controller
 
             $data = $form->getData();
             $carId = $data["car_id"];
-            $period = $data["start_date"];
-            $days = $data["days"];
+            $startDate = $this->createDateFromString($data["start_date"]);
+            $endDate = $this->createDateFromString($data["end_date"]);
             /** @var User $user */
             $user = $this->getUser();
-            $dates = $this->getDates($period, $days);//make start/end date
 
             /** @var Car $car */
             $car = $em->getRepository(Car::class)->find($carId);
             $carBooked = new RentalBook();
             $carBooked->setUser($user);
             $carBooked->setCar($car);
-            $carBooked->setPeriodStart($dates["start"]);
-            $carBooked->setPeriodEnd($dates["end"]);
+            $carBooked->setPeriodStart($startDate);
+            $carBooked->setPeriodEnd($endDate);
             $em->persist($carBooked);
             $em->flush();
 
             $price = $car->getPrice();
+            $diff = $startDate->diff($endDate);
+            $days = $diff->days;
             return $this->render("booking/rental.html.twig", [
                 "user" => $user->getUsername(),
-                "dateStart" => $dates["start"],
-                "dateEnd" => $dates["end"],
+                "dateStart" => $startDate,
+                "dateEnd" => $endDate,
                 "model" => $car->getModel(),
                 "city" => $car->getCity()->getName(),
                 "totalPrice" => $days * $price,
@@ -130,13 +132,8 @@ class BookingController extends Controller
         return new Response("Please refresh page");
     }
 
-
-    private function getDates($period, $days)
+    private function createDateFromString($date)
     {
-        $dateStart = DateTime::createFromFormat('d-m-Y', $period, new DateTimeZone("Europe/Kiev"));
-        $dateEnd = DateTime::createFromFormat('d-m-Y', $period, new DateTimeZone("Europe/Kiev"));
-        $dateEnd->modify('+' . $days . ' day');
-
-        return ["start" => $dateStart, "end" => $dateEnd];
+        return DateTime::createFromFormat('d-m-Y', $date, new DateTimeZone("Europe/Kiev"));
     }
 }
