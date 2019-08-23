@@ -16,7 +16,6 @@ class RoomRepository extends EntityRepository
             ->leftJoin("b.city", "c")
             ->where("b.id = :building_id")
             ->andWhere("r.beds = :noOfbeds")
-            ->andWhere("r.available = true")
             ->setMaxResults($noOfRooms)
             ->setParameters(["building_id" => $buildingId, "noOfbeds" => $noOfBeds])
             ->getQuery()

@@ -29,31 +29,63 @@ class CityRepository extends EntityRepository
     /**
      * @param $city string
      * @param $beds integer
+     * @param $startDate
+     * @param $endDate
      * @return array
      * @throws DBALException
      */
-    public function getAccommodationResult($city, $beds)
+    public function getAccommodationResult($city, $beds, $startDate, $endDate)
     {
         $conn = $this->getEntityManager()
             ->getConnection();
         $sql = '
                 SELECT result.*,
-                       SUM(result.beds) AS bedsum
-                FROM   (SELECT b.name AS building_name,
-                               r.beds,
-                               r.price,
-                               r.id   AS room_id,
-                               b.id   AS building_id,
-                               c.image AS image
-                        FROM   city AS c
-                               left join building AS b
-                                      ON b.city_id = c.id
-                               left join room AS r
-                                      ON r.building_id = b.id
-                        WHERE  c.name = :city
-                               AND IF(:beds >= 4, r.beds <= :beds, r.beds = :beds)) AS result
-               
-                GROUP  BY result.building_name, CASE WHEN :beds >= 4 THEN result.beds ELSE 0 END
+                       Sum(result.beds) AS bedsum
+                FROM   ((SELECT b.name  AS building_name,
+                                r.beds,
+                                r.price,
+                                r.id    AS room_id,
+                                b.id    AS building_id,
+                                c.image AS image
+                         FROM   city AS c
+                                LEFT JOIN building AS b
+                                       ON b.city_id = c.id
+                                LEFT JOIN room AS r
+                                       ON r.building_id = b.id
+                                LEFT JOIN accommodation_book_room AS abr
+                                       ON r.id = abr.room_id
+                                LEFT JOIN accommodation_book AS ab
+                                       ON abr.accommodation_book_id = ab.id
+                         WHERE  c.name = :city
+                                AND IF(:beds >= 4, r.beds <= :beds, r.beds = :beds)
+                                AND ab.id IS NULL)
+                        UNION
+                        (SELECT b.name  AS building_name,
+                                r.beds,
+                                r.price,
+                                r.id    AS room_id,
+                                b.id    AS building_id,
+                                c.image AS image
+                         FROM   city AS c
+                                LEFT JOIN building AS b
+                                       ON b.city_id = c.id
+                                LEFT JOIN room AS r
+                                       ON r.building_id = b.id
+                                LEFT JOIN accommodation_book_room AS abr
+                                       ON r.id = abr.room_id
+                                LEFT JOIN accommodation_book AS ab
+                                       ON abr.accommodation_book_id = ab.id
+                         WHERE  c.name = :city
+                                AND IF(:beds >= 4, r.beds <= :beds, r.beds = :beds)
+                                AND :startDate NOT BETWEEN ab.period_start AND ab.period_end
+                                AND :endDate NOT BETWEEN ab.period_start AND ab.period_end))
+                       AS
+                       result
+                GROUP  BY result.building_name,
+                          CASE
+                            WHEN :beds > 4 THEN result.beds
+                            ELSE 0
+                          end
                 HAVING bedsum >= :beds
                 ORDER  BY result.price ASC,
                           result.building_name ASC,
@@ -61,7 +93,7 @@ class CityRepository extends EntityRepository
                 LIMIT 10
         ';
         $stmt = $conn->prepare($sql);
-        $stmt->execute(['city' => $city, "beds" => $beds]);
+        $stmt->execute(['city' => $city, "beds" => $beds, "startDate" => $startDate, "endDate" => $endDate]);
 
         return $stmt->fetchAll();
     }
@@ -70,8 +102,8 @@ class CityRepository extends EntityRepository
     {
         return $this->createQueryBuilder("c")
             ->select("avg(r.price) as average")
-            ->leftJoin('c.building', "b")
-            ->leftJoin("b.room", "r")
+            ->leftJoin('c.buildings', "b")
+            ->leftJoin("b.rooms", "r")
             ->where("c.name = :city")
             ->setParameters(["city" => $city])
             ->getQuery()
@@ -82,8 +114,8 @@ class CityRepository extends EntityRepository
     {
         return $this->createQueryBuilder("c")
             ->select("min(r.price) as lowest")
-            ->leftJoin('c.building', "b")
-            ->leftJoin("b.room", "r")
+            ->leftJoin('c.buildings', "b")
+            ->leftJoin("b.rooms", "r")
             ->where("c.name = :city")
             ->setParameters(["city" => $city])
             ->getQuery()

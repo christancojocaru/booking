@@ -71,16 +71,16 @@ class CarRepository extends EntityRepository
                          WHERE  city.NAME = :city
                                 AND IF(:fuel = "both", car.fuel IN ("motorina", "benzina"), car.fuel = :fuel)
                                 AND car.seats BETWEEN :seats AND :seatsAdd
-                                AND :startDateString NOT BETWEEN rental_book.period_start AND
+                                AND :startDate NOT BETWEEN rental_book.period_start AND
                                                                  rental_book.period_end
-                                AND :endDateString NOT BETWEEN rental_book.period_start AND
+                                AND :endDate NOT BETWEEN rental_book.period_start AND
                                                                rental_book.period_end)) AS
                        result
                 ORDER  BY result.seats ASC,
                           result.price ASC  
         ';
         $stmt = $conn->prepare($sql);
-        $stmt->execute(["city" => $city, "seats" => $seats, "seatsAdd" => $seats + 1, "startDateString" => $startDate, "endDateString" => $endDate, "fuel" => $fuel]);
+        $stmt->execute(["city" => $city, "seats" => $seats, "seatsAdd" => $seats + 1, "startDate" => $startDate, "endDate" => $endDate, "fuel" => $fuel]);
 
         return $stmt->fetchAll();
     }

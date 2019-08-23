@@ -22,11 +22,18 @@ class AccommodationSearch extends AbstractType
                 'class' => 'search'
             ]
         ])
-        ->add("date", DateType::class, [
+        ->add("startDate", DateType::class, [
             'data' => new DateTime(),
-            'widget' => "single_text",
+            'widget' => 'single_text',
             'attr' => [
-                'class' => 'date search'
+                'class' => 'search'
+            ]
+        ])
+        ->add("endDate", DateType::class, [
+            'data' => new DateTime("tomorrow"),
+            'widget' => 'single_text',
+            'attr' => [
+                'class' => 'search'
             ]
         ])
         ->add("number", TextType::class, [
@@ -39,7 +46,7 @@ class AccommodationSearch extends AbstractType
         ->add("submit", SubmitType::class, [
             'label' => "Caută",
             'attr' => [
-                'class' => 'send search search'
+                'class' => 'send search button'
             ]
         ]);
 }

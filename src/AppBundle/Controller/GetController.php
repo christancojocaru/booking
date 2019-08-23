@@ -40,16 +40,6 @@ class GetController extends Controller
     }
 
     /**
-     * @Route("/zboruri", name="flights_get")
-     */
-    public function flights()
-    {
-        return $this->render(
-            "get/flights.html.twig"
-        );
-    }
-
-    /**
      * @Route("/cazare", name="accommodation_get", methods={"GET"})
      * @return Response
      */
@@ -76,7 +66,7 @@ class GetController extends Controller
     {
         $form = $this->createForm(RentalSearch::class);
 
-        return $this->render("get/rentals.html.twig", [
+        return $this->render("get/rental.html.twig", [
             "form" => $form->createView()
         ]);
     }

@@ -24,6 +24,15 @@ section {
     width: 80%;
     align-self: center;
 }
+.logo {
+    text-align: center !important;
+    position: relative;
+    top: 4vh;
+}
+.logo a{
+    text-decoration: none;
+    color: #003580;
+}
 h3 {
     text-align: center;
     padding-bottom: 2em;

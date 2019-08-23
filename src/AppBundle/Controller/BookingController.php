@@ -45,18 +45,17 @@ class BookingController extends Controller
             $noOfRooms = $data["no_of_rooms"];
             $noOfBeds = $data["no_of_beds"];
             $buildingId = $data["building_id"];
-            $period = $data["start_date"];
-            $days = $data["days"];
+            $startDate = $this->createDateFromString($data["start_date"]);
+            $endDate = $this->createDateFromString($data["end_date"]);
             /** @var User $user */
             $user = $this->getUser();
 
             $rooms = $em->getRepository(Room::class)->getData($noOfRooms, $noOfBeds, $buildingId);
-            $dates = $this->getDates($period, $days);//make start/end date
 
             $roomBooked = new AccommodationBook();
             $roomBooked->setUser($user);
-            $roomBooked->setPeriodStart($dates["start"]);
-            $roomBooked->setPeriodEnd($dates["end"]);
+            $roomBooked->setPeriodStart($startDate);
+            $roomBooked->setPeriodEnd($endDate);
 
             foreach ($rooms as $room) {
                 /** @var Room $roomDB */
@@ -72,14 +71,14 @@ class BookingController extends Controller
 
             return $this->render("booking/accommodation.html.twig", [
                 "user" => $user->getUsername(),
-                "dateStart" => $dates["start"],
-                "dateEnd" => $dates["end"],
+                "dateStart" => $startDate,
+                "dateEnd" => $endDate,
                 "building" => $buildingName,
                 "city" => $cityName,
-                "totalPrice" => $days * $price * $noOfRooms,
+                "totalPrice" => $roomBooked->getDays() * $price * $noOfRooms,
                 "price" => $price,
                 "beds" => $noOfBeds,
-                "days" => $days,
+                "days" => $roomBooked->getDays(),
                 "rooms" => $noOfRooms
             ]);
         }

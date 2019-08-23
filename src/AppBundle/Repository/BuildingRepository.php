@@ -20,7 +20,7 @@ class BuildingRepository extends EntityRepository
         /** @var City $cityDB */
         $cityDB = $this->findOneBy(["city" => $city]);
         /** @var Building $building */
-        $building = $cityDB->getBuilding();
+        $building = $cityDB->getBuildings();
         $building->getName();
         var_dump($cityDB);
     }

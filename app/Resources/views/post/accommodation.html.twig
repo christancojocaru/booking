@@ -1,6 +1,7 @@
 {%  extends 'base.html.twig' %}
 
-{% set dateModified = date|date("l d-m-Y", "Europe/Kiev")|replace({'Monday' : 'Luni', 'Tuesday' : 'Marți', 'Wednesday' : 'Miercuri', 'Thursday' : 'Joi', 'Friday' : 'Vineri', 'Saturday' : 'Sâmbătă', 'Sunday' : 'Duminică'}) %}
+{% set startDateTextDay = startDate|date("d F", "Europe/Kiev")|replace({'January' : 'Ianuarie', 'February' : 'Februarie', 'March' : 'Martie', 'April' : 'Aprilie', 'May' : 'Mai', 'June' : 'Iunie', 'July' : 'Iulie', 'September' : 'Septembrie', 'October' : 'Octombrie' , 'November' : 'Noiembrie', 'December' : 'Decembrie'}) %}
+{% set endDateMoTextDay = endDate|date("d F", "Europe/Kiev")|replace({'January' : 'Ianuarie', 'February' : 'Februarie', 'March' : 'Martie', 'April' : 'Aprilie', 'May' : 'Mai', 'June' : 'Iunie', 'July' : 'Iulie', 'September' : 'Septembrie', 'October' : 'Octombrie' , 'November' : 'Noiembrie', 'December' : 'Decembrie'}) %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -10,7 +11,7 @@
 {% block body %}
     <section>
         <div class="header">
-            <h2>În {{ city|capitalize }}, în data de {{ dateModified }} au fost găsite {{ count }} hoteluri. </h2>
+            <h2>În {{ city }}, în perioada {{ startDateTextDay }} - {{ endDateMoTextDay }} {{ startDate|date("Y") }} au fost găsite {{ count }} hoteluri. </h2>
         </div>
         {% for result in results %}
             {% set noOfRooms = (beds / result.beds)|round(0, 'ceil') %}
@@ -25,11 +26,11 @@
                 </div>
                 <div class="actions">
                     <form name="accommodation_booking" method="post" action="{{ path('booking_accommodation_action') }}">
-                        <input type="hidden" name="accommodation_booking[start_date]" value="{{ date|date("d-m-Y", "Europe/Kiev") }}">
+                        <input type="hidden" name="accommodation_booking[start_date]" value="{{ startDate|date("d-m-Y", "Europe/Kiev") }}">
+                        <input type="hidden" name="accommodation_booking[end_date]" value="{{ endDate|date("d-m-Y", "Europe/Kiev") }}">
                         <input type="hidden" name="accommodation_booking[no_of_rooms]" value="{{ noOfRooms }}">
                         <input type="hidden" name="accommodation_booking[no_of_beds]" value="{{ result.beds }}">
                         <input type="hidden" name="accommodation_booking[building_id]" value="{{ result.building_id }}">
-                        <input type="number" name="accommodation_booking[days]" required="required" class="number search" placeholder="Câte zile?">
                         <div class="price">
                             <span>{{ result.price }} lei / cameră / zi</span>
                         </div>

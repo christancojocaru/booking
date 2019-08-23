@@ -32,9 +32,15 @@ class PostController extends Controller
         $data = $form->getData();
         $city = $data["location"];
         $beds = explode(" ", $data["number"])[0];//form.number is text LIKE "2 persoane"
+        /** @var DateTime $startDate */
+        $startDate = $data["startDate"];
+        /** @var DateTime $endDate */
+        $endDate = $data["endDate"];
+        $startDateString = $startDate->format("Y-m-d");
+        $endDateString = $endDate->format("Y-m-d");
 
         try{
-            $results = $em->getRepository(City::class)->getAccommodationResult($city, $beds);
+            $results = $em->getRepository(City::class)->getAccommodationResult($city, $beds, $startDateString, $endDateString);
         }catch (DBALException $exception) {
             $results = 0;
         }
@@ -43,7 +49,8 @@ class PostController extends Controller
             "results" => $results,
             "beds" => $beds,
             "city" => $city,
-            "date" => $data["date"],
+            "startDate" => $startDate,
+            "endDate" => $endDate,
             "count" => count($results),
         ]);
     }
@@ -64,7 +71,7 @@ class PostController extends Controller
         $city = $data["location"];
         $seats = $data["seats"];
         $fuel = $data["fuel"];
-        /** @var DateTime $startDate $endDate */
+        /** @var DateTime $startDate */
         $startDate = $data["startDate"];
         /** @var DateTime $endDate */
         $endDate = $data["endDate"];

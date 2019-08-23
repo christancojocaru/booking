@@ -28,7 +28,7 @@
                     <button class="button">Coșul meu</button>
                 </div>
             </div>
-            <div id="username" class="user j-s-r">{{ user.username }}</div>
+            <div id="username" class="user j-s-r" title="Coșul meu">{{ user.username }}</div>
             <a href="{{ path("security_logout") }}" class="log j-s-r">
                 <button class="button">Logout</button>
             </a>
@@ -47,7 +47,7 @@
             </a>
         </div>
         <div class="flights menu">
-            <a href="{{ path("flights_get") }}" >
+            <a href="#" >
                 <img src="{{ asset("img/avion.svg") }}" alt="">
                 <span>Zboruri</span>
             </a>
@@ -61,7 +61,7 @@
         <div class="rentals menu">
             <a href="{{ path("rentals_get") }}" >
                 <img src="{{ asset("img/masina.svg") }}" alt="">
-                <span>Închirieri mașini</span>
+                <span>Închirieri auto</span>
             </a>
         </div>
     </header>

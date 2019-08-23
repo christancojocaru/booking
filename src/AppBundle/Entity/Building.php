@@ -28,7 +28,7 @@ class Building
     /**
      * @ORM\ManyToOne(
      *     targetEntity="City",
-     *     inversedBy="building")
+     *     inversedBy="buildings")
      * @ORM\JoinColumn(
      *     name="city_id",
      *     referencedColumnName="id",
@@ -41,7 +41,7 @@ class Building
      *     targetEntity="Room",
      *     mappedBy="building")
      */
-    private $room;
+    private $rooms;
 
     /**
      * @return mixed
@@ -70,9 +70,9 @@ class Building
     /**
      * @return mixed
      */
-    public function getRoom()
+    public function getRooms()
     {
-        return $this->room;
+        return $this->rooms;
     }
 
     /**
@@ -92,10 +92,10 @@ class Building
     }
 
     /**
-     * @param mixed $room
+     * @param mixed $rooms
      */
-    public function setRoom($room)
+    public function setRooms($rooms)
     {
-        $this->room = $room;
+        $this->rooms = $rooms;
     }
 }

@@ -34,7 +34,7 @@ class City
      *     targetEntity="Building",
      *     mappedBy="city")
      */
-    private $building;
+    private $buildings;
 
     /**
      * @ORM\OneToMany(
@@ -76,17 +76,17 @@ class City
     /**
      * @return mixed
      */
-    public function getBuilding()
+    public function getBuildings()
     {
-        return $this->building;
+        return $this->buildings;
     }
 
     /**
-     * @param mixed $building
+     * @param mixed $buildings
      */
-    public function setBuilding($building)
+    public function setBuildings($buildings)
     {
-        $this->building = $building;
+        $this->buildings = $buildings;
     }
 
     /**

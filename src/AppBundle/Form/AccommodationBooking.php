@@ -17,10 +17,10 @@ class AccommodationBooking extends AbstractType
     {
         $builder
             ->add("start_date", TextType::class)
+            ->add("end_date", TextType::class)
             ->add("no_of_rooms", IntegerType::class)
             ->add("no_of_beds", IntegerType::class)
             ->add("building_id", IntegerType::class)
-            ->add("days", IntegerType::class)
             ->add("submit", SubmitType::class);
     }
 

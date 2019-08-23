@@ -16,7 +16,10 @@
             <div class="hint-response"></div>
             {{ form_widget(form.location) }}
         </div>
-        {{ form_widget(form.date) }}
+        <div class="date">
+            {{ form_widget(form.startDate) }}
+            {{ form_widget(form.endDate) }}
+        </div>
         {{ form_widget(form.number) }}
         {{ form_widget(form.submit) }}
         {{ form_end(form) }}

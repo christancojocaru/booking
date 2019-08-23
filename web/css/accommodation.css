@@ -21,6 +21,9 @@ form {
 .date {
     grid-column: 2 / 3;
 }
+.date .search {
+    width: 49%;
+}
 .number {
     grid-column: 3 / 4;
 }

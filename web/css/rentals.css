@@ -49,7 +49,7 @@ section {
     grid-template-columns: 60vw;
 }
 
-@media screen and (max-width: 1280px) {
+@media screen and (max-width: 1279px) {
     section {
         width: 80vw;
         margin: 20vh 10vw;

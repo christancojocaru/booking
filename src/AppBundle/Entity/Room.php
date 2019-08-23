@@ -47,7 +47,7 @@ class Room
     /**
      * @ORM\ManyToOne(
      *     targetEntity="Building",
-     *     inversedBy="room")
+     *     inversedBy="rooms")
      * @ORM\JoinColumn(
      *     name="building_id",
      *     referencedColumnName="id")

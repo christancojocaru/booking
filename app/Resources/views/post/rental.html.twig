@@ -1,9 +1,11 @@
 {%  extends 'base.html.twig' %}
+
 {% set startTextDay = startDate|date("l", "Europe/Kiev")|replace({'Monday' : 'Luni', 'Tuesday' : 'Marți', 'Wednesday' : 'Miercuri', 'Thursday' : 'Joi', 'Friday' : 'Vineri', 'Saturday' : 'Sâmbătă', 'Sunday' : 'Duminică'}) %}
 {% set endTextDay = endDate|date("l", "Europe/Kiev")|replace({'Monday' : 'Luni', 'Tuesday' : 'Marți', 'Wednesday' : 'Miercuri', 'Thursday' : 'Joi', 'Friday' : 'Vineri', 'Saturday' : 'Sâmbătă', 'Sunday' : 'Duminică'}) %}
 
 {% set startDay = startDate|date("d") %}
 {% set endDay = endDate|date("d") %}
+
 {% block stylesheets %}
     {{ parent() }}
     <link href="{{ asset('css/result/result.css') }}" rel="stylesheet" type="text/css" >
