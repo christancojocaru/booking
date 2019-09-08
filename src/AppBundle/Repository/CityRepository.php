@@ -12,18 +12,21 @@ class CityRepository extends EntityRepository
 {
     /**
      * @param $data
-     * @return string
+     * @return array
      */
     public function getNamesLike($data)
     {
-        $city = $this->createQueryBuilder('c')
+        $cities = $this->createQueryBuilder('c')
             ->where('c.name LIKE :data')
             ->setParameters(["data" => $data."%"])
             ->getQuery()
             ->execute();
-        $city = $city[0];
+        $result = [];
         /** @var City $city */
-        return $city->getName();
+        foreach ($cities as $city) {
+            $result[] = $city->getName();
+        }
+        return $result;
     }
 
     /**
@@ -34,7 +37,7 @@ class CityRepository extends EntityRepository
      * @return array
      * @throws DBALException
      */
-    public function getAccommodationResult($city, $beds, $startDate, $endDate)
+    public function getData($city, $beds, $startDate, $endDate)
     {
         $conn = $this->getEntityManager()
             ->getConnection();

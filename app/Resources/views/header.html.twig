@@ -6,38 +6,62 @@
         {% if user %}
             <div id="cart">
                 {% for accommodationBook in app.user.accommodationBook %}
-                    {% set startDate = accommodationBook.periodStart|date("d-m-Y l", "Europe/Kiev")|replace({'Monday' : 'Luni', 'Tuesday' : 'Marți', 'Wednesday' : 'Miercuri', 'Thursday' : 'Joi', 'Friday' : 'Vineri', 'Saturday' : 'Sâmbătă', 'Sunday' : 'Duminică'}) %}
-                    {% set endDate = accommodationBook.periodEnd|date("d-m-Y l", "Europe/Kiev")|replace({'Monday' : 'Luni', 'Tuesday' : 'Marți', 'Wednesday' : 'Miercuri', 'Thursday' : 'Joi', 'Friday' : 'Vineri', 'Saturday' : 'Sâmbătă', 'Sunday' : 'Duminică'}) %}
-                    <h3>{{ accommodationBook.rooms|first.building.city.name }}</h3>
-                    <span>{{ accommodationBook.rooms|length }} camere cu {{ accommodationBook.rooms|first.beds }} paturi</span>
-                    <span>{{ startDate }}</span>
-                    <span>{{ endDate }}</span>
+                    <div id="accommodation-delete">
+                        {% set startDate = accommodationBook.periodStart|date("l d-m-Y", "Europe/Kiev")|replace({'Monday' : 'Luni', 'Tuesday' : 'Marți', 'Wednesday' : 'Miercuri', 'Thursday' : 'Joi', 'Friday' : 'Vineri', 'Saturday' : 'Sâmbătă', 'Sunday' : 'Duminică'}) %}
+                        {% set endDate = accommodationBook.periodEnd|date("l d-m-Y", "Europe/Kiev")|replace({'Monday' : 'Luni', 'Tuesday' : 'Marți', 'Wednesday' : 'Miercuri', 'Thursday' : 'Joi', 'Friday' : 'Vineri', 'Saturday' : 'Sâmbătă', 'Sunday' : 'Duminică'}) %}
+                        <h3>{{ accommodationBook.rooms|first.building.city.name }}
+                            <span
+                                    class="close-tag"
+                                    data-type="accommodation"
+                                    data-id="{{ accommodationBook.id }}"
+                                    onclick="deleteItem(this)"
+                            >&times;</span>
+                        </h3>
+                        <p>Ați rezervat {{ accommodationBook.rooms|length }} camere</p>
+                        <p>De {{ startDate }}</p>
+                        <p>Până {{ endDate }}</p>
+                    </div>
+                    <div class="line"></div>
                 {% endfor %}
-                <div class="line"></div>
-                {% for rentalnBook in app.user.rentalBook %}
-                    {% set startDate = rentalnBook.periodStart|date("d-m-Y l", "Europe/Kiev")|replace({'Monday' : 'Luni', 'Tuesday' : 'Marți', 'Wednesday' : 'Miercuri', 'Thursday' : 'Joi', 'Friday' : 'Vineri', 'Saturday' : 'Sâmbătă', 'Sunday' : 'Duminică'}) %}
-                    {% set endDate = rentalnBook.periodEnd|date("d-m-Y l", "Europe/Kiev")|replace({'Monday' : 'Luni', 'Tuesday' : 'Marți', 'Wednesday' : 'Miercuri', 'Thursday' : 'Joi', 'Friday' : 'Vineri', 'Saturday' : 'Sâmbătă', 'Sunday' : 'Duminică'}) %}
-                    <h3>{{ rentalnBook.car.city.name }}</h3>
-                    <span>{{ rentalnBook.car.model }}</span>
-                    <span>{{ rentalnBook.car.seats }} locuri</span>
-                    <span>{{ startDate }}</span>
-                    <span>{{ endDate }}</span>
+                {% for rentalBook in app.user.rentalBook %}
+                    <div id="rental-delete">
+                        {% set startDate = rentalBook.periodStart|date("l d-m-Y", "Europe/Kiev")|replace({'Monday' : 'Luni', 'Tuesday' : 'Marți', 'Wednesday' : 'Miercuri', 'Thursday' : 'Joi', 'Friday' : 'Vineri', 'Saturday' : 'Sâmbătă', 'Sunday' : 'Duminică'}) %}
+                        {% set endDate = rentalBook.periodEnd|date("l d-m-Y", "Europe/Kiev")|replace({'Monday' : 'Luni', 'Tuesday' : 'Marți', 'Wednesday' : 'Miercuri', 'Thursday' : 'Joi', 'Friday' : 'Vineri', 'Saturday' : 'Sâmbătă', 'Sunday' : 'Duminică'}) %}
+                        <h3>{{ rentalBook.car.city.name }}
+                            <span
+                                    class="close-tag"
+                                    data-type="rental"
+                                    data-id="{{ rentalBook.id }}"
+                                    onclick="deleteItem(this)"
+                            >&times;</span></h3>
+                        <p>Ați închiriat un {{ rentalBook.car.model }}</p>
+                        <p>De {{ startDate }}</p>
+                        <p>Până {{ endDate }}</p>
+                    </div>
+                    <div class="line"></div>
                 {% endfor %}
-                <div class="line"></div>
-                <div class="cart-button">
-                    <button class="button">Coșul meu</button>
-                </div>
+                {% if app.user.rentalBook is empty and app.user.accommodationBook is empty %}
+                    <p>Coșul dumneavoastră este gol!</p>
+                {% endif %}
+                {% if app.user.rentalBook is not empty or app.user.accommodationBook is not empty %}
+                    <div class="cart-button">
+                        <button id="cart-delete" class="button" data-user-id="{{ user.id }}">Șterge tot coșul</button>
+                    </div>
+                {% endif %}
             </div>
-            <div id="username" class="user j-s-r" title="Coșul meu">{{ user.username }}</div>
+            <div id="username" class="user j-s-r" title="Coșul meu">
+                <img  id="logo-cart" src="{{ asset("img/cart.svg") }}" alt="Coșul meu">
+                <span>{{ user.username }}</span>
+            </div>
             <a href="{{ path("security_logout") }}" class="log j-s-r">
                 <button class="button">Logout</button>
             </a>
         {% else %}
             <a href="{{ path("user_register") }}" class="registration j-s-r">
-                <button class="button">Înregistrațivă</button>
+                <button class="button">Înregistrați-vă</button>
             </a>
             <a href="{{ path("security_login") }}" class="log j-s-r">
-                <button class="button">Autentificațivă</button>
+                <button class="button">Autentificați-vă</button>
             </a>
         {% endif %}
         <div class="home menu">

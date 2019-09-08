@@ -42,7 +42,7 @@
         {% for result in results %}
             <div class="hotel">
                 <div class="image">
-                    <img src="{{ result.image }}" alt="Sinaia">
+                    <img src="{{ asset('img/cars/' ~ result.image) }}" alt="Imaginea mașini {{ result.model }}">
                 </div>
                 <div class="details">
                     <h2>Model {{ result.model }}</h2>

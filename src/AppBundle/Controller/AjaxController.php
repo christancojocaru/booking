@@ -4,7 +4,10 @@
 namespace AppBundle\Controller;
 
 
+use AppBundle\Entity\Bookings\AccommodationBook;
+use AppBundle\Entity\Bookings\RentalBook;
 use AppBundle\Entity\City;
+use AppBundle\Entity\User;
 use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
@@ -25,7 +28,7 @@ class AjaxController extends Controller
     private $em;
 
     /**
-     * @Route("/cities", methods={"GET","POST"})
+     * @Route("/cities", methods={"POST"}, name="ajax_search_cities")
      * @param Request $request
      * @return Response
      * @throws Exception
@@ -33,21 +36,67 @@ class AjaxController extends Controller
     public function searchCities(Request $request)
     {
         $data = $request->request->get("data");
-        //one for GET other for POST
-        if (is_null($this->em)) {
-            $city = $this->getDoctrine()->getRepository(City::class)->getNamesLike($data);
-        } else {
-            $city = $this->em->getRepository(City::class)->getNamesLike($data);
-        }
+        $cities = $this->em->getRepository(City::class)->getNamesLike($data);
         $dataLen = strlen($data);
-        $cityLen = strlen(strtolower($city));
-        if ( ($dataLen == $cityLen) || empty($city)) {
+//        $cityLen = strlen(strtolower($city));
+        if (empty($cities)) {
+//        if ( ($dataLen == $cityLen) || empty($city)) {
             throw new Exception("Error");
         } else {
-            $response = ["result" => $city, "position" => $dataLen - 1];
+            foreach ($cities as $city) {
+                $response[] = ["result" => $city, "position" => $dataLen - 1];
+            }
+//            $response = ["result" => $city, "position" => $dataLen - 1];
             return new JsonResponse(json_encode($response));
         }
 
+    }
+
+    /**
+     * @Route("/cart", methods={"POST"}, name="ajax_delete_cart")
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function deleteCart(Request $request)
+    {
+        $data = $request->request->all();
+        $userId = $data["user"];
+        $bookType = $data["type"];
+        $bookId = $data["id"];
+        $user = $this->em->getRepository(User::class)->find($userId);
+
+        $accommodationBooks = null;
+        $rentalBooks = null;
+        if (empty($bookId) && empty($bookType)) {
+            $accommodationBooks = $this->em->getRepository(AccommodationBook::class)->findBy(["user" => $user]);
+            $rentalBooks = $this->em->getRepository(RentalBook::class)->findBy(["user" => $user]);
+        } else {
+            switch ($bookType) {
+                case "accommodation":
+                    $accommodationBooks[] = $this->em->getRepository(AccommodationBook::class)->find($bookId);
+                    break;
+                case "rental":
+                    $rentalBooks[] = $this->em->getRepository(RentalBook::class)->find($bookId);
+                    break;
+            }
+
+        }
+        foreach ($accommodationBooks as $accommodationBook) {
+            if (!empty($accommodationBook)) {
+                $this->em->remove($accommodationBook);
+            }
+        }
+        foreach ($rentalBooks as $rentalBook) {
+            if (!empty($rentalBook)) {
+                $this->em->remove($rentalBook);
+            }
+        }
+        $this->em->flush();
+        $noOfAccommodations = count($accommodationBooks);
+        $noOfRentals = count($rentalBooks);
+        $result = ["accommodations" => $noOfAccommodations, "rentals" => $noOfRentals];
+
+        return new JsonResponse(json_encode($result));
     }
 
     /**

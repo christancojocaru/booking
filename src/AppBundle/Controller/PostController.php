@@ -40,7 +40,7 @@ class PostController extends Controller
         $endDateString = $endDate->format("Y-m-d");
 
         try{
-            $results = $em->getRepository(City::class)->getAccommodationResult($city, $beds, $startDateString, $endDateString);
+            $results = $em->getRepository(City::class)->getData($city, $beds, $startDateString, $endDateString);
         }catch (DBALException $exception) {
             $results = 0;
         }
@@ -79,7 +79,7 @@ class PostController extends Controller
         $endDateAsString = $endDate->format("Y-m-d");
 
         try{
-            $results = $em->getRepository(Car::class)->getRentalRaw($city, $seats, $fuel, $startDateAsString, $endDateAsString);
+            $results = $em->getRepository(Car::class)->getData($city, $seats, $fuel, $startDateAsString, $endDateAsString);
         }catch (DBALException $exception) {
             $results = 0;
         }

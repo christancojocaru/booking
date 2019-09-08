@@ -12,9 +12,9 @@
             <div class="actions">
 
                 {{ form_start(form) }}
-                <div class="location" >
-                    <div class="hint-response"></div>
+                <div class="hint location" >
                     {{ form_widget(form.location) }}
+                    <datalist class="hint-response"></datalist>
                 </div>
                 <div class="fuel">
                     {{ form_widget(form.fuel) }}

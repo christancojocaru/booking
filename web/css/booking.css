@@ -33,6 +33,15 @@ section {
     text-decoration: none;
     color: #003580;
 }
+img {
+    width: 37px;
+    height: 37px;
+    position: relative;
+    left: -1%;
+    top: 5px;
+    background-color: rgba(0, 53, 128, 0.02);
+    border-radius: 40%;
+}
 h3 {
     text-align: center;
     padding-bottom: 2em;

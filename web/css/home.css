@@ -18,6 +18,11 @@ form {
 .location {
     grid-column: 1 / 2;
 }
+.hint-response {
+    width: 90%;
+    height: auto;
+    margin-left: 5%;
+}
 .date {
     grid-column: 2 / 3;
 }

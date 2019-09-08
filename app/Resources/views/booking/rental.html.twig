@@ -11,7 +11,9 @@
 {% block container %}
     <body>
     <div class="logo">
-        <a href="{{ path('home_get') }}" title="Înapoi">Rezervari Online</a>
+        <a href="{{ path('home_get') }}" title="Acasă">
+            <img src="{{ asset("img/home.svg") }}" alt="">Rezervari Online
+        </a>
     </div>
     <section>
         <div class="header"><h2>Dragă <span>{{ user }}</span>,</h2></div>

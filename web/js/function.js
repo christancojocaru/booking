@@ -28,7 +28,13 @@ function down(event, parent) {
 $(".location input").keyup(() => {
     const cities = $(".location input");
     let value = cities.val().toLowerCase();
+
+    if (value === "") {
+        document.getElementsByClassName("hint-response")[0].classList.remove("hint-open");
+    }
+
     let data = {"data" : value};
+    let hint_response = $("datalist.hint-response");
     $.ajax({
         type: 'POST',
         url: '/ajax/cities',
@@ -36,60 +42,100 @@ $(".location input").keyup(() => {
         success: (success) => {
             console.log(success);
             let data = JSON.parse(success);
-            addElem(data["result"], data["position"]);
+            hint_response.empty();
+            $.each(data, (index, city) => {
+                addElem(city["result"], city["position"]);
+            });
+            document.getElementsByClassName("hint-response")[0].classList.add("hint-open");
         },
         error: (error) => {
             console.log(error);
-            $(".hint-response").empty();
+            hint_response.empty();
         }
     });
 });
 
+$("#cart-delete").click(() => {
+    ajaxDelete();
+});
+
+function deleteItem(elem) {
+    let type = $(elem).data("type");
+    let id = $(elem).data("id");
+    ajaxDelete(type, id);
+}
+
+function ajaxDelete(type = null, id = null) {
+    let user_id = $("#cart-delete").data("user-id");
+    let data = {
+        user : user_id,
+        type : type,
+        id   : id
+    };
+
+    $.ajax({
+        type: 'POST',
+        url: '/ajax/cart',
+        data: data,
+        dataType: "json",
+        success: (success) => {
+            let data = JSON.parse(success);
+            window.alert("Din coșul dumneavoastră au fost șterse "
+                + data.accommodations + " rezervări și "
+                + data.rentals + " închirieri");
+
+        },
+        error: (error) => {
+            console.log(error);
+            window.alert("A intervenit o eroare, va rugăm încercați mai târziu.");
+        },
+    });
+}
+
+function closeTag(elem) {
+    let type = $(elem).data("type");
+    let id = $(elem).data("id");
+
+}
+
 function addElem(result, pos) {
     const array = [...result];
-    const elem = $(".hint-response");
-    elem.empty();
+    const hint_response = $("datalist.hint-response");
+    let option = document.createElement("option");
+    option.id = result;
     array.forEach((value, index) => {
         let span = document.createElement("span");
         span.append(value);
-        span.classList.add("id" + index);
-        elem.append(span);
+        option.append(span);
         if (index > pos) {
-            span.classList.add("colored");
+            span.classList.add("color");
         }
     });
+    option.addEventListener("mouseover", () => {
+        let datas = option.getElementsByClassName("color");
+        $.each(datas, (index, value) => {value.classList.add("colored");}
+        );
+    });
+    option.addEventListener("mouseout", () => {
+        let datas = option.getElementsByClassName("color");
+        $.each(datas, (index, value) => {value.classList.remove("colored");}
+        );
+    });
+    option.addEventListener("click", () => {
+        document.querySelector(".hint input").value = option.id;
+    });
+    hint_response.append(option);
 }
 
 $("#username").click(() => {
     document.getElementById("cart").classList.add("open");
 });
 
+document.querySelector(".hint input").addEventListener("click", () => {
+    document.querySelector(".hint-response").classList.add("hint-open");
+});
+
 document.body.addEventListener('click', () => {
     document.getElementById("cart").classList.remove("open");
+    document.querySelector(".hint-response").classList.remove("hint-open");
 }, true);
-
-//
-// $("#sendData").click(() => {
-//     const CITY = $("#cities");
-//     const DATE = $(".date");
-//     const NUMBER = $(".number");
-//
-//     let city = CITY.val();
-//     let date = new Date(DATE.val());
-//     let number = NUMBER.val().split(" ")[0];
-//
-//     let data = {"city" : city, "date" : date, "number" : number};
-//     $.ajax({
-//         type: 'POST',
-//         url: '/ajax/accommodation',
-//         data: data,
-//         success: (success) => {
-//             let data = JSON.parse(success);
-//
-//             console.log()
-//         },
-//         error: (error) => {
-//             console.log(error);
-//         }
-//     });
-// });

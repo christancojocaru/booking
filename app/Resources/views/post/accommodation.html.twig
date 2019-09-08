@@ -1,7 +1,7 @@
 {%  extends 'base.html.twig' %}
 
 {% set startDateTextDay = startDate|date("d F", "Europe/Kiev")|replace({'January' : 'Ianuarie', 'February' : 'Februarie', 'March' : 'Martie', 'April' : 'Aprilie', 'May' : 'Mai', 'June' : 'Iunie', 'July' : 'Iulie', 'September' : 'Septembrie', 'October' : 'Octombrie' , 'November' : 'Noiembrie', 'December' : 'Decembrie'}) %}
-{% set endDateMoTextDay = endDate|date("d F", "Europe/Kiev")|replace({'January' : 'Ianuarie', 'February' : 'Februarie', 'March' : 'Martie', 'April' : 'Aprilie', 'May' : 'Mai', 'June' : 'Iunie', 'July' : 'Iulie', 'September' : 'Septembrie', 'October' : 'Octombrie' , 'November' : 'Noiembrie', 'December' : 'Decembrie'}) %}
+{% set endDateTextDay = endDate|date("d F", "Europe/Kiev")|replace({'January' : 'Ianuarie', 'February' : 'Februarie', 'March' : 'Martie', 'April' : 'Aprilie', 'May' : 'Mai', 'June' : 'Iunie', 'July' : 'Iulie', 'September' : 'Septembrie', 'October' : 'Octombrie' , 'November' : 'Noiembrie', 'December' : 'Decembrie'}) %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -11,17 +11,16 @@
 {% block body %}
     <section>
         <div class="header">
-            <h2>În {{ city }}, în perioada {{ startDateTextDay }} - {{ endDateMoTextDay }} {{ startDate|date("Y") }} au fost găsite {{ count }} hoteluri. </h2>
+            <h2>În {{ city }}, în perioada {{ startDateTextDay }} - {{ endDateTextDay }} {{ startDate|date("Y") }} au fost găsite {{ count }} hoteluri. </h2>
         </div>
         {% for result in results %}
             {% set noOfRooms = (beds / result.beds)|round(0, 'ceil') %}
             <div class="hotel">
                 <div class="image">
-                    <img src="{{ result.image }}" alt="Sinaia">
+                    <img src="{{ asset('img/cities/' ~ result.image) }}" alt="{{ city }}">
                 </div>
                 <div class="details">
                     <h2>{{ result.building_name }}</h2>
-                    <span>                </span>
                     <span>{{ noOfRooms }}{% if noOfRooms == 1 %} cameră{% else %} camere{% endif %} cu {{ result.beds }} paturi in cameră</span>
                 </div>
                 <div class="actions">

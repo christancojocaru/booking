@@ -15,7 +15,7 @@ AppBundle\Entity\Room:
   room{1..10000}:
     id: '@building{1..500}'
     id1: '<current()>'
-    buildings: '<buildingForRoom($id, $id1)>'
+    building: '<buildingForRoom($id, $id1)>'
     number: '<numberForRoom($id1)>'
     beds: '<numberBetween(1, 4)>'
     price: '<priceForRoom($id1, $beds)>'
@@ -34,6 +34,6 @@ AppBundle\Entity\Car:
 
 AppBundle\Entity\User:
   user1:
-    username: 'Ionut'
-    plainPassword: 'ionut'
+    username: 'Eduard'
+    plainPassword: 'eduard'
     roles: ["ROLE_USER"]

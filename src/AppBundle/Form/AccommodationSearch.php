@@ -19,7 +19,8 @@ class AccommodationSearch extends AbstractType
         ->add("location", TextType::class, [
             'attr' => [
                 'placeholder' => 'Unde mergeți?',
-                'class' => 'search'
+                'class' => 'search',
+                'autocomplete' => 'off'
             ]
         ])
         ->add("startDate", DateType::class, [

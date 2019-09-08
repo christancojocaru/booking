@@ -36,7 +36,7 @@ header::after {
     visibility: hidden;
     opacity: 0;
     position: fixed;
-    width: 12vw;
+    width: 15vw;
     z-index: 10;
     background: #fff;
     color: #07c;
@@ -65,10 +65,13 @@ header::after {
 }
 #cart .line {
     border-bottom: 1px solid #ddd;
-    width: 12vw;
+    width: 15vw;
     position: absolute;
     left: 0;
     margin: 0.5em 0;
+}
+.close-tag {
+    float: right;
 }
 section {
     display: grid;
@@ -140,15 +143,18 @@ img {
     font-size: 16px;
     font-weight: bold;
 }
-
 .menu {
     display: inline-flex;
     align-items: center;
 }
-.menu img {
+.menu img, .user img {
     margin-right: 10px;
     width: 24px;
     height: 24px;
+}
+#logo-cart {
+    float: left;
+    display: block;
 }
 .menu a {
     font-size: 1.1em;
@@ -200,21 +206,34 @@ img {
     position: relative;
 }
 .hint-response {
+    display: block;
+    visibility: hidden;
     position: absolute;
-    margin-top: 10px;
-    margin-right: 15%;
-    z-index: 10;
-    right: 0;
-    color: rgba(100,100,100,0.6);
+    margin-left: 10%;
+    z-index: 1000;
+    width: inherit;
+    height: inherit;
+    background-color: white;
+    border-top: 1px solid black;
+    text-align: left;
+    text-indent: 5px;
 }
-.hint-response span:first-of-type {
-    text-transform: capitalize;
+.hint-open {
+    visibility: visible;
 }
 .colored {
-    background-color: rgba(0,0,100,0.6);
-    color: white;
+    color: white!important;
 }
-
+.hint-response option {
+    text-indent: 5px;
+    height: 25px;
+}
+.hint-response option span {
+    color: black;
+}
+.hint-response option:hover {
+    background: rgb(0,120,215);
+}
 /*footer*/
 .footer {
     margin: 1vh auto;

@@ -13,8 +13,8 @@
         </div>
         {{ form_start(form) }}
         <div class="hint location">
-            <div class="hint-response"></div>
             {{ form_widget(form.location) }}
+            <datalist class="hint-response"></datalist>
         </div>
         <div class="date">
             {{ form_widget(form.startDate) }}
@@ -28,7 +28,7 @@
             <div class="hotel hotel-{{ number }}">
                 <div class="name">{{ city.name }}</div>
 
-                <img src="{{ city.image }}" alt="Sinaia" data-content="">
+                <img src="{{ asset('/img/cities/' ~ city.image) }}" alt="{{ city.name }}" data-content="">
                 <div class="average">Pret mediu de {{ city.averagePrice }} lei/noapte</div>
             </div>
         {% endfor %}

@@ -155,10 +155,9 @@ class LoadFixtures implements ORMFixtureInterface
     private function trimUrl($url)
     {
         $arrayurl = explode("/", $url);
-        array_splice($arrayurl, -1);
-        array_splice($arrayurl, 5, 1);
+        $name = array_splice($arrayurl, -1);
 
-        return implode("/", $arrayurl);
+        return substr($name[0], 6, strlen($name[0]));
     }
 
     private function extractCars()

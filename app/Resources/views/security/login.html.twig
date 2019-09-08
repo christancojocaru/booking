@@ -8,8 +8,8 @@
 {% block container %}
     <body>
         <section>
-            <div class="logo" onclick="window.location.replace('{{ path('home_get') }}')">Rezervări Online</div>
-            <h3 >Autentificare</h3>
+            <div class="logo" title="Acasă" onclick="window.location.replace('{{ path('home_get') }}')">Rezervări Online</div>
+            <h3>Autentificare</h3>
             {% if error %}
                 <div class="alert">
                     {{ error.messageKey|trans(error.messageData, 'security') }}

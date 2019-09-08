@@ -21,7 +21,8 @@ class RentalSearch extends AbstractType
                 'attr' => [
                     'placeholder' => 'Orasul...',
                     'class' => 'search',
-                    'autofocus' => 'true'
+                    'autofocus' => 'true',
+                    'autocomplete' => 'off'
                 ]
             ])
             ->add("seats", ChoiceType::class, [

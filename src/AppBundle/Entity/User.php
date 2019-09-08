@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity
  * @ORM\Table(name="user")
- * @UniqueEntity(fields={"username"}, message="It looks like you already have an account!")
+ * @UniqueEntity(fields={"username"}, message="Se pare că aveți deja un cont!")
  */
 class User implements UserInterface
 {
@@ -35,7 +35,7 @@ class User implements UserInterface
      * @Assert\NotBlank()
      * @Assert\Length(
      *     min="5",
-     *     minMessage="Your username must be at least {{ limit }} characters long!",
+     *     minMessage="Numele de utilizator trebuie să conțină cel puțin {{ limit }} caractere!",
      * )
      */
     private $username;
@@ -43,7 +43,10 @@ class User implements UserInterface
     /**
      * The Encoded password
      * @ORM\Column(type="string")
-     *
+     * @Assert\Length(
+     *     min="5",
+     *     minMessage="Numele de utilizator trebuie să conțină cel puțin {{ limit }} caractere!",
+     * )
      */
     private $password;
 
