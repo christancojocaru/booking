@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="building")
+ * @ORM\Table(name="building", options={"collate"="utf8_general_ci"})
  */
 class Building
 {

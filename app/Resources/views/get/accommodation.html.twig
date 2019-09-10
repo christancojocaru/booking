@@ -11,10 +11,13 @@
             <h2>Găsiți oferte pentru cazare</h2>
             <p>De la case la țară la apartamente moderne</p>
         </div>
+        <div class="search-image">
+            <img src="{{ asset('img/beach2.jpg') }}">
+        </div>
         {{ form_start(form) }}
         <div class="hint location">
             {{ form_widget(form.location) }}
-            <datalist class="hint-response"></datalist>
+            <datalist id="hint" class="hint-response"></datalist>
         </div>
         <div class="date">
             {{ form_widget(form.startDate) }}

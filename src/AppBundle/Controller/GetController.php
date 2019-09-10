@@ -5,14 +5,12 @@ namespace AppBundle\Controller;
 
 
 use AppBundle\Entity\Bookings\AccommodationBook;
-use AppBundle\Entity\Bookings\RoomBooked;
+use AppBundle\Entity\Car;
 use AppBundle\Entity\City;
-use AppBundle\Entity\Room;
 use AppBundle\Entity\User;
 use AppBundle\Form\AccommodationSearch;
 use AppBundle\Form\RentalSearch;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -27,6 +25,7 @@ class GetController extends Controller
         $em = $this->getDoctrine()->getManager();
         $form = $this->createForm(AccommodationSearch::class);
         $cities = $em->getRepository(City::class)->getRandom(2);
+
         /** @var City $city */
         foreach ($cities as $city) {
             $average = $em->getRepository(City::class)->getLowestPrice($city->getName())[0]["lowest"];
@@ -48,11 +47,13 @@ class GetController extends Controller
         $em = $this->getDoctrine()->getManager();
         $form = $this->createForm(AccommodationSearch::class);
         $cities = $em->getRepository(City::class)->getRandom(6);
+
         /** @var City $city */
         foreach ($cities as $city) {
             $average = $em->getRepository(City::class)->getAveragePriceForCity($city->getName())[0]["average"];
             $city->setAveragePrice(floor($average));
         }
+
         return $this->render("get/accommodation.html.twig", [
             "form" => $form->createView(),
             "cities" => $cities,
@@ -64,10 +65,46 @@ class GetController extends Controller
      */
     public function rentals()
     {
+        /** @var User $user */
+        $user = $this->getUser();
+        $startDate = date("Y-m-d", time());
+        $endDate = date_create($startDate);
+        date_add($endDate, date_interval_create_from_date_string("1 days"));
+        $endDate = date("Y-m-d", $endDate->getTimestamp());
+
+        $hasReservation = $user->hasReservation();
+        $results = null;
+        $city = null;
+        if ($hasReservation) {
+            /** @var AccommodationBook $reservation */
+            $reservation = $user->getAccommodationBook()->first();
+            $city = $reservation->getCity();
+            $results = $this->getDoctrine()->getRepository(Car::class)->getData($city, 4, "both", $startDate, $endDate);
+            $startDate = $reservation->getPeriodStart();
+            $endDate = $reservation->getPeriodEnd();
+        }
+
         $form = $this->createForm(RentalSearch::class);
 
         return $this->render("get/rental.html.twig", [
-            "form" => $form->createView()
+            "form" => $form->createView(),
+            "promo" => $results,
+            "startDate" => $startDate,
+            "endDate" => $endDate,
+            "city" => $city,
+        ]);
+    }
+
+    /**
+     * @Route("/zboruri", name="flights_get", methods={"GET"})
+     */
+    public function flights()
+    {
+        /** @var User $user */
+        $user = $this->getUser();
+
+        return $this->render("get/flights.html.twig", [
+            "user" => $user->getUsername()
         ]);
     }
 }

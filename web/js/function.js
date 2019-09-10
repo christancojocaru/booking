@@ -1,9 +1,17 @@
+window.onload = () => {
+    let path = window.location.pathname;
+    if (path === "/zboruri") {
+        setTimeout(() => {
+            history.go(-1);
+        }, 4000);
+    }
+};
+
 function down(event, parent) {
     let posibility = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
     let found = posibility.indexOf(event.key) !== -1;
 
     if (event.key === "Backspace") {
-        console.log("here");
         parent.value = "";
         parent.data = false;
     }
@@ -37,7 +45,7 @@ $(".location input").keyup(() => {
     let hint_response = $("datalist.hint-response");
     $.ajax({
         type: 'POST',
-        url: '/ajax/cities',
+        url: '/app_dev.php/ajax/cities',
         data: data,
         success: (success) => {
             console.log(success);
@@ -56,13 +64,26 @@ $(".location input").keyup(() => {
 });
 
 $("#cart-delete").click(() => {
-    ajaxDelete();
+    if (confirm("Sunteți sigur că doriți să anulați toate rezervările/închirierile din coș?")) {
+        ajaxDelete();
+    }
 });
 
 function deleteItem(elem) {
     let type = $(elem).data("type");
-    let id = $(elem).data("id");
-    ajaxDelete(type, id);
+    let response = "";
+    switch (type) {
+        case ("accommodation"):
+            response = "rezervare";
+            break;
+        case ("rental"):
+            response = "închiriere";
+            break;
+    }
+    if (confirm("Sunteți sigur că doriți să anulați această " + response + "?")) {
+        let id = $(elem).data("id");
+        ajaxDelete(type, id);
+    }
 }
 
 function ajaxDelete(type = null, id = null) {
@@ -75,27 +96,40 @@ function ajaxDelete(type = null, id = null) {
 
     $.ajax({
         type: 'POST',
-        url: '/ajax/cart',
+        url: '/app_dev.php/ajax/cart',
         data: data,
-        dataType: "json",
         success: (success) => {
-            let data = JSON.parse(success);
-            window.alert("Din coșul dumneavoastră au fost șterse "
-                + data.accommodations + " rezervări și "
-                + data.rentals + " închirieri");
-
+            console.log(success);
+            let elem = "";
+            if (id == null) {
+                elem = $("span[data-id]");
+            } else {
+                elem = $("span[data-id=" + id +"]");
+            }
+            elem.each(() => {
+                let length =  $("span[data-id]").length;
+                let container = $(elem).closest("div");
+                container[0].nextElementSibling.remove();
+                container.remove();
+                if (length === 1 || elem.length > 1) {
+                    const cart = $("#cart");
+                    let p = document.createElement("p");
+                    p.innerHTML = "Coșul dumneavoastră este gol!";
+                    cart.empty();
+                    cart.append(p);
+                }
+            });
+            if (type === "accommodation" || type == null) {
+                setTimeout(() => {
+                    $("#promo").remove();
+                }, 100);
+            }
         },
         error: (error) => {
             console.log(error);
             window.alert("A intervenit o eroare, va rugăm încercați mai târziu.");
         },
     });
-}
-
-function closeTag(elem) {
-    let type = $(elem).data("type");
-    let id = $(elem).data("id");
-
 }
 
 function addElem(result, pos) {
@@ -135,7 +169,110 @@ document.querySelector(".hint input").addEventListener("click", () => {
     document.querySelector(".hint-response").classList.add("hint-open");
 });
 
-document.body.addEventListener('click', () => {
-    document.getElementById("cart").classList.remove("open");
-    document.querySelector(".hint-response").classList.remove("hint-open");
+document.body.addEventListener('click', (e) => {
+    if (e.target.id === "cart" || $(e.target).parents("#cart").length) {
+        //inside
+    } else {
+        //outside
+        document.getElementById("cart").classList.remove("open");
+    }
+
+    if (e.target.id === "hint" || $(e.target).parents("#hint").length) {
+    } else {
+        document.querySelector(".hint-response").classList.remove("hint-open");
+    }
 }, true);
+
+$("#startDate, #endDate").click(() => {
+    const input = $("input#rental_search_location");
+    input.focus();
+    let intervalId = setInterval(() => {
+        console.log("int");
+        document.getElementById("rental_search_location").classList.toggle("flash");
+    }, 50);
+    setTimeout(() => {
+        clearInterval(intervalId);
+        intervalId = null;
+        document.getElementById("rental_search_location").classList.remove("flash");
+    }, 500);
+});
+
+$("#accommodation_search_startDate").change(() => {
+    let start = document.getElementById("accommodation_search_startDate");
+    let end = document.getElementById("accommodation_search_endDate");
+    let date = new MyDate(start.value);
+    date.addDays(1);
+    end.setAttribute("min", date.getFormated());
+    end.setAttribute("value", date.getFormated());
+});
+
+$("#rental_search_startDate").change(() => {
+    let start = document.getElementById("rental_search_startDate");
+    let end = document.getElementById("rental_search_endDate");
+    let date = new MyDate(start.value);
+    date.addDays(1);
+    end.setAttribute("min", date.getFormated());
+    end.setAttribute("value", date.getFormated());
+});
+
+$("#accommodation_search_submit").click((e) => {
+    let input = document.getElementById("accommodation_search_location");
+    let hints = document.querySelectorAll("#hint option");
+    let found = false;
+    hints.forEach((elem) => {
+        if($(elem).attr("id") === input.value) {
+            found = true;
+        }
+    });
+    if (found === false) {
+        e.preventDefault();
+        document.getElementById("hint").classList.add("hint-open");
+        input.focus();
+        let intervalId = setInterval(() => {
+            document.getElementById("accommodation_search_location").classList.toggle("flash");
+        }, 50);
+        setTimeout(() => {
+            clearInterval(intervalId);
+            intervalId = null;
+            document.getElementById("accommodation_search_location").classList.remove("flash");
+        }, 500);
+
+    }
+});
+
+class MyDate {
+    constructor(date) {
+        this.date = new Date(date);
+    }
+    getFullDate() {
+        return this.date;
+    }
+    getFormated() {
+        return this.makeYear() + "-" + this.makeMonth() + "-" + this.makeDay();
+    }
+    makeYear() {
+        let year = this.date.getFullYear();
+        return year.toString();
+    }
+
+    makeMonth() {
+        let month = this.date.getMonth();
+        month++;//month starts at 0
+        let stringMonth = month.toString();
+        if (stringMonth.length === 1) {
+            stringMonth = "0" + stringMonth;
+        }
+        return stringMonth;
+    }
+    makeDay() {
+        let day = this.date.getDate();
+        let stringDay = day.toString();
+        if (stringDay.length === 1) {
+            stringDay = "0" + stringDay;
+        }
+        return stringDay;
+    }
+    addDays(days) {
+        this.date.setDate(this.date.getDate() + days);
+    }
+}

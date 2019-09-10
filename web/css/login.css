@@ -47,8 +47,8 @@ button {
 .submit {
     flex: 1;
 }
-@media screen and (max-width: 1280px) {
-    .actions {
-        width: 90%;
-    }
-}
+/*@media screen and (max-width: 1280px) {*/
+/*    .actions {*/
+/*        width: 90%;*/
+/*    }*/
+/*}*/

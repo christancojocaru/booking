@@ -1,7 +1,7 @@
 section {
     display: flex;
     flex-direction: column;
-    width: 60vw;
+    width: 80vw;
     margin: 20vh auto auto auto;
     justify-items: center;
     align-items: center;
@@ -45,22 +45,19 @@ form {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: space-evenly;
+    height: 100%;
 }
 .number {
     width: 100px;
 }
-.price {
+.price{
     margin: 1vh 0;
     color: #ff4c51;
     font-size: 1.3em;
 }
-@media screen and (max-width: 1279px){
-    section {
-        width: 80vw;
-    }
-    .footer.fixed {
-        margin: 1vh 10vw;
-        width: 80vw;
-    }
+form p{
+    margin: 5px 0;
+    color: black;
+    font-size: small;
 }

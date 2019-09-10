@@ -25,8 +25,17 @@
             <h4>Rezervare de {{ days }} zile</h4>
 
             <h4>Perioada {{ dateStartModified }} -- {{ dateEndModified }}</h4>
-            <h4>Prețul de {{ price }} lei / zi</h4>
-            <h4>Preț total de <span class="total">{{ totalPrice }}</span> lei</h4>
+
+            {% if discount > 0 %}
+                {% set price = price - price * (discount / 100) %}
+                <h4>Prețul de {{ price }}* lei / zi</h4>
+            {% else %}
+                <h4>Prețul de {{ price }} lei / zi</h4>
+            {% endif %}
+            <h4>Preț total de <span class="total">{{ days * price }}</span> lei</h4>
+            {% if discount > 0 %}
+                <p id="discount">*Reducere client fidel 5&percnt;</p>
+            {% endif %}
         </div>
         <div class="footer"><h3>Vă mulțumim</h3></div>
     </section>

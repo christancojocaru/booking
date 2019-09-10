@@ -55,7 +55,7 @@ class AjaxController extends Controller
     /**
      * @Route("/cart", methods={"POST"}, name="ajax_delete_cart")
      * @param Request $request
-     * @return JsonResponse
+     * @return Response
      */
     public function deleteCart(Request $request)
     {
@@ -81,22 +81,19 @@ class AjaxController extends Controller
             }
 
         }
-        foreach ($accommodationBooks as $accommodationBook) {
-            if (!empty($accommodationBook)) {
+        if ($accommodationBooks) {
+            foreach ($accommodationBooks as $accommodationBook) {
                 $this->em->remove($accommodationBook);
             }
         }
-        foreach ($rentalBooks as $rentalBook) {
-            if (!empty($rentalBook)) {
+        if ($rentalBooks) {
+            foreach ($rentalBooks as $rentalBook) {
                 $this->em->remove($rentalBook);
             }
         }
         $this->em->flush();
-        $noOfAccommodations = count($accommodationBooks);
-        $noOfRentals = count($rentalBooks);
-        $result = ["accommodations" => $noOfAccommodations, "rentals" => $noOfRentals];
 
-        return new JsonResponse(json_encode($result));
+        return new Response("Done");
     }
 
     /**

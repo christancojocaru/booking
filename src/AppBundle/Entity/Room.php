@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="AppBundle\Repository\RoomRepository")
- * @ORM\Table(name="room")
+ * @ORM\Table(name="room", options={"collate"="utf8_general_ci"})
  */
 class Room
 {

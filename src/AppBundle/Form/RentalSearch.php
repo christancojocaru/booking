@@ -51,14 +51,16 @@ class RentalSearch extends AbstractType
                 'data' => new DateTime(),
                 'widget' => 'single_text',
                 'attr' => [
-                    'class' => 'search'
+                    'class' => 'search',
+                    'min' => (new DateTime())->format("Y-m-d")
                 ]
             ])
             ->add("endDate", DateType::class, [
                 'data' => new DateTime("tomorrow"),
                 'widget' => 'single_text',
                 'attr' => [
-                    'class' => 'search'
+                    'class' => 'search',
+                    'min' => (new DateTime("tomorrow"))->format("Y-m-d")
                 ]
             ])
             ->add("submit", SubmitType::class, [

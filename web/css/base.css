@@ -13,8 +13,8 @@ header {
     position: fixed;
     width: 100vw;
     display: grid;
-    grid-template-rows: repeat(2, 5vh);
-    grid-template-columns: 20vw repeat(7, 1fr) 20vw;
+    grid-template-rows: repeat(2, 6vh);
+    grid-template-columns: 10vw repeat(7, 1fr) 10vw;
     background-color: #003580;
     color: white;
     align-items: center;
@@ -23,25 +23,25 @@ header {
 }
 header::after {
     content: "";
-    width: 60vw;
+    width: 80vw;
     height: 1px;
     background-color: gray;
     display: block;
     position: fixed;
-    top: 5vh;
-    left: 20vw;
+    top: 6vh;
+    left: 10vw;
 }
 #cart {
     display: block;
     visibility: hidden;
     opacity: 0;
     position: fixed;
-    width: 15vw;
+    width: 20vw;
     z-index: 10;
     background: #fff;
     color: #07c;
-    top: 6vh;
-    right: 8vw;
+    top: 7vh;
+    right: 10vw;
     padding: 0 20px;
     text-align: initial;
     line-height: 1.3em;
@@ -58,6 +58,7 @@ header::after {
 }
 .open span {
     display: block;
+    cursor: pointer;
 }
 .open h3 {
     text-align: center;
@@ -65,7 +66,7 @@ header::after {
 }
 #cart .line {
     border-bottom: 1px solid #ddd;
-    width: 15vw;
+    width: 20vw;
     position: absolute;
     left: 0;
     margin: 0.5em 0;
@@ -75,7 +76,7 @@ header::after {
 }
 section {
     display: grid;
-    width: 60vw;
+    width: 80vw;
     margin: auto;
     grid-row-gap: 2vh;
     justify-items: center;
@@ -183,7 +184,7 @@ img {
 
 /*for rest of pages*/
 .hotel {
-    width: 25vw;
+    width: 30vw;
     height: 35vh;
 }
 .hotel .name {
@@ -222,7 +223,7 @@ img {
     visibility: visible;
 }
 .colored {
-    color: white!important;
+    color: white !important;
 }
 .hint-response option {
     text-indent: 5px;
@@ -234,6 +235,34 @@ img {
 .hint-response option:hover {
     background: rgb(0,120,215);
 }
+
+.field {
+    width: 12vw;
+}
+.search-image{
+    width: 80vw;
+    height: 25vh;
+    grid-row: 3 / 4;
+    grid-column: 1 / 5;
+}
+.search-image img{
+    object-fit: cover;
+    object-position: center;
+    border-radius: 20px;
+}
+
+#discount {
+    font-size: x-small;
+    margin: 15px 0 0 0;
+}
+.asterisk {
+    display: initial !important;
+    cursor: initial !important;
+}
+.flash {
+    border: 2px solid red !important;
+}
+
 /*footer*/
 .footer {
     margin: 1vh auto;
@@ -252,34 +281,33 @@ img {
 }
 /*end footer*/
 
-@media screen and (max-width: 1279px) {
-    header {
-        grid-template-columns: 10vw repeat(7, 1fr) 10vw;
-    }
+/*@media screen and (max-width: 1279px) {*/
+/*    header {*/
+/*    }*/
 
-    header::after {
-        width: 80vw;
-        left: 10vw;
-    }
+/*    header::after {*/
+/*        width: 80vw;*/
+/*        left: 10vw;*/
+/*    }*/
 
-    footer {
-        width: 80vw;
-        grid-template-columns: 80vw;
-    }
-    #cart {
-        width: 15vw;
-        right: 10vw;
-    }
-    #cart .line {
-        width: 15vw;
-    }
-}
+/*    footer {*/
+/*        width: 80vw;*/
+/*        grid-template-columns: 80vw;*/
+/*    }*/
+/*    #cart {*/
+/*        width: 15vw;*/
+/*        right: 10vw;*/
+/*    }*/
+/*    #cart .line {*/
+/*        width: 15vw;*/
+/*    }*/
+/*}*/
 
-@media screen and (max-height: 1080px) {
-    header {
-        grid-template-rows: repeat(2, 6vh);
-    }
-    header::after {
-        top: 6vh;
-    }
-}
+/*@media screen and (max-height: 1080px) {*/
+/*    header {*/
+/*        grid-template-rows: repeat(2, 6vh);*/
+/*    }*/
+/*    header::after {*/
+/*        top: 6vh;*/
+/*    }*/
+/*}*/

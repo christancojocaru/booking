@@ -1,0 +1,39 @@
+body {
+    background-image: linear-gradient(to bottom, #003580, #59619f, #9392be, #c9c7de, #fff);
+    height: 100vh !important;
+    width: 100vw !important;
+    display: block;
+    text-align: center;
+    color: white;
+}
+
+section {
+    position: fixed;
+    transform: translate(-50%, -50%);
+    top: 40%;
+    left: 50%;
+    height: 40vh;
+}
+.logo {
+    position: relative;
+    top: 4vh;
+}
+.logo a{
+    text-decoration: none;
+    color: white;
+}
+img {
+    width: 37px;
+    height: 37px;
+    position: relative;
+    left: -1%;
+    top: 5px;
+}
+.header {
+    font-size: 5vh;
+}
+.body {
+    font-size: 2vh;
+}
+.footer {
+    color: #003580;}

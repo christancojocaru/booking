@@ -19,7 +19,7 @@ class AccommodationSearch extends AbstractType
         ->add("location", TextType::class, [
             'attr' => [
                 'placeholder' => 'Unde mergeți?',
-                'class' => 'search',
+                'class' => 'search field',
                 'autocomplete' => 'off'
             ]
         ])
@@ -27,27 +27,29 @@ class AccommodationSearch extends AbstractType
             'data' => new DateTime(),
             'widget' => 'single_text',
             'attr' => [
-                'class' => 'search'
+                'class' => 'search field',
+                'min' => (new DateTime())->format("Y-m-d")
             ]
         ])
         ->add("endDate", DateType::class, [
             'data' => new DateTime("tomorrow"),
             'widget' => 'single_text',
             'attr' => [
-                'class' => 'search'
+                'class' => 'search field',
+                'min' => (new DateTime("tomorrow"))->format("Y-m-d")
             ]
         ])
         ->add("number", TextType::class, [
             'attr' => [
                 'placeholder' => 'Câte persoane?',
-                'class' => 'number search',
+                'class' => 'number search field',
                 'onkeydown' => 'down(event, this)'
             ]
         ])
         ->add("submit", SubmitType::class, [
             'label' => "Caută",
             'attr' => [
-                'class' => 'send search button'
+                'class' => 'send search button field'
             ]
         ]);
 }

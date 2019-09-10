@@ -3,11 +3,16 @@ section img {
     object-position: bottom;
     border-radius: 5px;
 }
-section {
-    width: 60vw;
-    height: 25vh;
+section{
+    width: 80vw;
+    height: 30vh;
     position: fixed;
-    margin: 20vh 20vw;
+}
+section#main {
+    margin: 20vh 10vw;
+}
+section#promo {
+    margin: 53vh 10vw 0 10vw;
 }
 .rent {
     width: inherit;
@@ -23,35 +28,78 @@ section {
      height: 40pt;
      background-color: rgba(255, 255, 255, 0.5);
      border-radius: 25px;
-    align-items: center;
-    text-align: center;
+     align-items: center;
+     text-align: center;
  }
 .search {
     border: none;
 }
-.location, .location .search, .fuel, .fuel .search, .startDate, .startDate .search, .endDate, .endDate .search  {
-    flex: 2;
-    width: 80%;
+#hint {
+    width: 90%;
+    left: -5%;
 }
-.seats, .seats .search {
-    flex: 1;
-    width: 80%;
+form .search {
+    width: 12vw;
+    margin: 0 0.65vw;
 }
-.send, .send .search {
+form div {
     flex: 1;
-    width: 10vw;
-    margin: 0 1vw;
+}
+
+.promo {
+    display: flex;
+    flex-direction: row;
+    width: inherit;
+    height: inherit;
+    margin: 2vh 0;
+    padding: 2vh;
+    border: 1px solid #c6c6c6;
+}
+
+.promo-image{
+    width: auto;
+    height: 25vh;
+    flex: 1;
+}
+.promo-details {
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.promo-details h2, .promo-details span {
+    margin: 3px 2vh;
+}
+.promo-actions {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+.promo-actions form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+}
+.promo .search {
+    border: 1px solid #c6c6c6;
+}
+.price {
+    margin: 15px 0 0 0;
+}
+.price span{
+    color: #ff4c51;
+    font-size: 1.3em;
+}
+.price p {
+    color: black;
+    letter-spacing: 0.1em;
+    margin: 0!important;
 }
 .footer {
     position: fixed;
     bottom: 0;
     left: 20vw;
     grid-template-columns: 60vw;
-}
-
-@media screen and (max-width: 1279px) {
-    section {
-        width: 80vw;
-        margin: 20vh 10vw;
-    }
 }

@@ -92,6 +92,7 @@ class BookingController extends Controller
      */
     public function bookingRental(Request $request)
     {
+
         $form = $this->createForm(RentalBooking::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -111,20 +112,32 @@ class BookingController extends Controller
             $carBooked->setCar($car);
             $carBooked->setPeriodStart($startDate);
             $carBooked->setPeriodEnd($endDate);
+
+            $price = $car->getPrice();
+
+            if ($request->request->has("offer")) {
+                $offerPrice = $request->request->get("offer");
+            } else {
+                $offerPrice = $price;
+            }
+            $carBooked->setOfferPrice($offerPrice);
             $em->persist($carBooked);
             $em->flush();
 
-            $price = $car->getPrice();
+
             $diff = $startDate->diff($endDate);
             $days = $diff->days;
+
+            $discount = 100 - ($offerPrice / $price) * 100;
+
             return $this->render("booking/rental.html.twig", [
                 "user" => $user->getUsername(),
                 "dateStart" => $startDate,
                 "dateEnd" => $endDate,
                 "model" => $car->getModel(),
                 "city" => $car->getCity()->getName(),
-                "totalPrice" => $days * $price,
                 "price" => $price,
+                "discount" => $discount,
                 "days" => $days
             ]);
         }
@@ -133,6 +146,11 @@ class BookingController extends Controller
 
     private function createDateFromString($date)
     {
-        return DateTime::createFromFormat('d-m-Y', $date, new DateTimeZone("Europe/Kiev"));
+        $data = DateTime::createFromFormat('d-m-Y', $date, new DateTimeZone("Europe/Kiev"));
+        if ($data) {
+            return $data;
+        } else {
+            return DateTime::createFromFormat('Y-m-d', $date, new DateTimeZone("Europe/Kiev"));
+        }
     }
 }

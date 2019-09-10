@@ -38,11 +38,23 @@ class PostController extends Controller
         $endDate = $data["endDate"];
         $startDateString = $startDate->format("Y-m-d");
         $endDateString = $endDate->format("Y-m-d");
+        $days = $startDate->diff($endDate)->days;
 
         try{
-            $results = $em->getRepository(City::class)->getData($city, $beds, $startDateString, $endDateString);
+            $results = $em->getRepository(City::class)->getData($city, $beds, $startDateString, $endDateString, $days);
         }catch (DBALException $exception) {
             $results = 0;
+        }
+
+        foreach ($results as $key => $result) {
+            $arrayBuildingName= explode(" ", $result["building_name"]);
+            $arrayCityName = explode(" ", $city);
+            $arrayBuildingName = $this->arrayToLower($arrayBuildingName);
+            $arrayCityName = $this->arrayToLower($arrayCityName);
+            $arrayBuildingImage = array_diff($arrayBuildingName, $arrayCityName);
+            $buildingImage = implode(" ", $arrayBuildingImage);
+            $buildingImage = ucwords($buildingImage, " ");
+            $results[$key]["building_image"] = $buildingImage;
         }
 
         return $this->render("post/accommodation.html.twig", [
@@ -52,6 +64,7 @@ class PostController extends Controller
             "startDate" => $startDate,
             "endDate" => $endDate,
             "count" => count($results),
+            "days" => $days
         ]);
     }
 
@@ -91,5 +104,14 @@ class PostController extends Controller
             "endDate" => $endDate,
             "count" => count($results),
         ]);
+    }
+
+    private function arrayToLower(array $data)
+    {
+        foreach ($data as $key => $word) {
+            $word = mb_strtolower($word, "UTF-8");
+            $data[$key] = $word;
+        }
+        return $data;
     }
 }

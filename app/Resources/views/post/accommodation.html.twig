@@ -17,11 +17,15 @@
             {% set noOfRooms = (beds / result.beds)|round(0, 'ceil') %}
             <div class="hotel">
                 <div class="image">
-                    <img src="{{ asset('img/cities/' ~ result.image) }}" alt="{{ city }}">
+                    <img src="{{ asset('img/hotels/' ~ result.building_image ~ ".jpg") }}" alt="{{ city }}">
                 </div>
                 <div class="details">
                     <h2>{{ result.building_name }}</h2>
-                    <span>{{ noOfRooms }}{% if noOfRooms == 1 %} cameră{% else %} camere{% endif %} cu {{ result.beds }} paturi in cameră</span>
+                    <span>Cameră cu {{ result.beds }}
+                        {% if result.beds == 1 %} pat
+                        {% else %} paturi
+                        {% endif %}
+                    </span>
                 </div>
                 <div class="actions">
                     <form name="accommodation_booking" method="post" action="{{ path('booking_accommodation_action') }}">
@@ -30,8 +34,19 @@
                         <input type="hidden" name="accommodation_booking[no_of_rooms]" value="{{ noOfRooms }}">
                         <input type="hidden" name="accommodation_booking[no_of_beds]" value="{{ result.beds }}">
                         <input type="hidden" name="accommodation_booking[building_id]" value="{{ result.building_id }}">
+                        <div class="rooms">
+                            <span>{{ noOfRooms }}
+                                {% if noOfRooms == 1 %} cameră necesară
+                                {% else %} camere necesare
+                                {% endif %} pentru {{ beds }}
+                                {% if beds == 1 %} persoană
+                                {% else %} persoane
+                                {% endif %}
+                            </span>
+                        </div>
                         <div class="price">
-                            <span>{{ result.price }} lei / cameră / zi</span>
+                            <span>Preț total de {{ result.total_price|number_format(2, ".", ",") }} lei</span>
+                            <p>{{ result.price }} lei / cameră / zi</p>
                         </div>
                         <button type="submit" name="accommodation_booking[submit]" class="button submit">Alegeți-vă camera</button>
                         <input type="hidden" name="accommodation_booking[_token]" value="{{ csrf_token("accommodation_booking") }}">

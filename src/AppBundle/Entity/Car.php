@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Class Cars
  * @package AppBundle\Entity
  * @ORM\Entity(repositoryClass="AppBundle\Repository\CarRepository")
+ * @ORM\Table(name="car", options={"collate"="utf8_general_ci"})
  */
 class Car
 {

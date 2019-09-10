@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block body %}
-    <section>
+    <section id="main">
         <div class="rent">
             <img src="{{ asset("img/rentacar.jpg") }}" alt="Rent a Car">
             <div class="actions">
@@ -14,7 +14,7 @@
                 {{ form_start(form) }}
                 <div class="hint location" >
                     {{ form_widget(form.location) }}
-                    <datalist class="hint-response"></datalist>
+                    <datalist id="hint" class="hint-response"></datalist>
                 </div>
                 <div class="fuel">
                     {{ form_widget(form.fuel) }}
@@ -35,4 +35,45 @@
             </div>
         </div>
     </section>
+    {% if promo is not empty %}
+        {% set offer = promo|first %}
+        {% set promo_price = offer.price - (offer.price *  0.05) %}
+        <section id="promo">
+            <h4>Ofertă doar pentru dumneavoastră. Închiriați această mașină în {{ city }}</h4>
+            <div class="promo">
+                <div class="promo-image">
+                    <img src="{{ asset('img/cars/' ~ offer.image) }}" alt="Imaginea mașini {{ offer.model }}">
+                </div>
+                <div class="promo-details">
+                    <h2>Model {{ offer.model }}</h2>
+                    <span>{{ offer.seats }} locuri</span>
+                    <span>Combustibil {{ offer.fuel }}</span>
+                    <span>Transmisie {{ offer.gear_type }}</span>
+                </div>
+                <div class="promo-actions">
+                    <form name="rental_booking" method="post" action="{{ path('booking_rental_action') }}">
+                        <label for="startDate">Data de începere</label>
+                        <input
+                                id="startDate"
+                                readonly
+                                type="date"
+                                class="search"
+                                name="rental_booking[start_date]"
+                                title="Datele nu se pot modifica, vă rugăm efectuați o căutare!"
+                                value="{{ startDate|date("Y-m-d", "Europe/Kiev") }}">
+                        <label for="endDate">Data de terminare</label>
+                        <input id="endDate" readonly type="date" class="search" name="rental_booking[end_date]" title="Datele nu se pot modifica, vă rugăm efectuați o căutare!" value="{{ endDate|date("Y-m-d", "Europe/Kiev") }}">
+                        <input type="hidden" name="rental_booking[car_id]" value="{{ offer.id }}">
+                        <input type="hidden" name="offer" value="{{ promo_price }}">
+                        <div class="price">
+                            <span>{{ promo_price }}* lei / zi</span>
+                            <p id="discount">*Reducere client fidel 5&percnt;</p>
+                        </div>
+                        <button type="submit" name="rental_booking[submit]" class="button submit">Alegeți-vă mașina</button>
+                        <input type="hidden" name="rental_booking[_token]" value="{{ csrf_token("rental_booking") }}">
+                    </form>
+                </div>
+            </div>
+        </section>
+    {% endif %}
 {% endblock %}

@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="user")
+ * @ORM\Table(name="user", options={"collate"="utf8_general_ci"})
  * @UniqueEntity(fields={"username"}, message="Se pare că aveți deja un cont!")
  */
 class User implements UserInterface
@@ -76,6 +76,31 @@ class User implements UserInterface
      *     mappedBy="user")
      */
     private $rentalBook;
+
+    /**
+     * @return bool
+     */
+    public function hasReservation()
+    {
+        if ($this->accommodationBook->count() >= 1) {
+            return True;
+        } else {
+            return False;
+        }
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasRental()
+    {
+        if ($this->rentalBook->count() >= 1) {
+            return True;
+        } else {
+            return False;
+        }
+
+    }
 
     /**
      * @param mixed $username

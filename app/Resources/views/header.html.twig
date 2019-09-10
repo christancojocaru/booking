@@ -37,13 +37,27 @@
                         <p>Ați închiriat un {{ rentalBook.car.model }}</p>
                         <p>De {{ startDate }}</p>
                         <p>Până {{ endDate }}</p>
+                        {% set carPrice = rentalBook.car.price %}
+                        {% set offerPrice = rentalBook.offerPrice %}
+                        {% if offerPrice < carPrice %}
+                            <p>Preț total {{ offerPrice }}<span class="asterisk">&ast;</span> lei</p>
+                        {% else %}
+                            <p>Preț total {{ carPrice }} lei</p>
+                        {% endif %}
                     </div>
-                    <div class="line"></div>
+                <div class="line"></div>
                 {% endfor %}
                 {% if app.user.rentalBook is empty and app.user.accommodationBook is empty %}
                     <p>Coșul dumneavoastră este gol!</p>
                 {% endif %}
                 {% if app.user.rentalBook is not empty or app.user.accommodationBook is not empty %}
+                    <script>
+                        let asterisk = document.querySelectorAll(".asterisk").length;
+                        if (asterisk > 0) {
+                            document.write("<p id='discount'>*Reducere client fidel 5&percnt;</p>");
+                            document.write("<div class='line'></div>");
+                        }
+                    </script>
                     <div class="cart-button">
                         <button id="cart-delete" class="button" data-user-id="{{ user.id }}">Șterge tot coșul</button>
                     </div>
@@ -71,7 +85,7 @@
             </a>
         </div>
         <div class="flights menu">
-            <a href="#" >
+            <a href="{{ path('flights_get') }}" >
                 <img src="{{ asset("img/avion.svg") }}" alt="">
                 <span>Zboruri</span>
             </a>

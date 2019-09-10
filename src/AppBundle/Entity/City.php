@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="AppBundle\Repository\CityRepository")
- * @ORM\Table(name="city")
+ * @ORM\Table(name="city", options={"collate"="utf8_general_ci"})
  */
 class City
 {

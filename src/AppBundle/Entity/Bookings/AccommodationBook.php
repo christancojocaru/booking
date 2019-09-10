@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="accommodation_book")
+ * @ORM\Table(name="accommodation_book", options={"collate"="utf8_general_ci"})
  */
 class AccommodationBook
 {
@@ -54,10 +54,20 @@ class AccommodationBook
      */
     private $period_end;
 
+    /**
+     * @return mixed
+     */
     public function getDays()
     {
         $diff = $this->period_end->diff($this->period_start);
         return $diff->d;
+    }
+
+    public function getCity()
+    {
+        $room = $this->getRooms()->first();
+        return $room->getBuilding()->getCity()->getName();
+
     }
 
     /**

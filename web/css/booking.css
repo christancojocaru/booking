@@ -1,6 +1,6 @@
 section {
     display: flex;
-    width: 30vw;
+    width: 35vw;
     text-align: center;
     position: fixed;
     transform: translate(-50%, -50%);
@@ -39,7 +39,7 @@ img {
     position: relative;
     left: -1%;
     top: 5px;
-    background-color: rgba(0, 53, 128, 0.02);
+    background-color: rgba(0, 53, 128, 0.2);
     border-radius: 40%;
 }
 h3 {
@@ -53,14 +53,8 @@ h4 {
     color: red;
 }
 .footer {
-    padding: 1em;
     flex: 1;
 }
 .body span {
     text-transform: capitalize;
-}
-@media screen and (max-width: 1280px) {
-    .body {
-        font-size: 12px;
-    }
 }

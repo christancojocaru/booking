@@ -11,10 +11,13 @@
             <h2>Găsiți oferte pentru cazare</h2>
             <p>De la case la țară la apartamente moderne</p>
         </div>
+        <div class="search-image">
+            <img src="{{ asset('img/beach2.jpg') }}">
+        </div>
         {{ form_start(form, {"action" : path('accommodation_post')}) }}
         <div class="hint location">
             {{ form_widget(form.location) }}
-            <datalist class="hint-response"></datalist>
+            <datalist id="hint" class="hint-response"></datalist>
         </div>
         <div class="date">
             {{ form_widget(form.startDate) }}
@@ -24,14 +27,27 @@
         {{ form_widget(form.submit) }}
         {{ form_end(form) }}
 
-        <h4 class="from first-offer">Zboara din timisoara</h4>
-        <h4 class="to first-offer">Zboara catre bucuresti</h4>
-        <span class="price first-offer">210 lei</span>
-        <input class="action first-offer button" type="button" value="Vezi oferta">
-        <h4 class="from last-offer">Zboara din timisoara</h4>
-        <h4 class="to last-offer">Zboara catre bucuresti</h4>
-        <span class="price last-offer">210 lei</span>
-        <input class="action last-offer button" type="button" value="Vezi oferta">
+        <div class="from first-offer">
+            <img src="{{ asset('img/avion_sus.svg') }}">
+            <h4>Zboară din Timișoara</h4>
+        </div>
+        <div class="to first-offer">
+            <img src="{{ asset('img/avion_jos.svg') }}">
+            <h4>către București</h4>
+        </div>
+        <span class="price first-offer">cu doar 210,49 lei</span>
+        <input class="action first-offer button" type="button" onclick="window.location.assign('{{ path('flights_get') }}')" value="Vezi oferta">
+
+        <div class="from last-offer">
+            <img src="{{ asset('img/avion_sus.svg') }}">
+            <h4>Zboară din Cluj-Napoca</h4>
+        </div>
+        <div class="to last-offer">
+            <img src="{{ asset('img/avion_jos.svg') }}">
+            <h4>către București</h4>
+        </div>
+        <span class="price last-offer">cu doar 115,49 lei</span>
+        <input class="action last-offer button" type="button" onclick="window.location.assign('{{ path('flights_get') }}')" value="Vezi oferta">
 
         {% for number, city in cities %}
             <div class="hotel hotel-{{ number }}">

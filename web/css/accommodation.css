@@ -1,12 +1,13 @@
 section {
-    grid-template-rows: 8vh 20vh 25vh repeat(3, 40vh);
-    grid-template-columns: repeat(4, 15vw);
+    grid-template-rows: 10vh 20vh 25vh repeat(3, 45vh);
+    grid-template-columns: repeat(4, 20vw);
 }
 
 /*search navbar*/
 form {
     grid-row: 3 / 4;
     grid-column: 1 / 5;
+    display: flex;
 }
 .text.search {
     grid-column: 1 / 3;
@@ -15,25 +16,21 @@ form {
     align-self: end;
     line-height: 1.7em;
 }
-.location {
-    grid-column: 1 / 2;
-}
 .hint-response {
-    width: 90%;
+    width: 86%;
     height: auto;
-    margin-left: 5%;
+    margin-left: 7%;
 }
 .date {
-    grid-column: 2 / 3;
+    display: flex;
+    flex: 2;
 }
-.date .search {
-    width: 49%;
+form .search {
+    width: 14vw;
+    margin: 0 1vw;
 }
-.number {
-    grid-column: 3 / 4;
-}
-.send {
-    grid-column: 4 / 5;
+form .field {
+    flex: 1;
 }
 .hotel-0 {
     grid-column: 1 / 3;
@@ -62,20 +59,4 @@ form {
 section img {
     object-fit: cover;
     object-position: center;
-}
-@media screen and (max-width: 1279px) {
-    section {
-        width: 80vw;
-        grid-template-columns: repeat(4, 20vw);
-    }
-}
-
-@media screen and (min-width: 1700px) {
-    .hotel {
-        width: 400px;
-        height: 350px;
-    }
-    section {
-        grid-template-rows: 8vh 20vh 20vh repeat(3, 43vh);
-    }
 }

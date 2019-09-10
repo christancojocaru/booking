@@ -34,22 +34,23 @@ class CityRepository extends EntityRepository
      * @param $beds integer
      * @param $startDate
      * @param $endDate
+     * @param $days
      * @return array
      * @throws DBALException
      */
-    public function getData($city, $beds, $startDate, $endDate)
+    public function getData($city, $beds, $startDate, $endDate, $days)
     {
         $conn = $this->getEntityManager()
             ->getConnection();
         $sql = '
                 SELECT result.*,
+                       (:days * (:beds / result.beds) * result.price) AS total_price,
                        Sum(result.beds) AS bedsum
                 FROM   ((SELECT b.name  AS building_name,
                                 r.beds,
                                 r.price,
                                 r.id    AS room_id,
-                                b.id    AS building_id,
-                                c.image AS image
+                                b.id    AS building_id
                          FROM   city AS c
                                 LEFT JOIN building AS b
                                        ON b.city_id = c.id
@@ -67,8 +68,7 @@ class CityRepository extends EntityRepository
                                 r.beds,
                                 r.price,
                                 r.id    AS room_id,
-                                b.id    AS building_id,
-                                c.image AS image
+                                b.id    AS building_id
                          FROM   city AS c
                                 LEFT JOIN building AS b
                                        ON b.city_id = c.id
@@ -90,13 +90,11 @@ class CityRepository extends EntityRepository
                             ELSE 0
                           end
                 HAVING bedsum >= :beds
-                ORDER  BY result.price ASC,
-                          result.building_name ASC,
-                          result.beds ASC
+                ORDER  BY total_price ASC
                 LIMIT 10
         ';
         $stmt = $conn->prepare($sql);
-        $stmt->execute(['city' => $city, "beds" => $beds, "startDate" => $startDate, "endDate" => $endDate]);
+        $stmt->execute(['city' => $city, "beds" => $beds, "startDate" => $startDate, "endDate" => $endDate, "days" => $days]);
 
         return $stmt->fetchAll();
     }

@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="rental_book")
+ * @ORM\Table(name="rental_book", options={"collate"="utf8_general_ci"})
  */
 class RentalBook
 {
@@ -47,6 +47,11 @@ class RentalBook
      * @ORM\Column(type="date")
      */
     private $period_end;
+
+    /**
+     * @ORM\Column(type="decimal", precision=6, scale=3)
+     */
+    private $offerPrice;
 
     /**
      * @return mixed
@@ -118,5 +123,21 @@ class RentalBook
     public function setPeriodEnd($period_end)
     {
         $this->period_end = $period_end;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOfferPrice()
+    {
+        return $this->offerPrice;
+    }
+
+    /**
+     * @param mixed $offerPrice
+     */
+    public function setOfferPrice($offerPrice): void
+    {
+        $this->offerPrice = $offerPrice;
     }
 }
